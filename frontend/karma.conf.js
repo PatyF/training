@@ -16,7 +16,7 @@ module.exports = function(config) {
       module: {
         loaders: [{
           test: /\.jsx?$/,
-          loader: 'babel', 
+          loader: 'babel',
           exclude: /node_modules/
         },{
           test: /\.scss$/,

@@ -8,7 +8,8 @@ import AppPage from './containers/AppPage'
 
 import { Router, Route, hashHistory } from 'react-router'
 
-require('./stylesheets/style.scss')
+require('./assets/stylesheets/style.scss')
+require('./assets/stylesheets/_bootstrap.scss')
 
 let store = createStore(reducers, compose(applyMiddleware(thunk), window.devToolsExtension ? window.devToolsExtension() : f => f))
 

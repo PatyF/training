@@ -20,7 +20,7 @@ var config = {
     },
     {
       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: "url-loader?limit=10000&minetype=application/font-woff"
+      loader: require.resolve("file-loader") + "?name=[path][name].[ext]"
     },
     {
       test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
