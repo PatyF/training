@@ -1,4 +1,4 @@
-export const EXAMPLE = 'EXAMPLE'
+export const GET_COURSES = 'GET_COURSES'
 
 export const thunkExample = () => {
   return (dispatch, getState) => {
@@ -7,5 +7,5 @@ export const thunkExample = () => {
 }
 
 export const example = () => (
-  { type: EXAMPLE }
+  { type: GET_COURSES }
 )

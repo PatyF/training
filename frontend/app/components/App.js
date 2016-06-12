@@ -3,7 +3,7 @@ import React from 'react'
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Link } from 'react-router';
 import ReactPlayer from 'react-player';
-import Courses from './Courses';
+import CoursesPage from '../containers/CoursesPage';
 
 class App extends React.Component {
   // <ReactPlayer
@@ -14,7 +14,7 @@ class App extends React.Component {
   //   return { muiTheme: getMuiTheme(baseTheme) };
   // }
   render(){
-    return <Courses />
+    return <CoursesPage />
   }
 }
 
