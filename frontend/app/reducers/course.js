@@ -1,5 +1,5 @@
 import {
-  GET_COURSES
+  REQUEST_COURSES, RECEIVE_COURSES
 } from '../actions/course'
 
 let data = [
@@ -37,13 +37,24 @@ let data = [
   }
 ];
 
-export default (state = {courses: data}, action) => {
+export default (state = {
+                  isFetching: false,
+                  didInvalidate: false,
+                  courses: []
+                  },
+                action) => {
   switch (action.type) {
-    case GET_COURSES:
-      return {
-        ...state,
+    case REQUEST_COURSES:
+      return Object.assign({}, state, {
+        isFetching: true,
+        didInvalidate: false
+      })
+    case RECEIVE_COURSES:
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
         courses: action.courses
-      }
+      })
     default:
       return state
   }

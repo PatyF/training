@@ -11,8 +11,10 @@ import { Router, Route, hashHistory } from 'react-router'
 require('./assets/stylesheets/style.scss')
 require('./assets/stylesheets/_bootstrap.scss')
 
-let store = createStore(reducers, compose(applyMiddleware(thunk), window.devToolsExtension ? window.devToolsExtension() : f => f))
-
+let store = createStore(reducers,
+                        compose(applyMiddleware(thunk),
+                        window.devToolsExtension ? window.devToolsExtension() : f => f))
+                
 render(
   <Provider store={store}>
     <Router history={hashHistory}>

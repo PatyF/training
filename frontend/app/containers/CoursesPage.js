@@ -2,16 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Courses from '../components/Courses'
-import { thunkExample } from '../actions/course'
+import { fetchCourses } from '../actions/course'
 
 const mapStateToProps = (state) => {
   return {
-    courses: state.course.courses
+    courses: state.course.courses,
+    isFetching: state.course.isFetching
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  thunkExample: () => dispatch(thunkExample())
+  fetchCourses: () => dispatch(fetchCourses())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Courses)
+
+// const actions = bindActionCreators(actionCreators, dispatch);
+//     return {
+//         addItem: actions.addItem,
+//         removeItem: actions.removeItem
+//     };
