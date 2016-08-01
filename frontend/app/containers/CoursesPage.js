@@ -16,9 +16,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Courses)
-
-// const actions = bindActionCreators(actionCreators, dispatch);
-//     return {
-//         addItem: actions.addItem,
-//         removeItem: actions.removeItem
-//     };
