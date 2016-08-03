@@ -1,7 +1,8 @@
-import course from './course';
+import example from './example';
 
 import { combineReducers } from 'redux';
 
 export default combineReducers({
-  course
+  example
+  // Add more reducers here
 })

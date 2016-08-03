@@ -5,13 +5,12 @@ import { createStore, compose, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import reducers from './reducers/index'
 import AppPage from './containers/AppPage'
-import CoursesPage from './containers/CoursesPage'
-import CoursesNewPage from './containers/CoursesNewPage'
+import CoursesIndex from './containers/courses/Index'
+import CoursesEdit from './containers/courses/Edit'
 
-import { Router, Route, hashHistory, IndexRoute } from 'react-router'
+import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
-require('./assets/stylesheets/style.scss')
-require('./assets/stylesheets/_bootstrap.scss')
+require('./assets/styles/main.scss')
 
 let store = createStore(reducers,
                         compose(applyMiddleware(thunk),
@@ -19,11 +18,15 @@ let store = createStore(reducers,
 
 render(
   <Provider store={store}>
-    <Router history={hashHistory}>
-      <Route path="/" component={AppPage} >
-        <IndexRoute component={CoursesPage}/>
-        <Route path="cursos" component={CoursesPage}/>
-        <Route path="incluir-curso" component={CoursesNewPage}/>
+    <Router history={browserHistory}>
+      <Route path="/">
+        <Route component={AppPage}>
+          <IndexRoute component={CoursesIndex}/>
+          <Route path="courses">
+            <IndexRoute component={CoursesIndex} />
+            <Route path="register/:courseId" component={CoursesEdit} />
+          </Route>
+        </Route>
       </Route>
     </Router>
   </Provider>,
