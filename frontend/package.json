@@ -4,9 +4,9 @@
   "description": "",
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js",
-    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --devtool eval --progress --color --hot --content-base build",
-    "deploy": "./NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.production.config.js",
-    "test": "./node_module /karma/bin/karma start"
+    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --devtool eval --progress --colors --hot --content-base build",
+    "deploy": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.production.config.js",
+    "test": "./node_modules/karma/bin/karma start"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -45,6 +45,7 @@
     "react-router-bootstrap": "^0.23.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "lodash": "^4.13.1"
+    "lodash": "^4.13.1",
+    "whatwg-fetch": "^1.0.0"
   }
 }

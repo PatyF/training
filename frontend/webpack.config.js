@@ -1,13 +1,27 @@
+var webpack = require('webpack');
 var path = require('path');
+
 var config = {
+  context: path.join(__dirname, 'app'),
   entry: [
-      'webpack/hot/dev-server',
-      'webpack-dev-server/client?http://localhost:8080',
-      path.resolve(__dirname, 'app/main.js')
-    ],
+    'webpack/hot/dev-server',
+    'webpack-dev-server/client?http://localhost:8080',
+    './main.js'
+  ],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'
+  },
+  devServer: {
+    historyApiFallback: true,
+    proxy: {
+      "/api/*": {
+        target: "http://192.168.99.100/",
+        rewrite: function(req) {
+          req.url = req.url.replace(/^\/api/, '');
+        }
+      }
+    }
   },
   module: {
     loaders: [{
@@ -20,11 +34,15 @@ var config = {
     },
     {
       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: require.resolve("file-loader") + "?name=[path][name].[ext]"
+      loader: "url-loader?limit=10000&minetype=application/font-woff"
     },
     {
       test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader: "file-loader"
+    },
+    {
+      test: /\.html$/,
+      loader: 'file?name=[name].[ext]'
     }]
   }
 };
