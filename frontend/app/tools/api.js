@@ -1,13 +1,41 @@
 export function getCourses(callback) {
-  fetchUrl('courses.json', (json) => callback(json))
+  fetchUrl('courses', (json) => callback(json))
+}
+
+export function getCourse(id, callback) {
+  fetchUrl(`courses/${id}`, (json) => callback(json))
 }
 
 export function saveCourse(id, data, success, errors) {
   submitUrl('courses', id, data, success, errors)
 }
 
+export function getModules(idCourse, callback) {
+  fetchUrl(`courses/${idCourse}/modulos`, (json) => callback(json))
+}
+
+export function getModule(idCourse, idModule, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}`, (json) => callback(json))
+}
+
+export function saveModule(idCourse, idModule, data, success, errors) {
+  submitUrl(`courses/${idCourse}/modulos`, idModule, data, success, errors)
+}
+
+export function getVideos(idCourse, idModule, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/videos`, (json) => callback(json))
+}
+
+export function getVideo(idCourse, idModule, idVideo, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/videos/${idVideo}`, (json) => callback(json))
+}
+
+export function saveVideo(idCourse, idModule, idVideo, data, success, errors) {
+  submitUrl(`courses/${idCourse}/modulos/${idModule}/videos`, idVideo, data, success, errors)
+}
+
 export function fetchUrl(url, callback) {
-  fetch('http://192.168.99.100:3000/' + url)
+  fetch('http://192.168.99.100:3000/' + url + '.json')
     .then(res => { return res.json() })
     .then(callback)
     .catch(erro => { console.log(erro) })
@@ -22,7 +50,8 @@ export function submitUrl(url, id, data, success, errors) {
     })
     .then(res => {
       response = res
-      return res
+      if (response.status < 400 && id) return res
+      return res.json()
     })
     .then(json => {
       if (response.status < 400) success(json)

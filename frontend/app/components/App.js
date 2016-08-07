@@ -10,7 +10,7 @@ class App extends React.Component {
   render(){
     return <div>
         <div>
-          Menu
+          <Link to={'/'}>Home</Link>
         </div>
         <div>
           {this.props.children}

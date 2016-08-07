@@ -48,10 +48,10 @@ class Index extends React.Component {
                   {_.map(this.state.dados, (course, idx) =>
                     <tr key={idx}>
                       <td>{course.id}</td>
-                      <td>{course.name}</td>
+                      <td><Link to={`courses/view/${course.id}`}>{course.name}</Link></td>
                       <td>{course.keywords}</td>
                       <td>{course.available ? 'Disponível' : 'Indisponível'}</td>
-                      <td><Link to={`/courses/register/${course.id}`}> Editar </Link></td>
+                      <td><Link to={`/courses/register/${course.id}`}>Editar</Link></td>
                     </tr>
                   )}
                 </tbody>

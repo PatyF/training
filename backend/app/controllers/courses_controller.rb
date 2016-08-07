@@ -23,6 +23,7 @@ class CoursesController < ApplicationController
   def update
     @course.update(course_params)
     if @course.valid?
+      p(course_path(@course))
       respond_with(@course, :location => course_path(@course))
     else
       respond_with(@course)
@@ -40,6 +41,6 @@ class CoursesController < ApplicationController
     end
 
     def course_params
-      params.require(:course).permit(:name, :keywords, :available )
+      params.require(:course).permit(:name, :keywords, :available)
     end
 end

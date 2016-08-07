@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160528132940) do
+ActiveRecord::Schema.define(version: 20160807103000) do
 
   create_table "courses", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -20,5 +20,26 @@ ActiveRecord::Schema.define(version: 20160528132940) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "modulos", force: :cascade do |t|
+    t.integer  "course_id",   limit: 4
+    t.string   "title",       limit: 255
+    t.string   "description", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "modulos", ["course_id"], name: "index_modulos_on_course_id", using: :btree
+
+  create_table "videos", force: :cascade do |t|
+    t.integer  "modulo_id",   limit: 4
+    t.string   "title",       limit: 255
+    t.string   "link",        limit: 255
+    t.string   "description", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "videos", ["modulo_id"], name: "index_videos_on_modulo_id", using: :btree
 
 end

@@ -3,12 +3,13 @@ import _ from 'lodash'
 import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
-import { getCourse, saveCourse } from '../../tools/api'
+import { saveModule,
+         getModule } from '../../tools/api'
 
 var dadosVazios = {
-  name: '',
-  keywords: '',
-  available: false
+  course_id: '',
+  title: '',
+  description: ''
 }
 
 class Edit extends React.Component {
@@ -26,19 +27,26 @@ class Edit extends React.Component {
   }
 
   componentDidMount() {
-    if (isFinite(this.props.params.courseId)) {
-      getCourse(this.props.params.courseId, dados => {
+    if (isFinite(this.props.params.moduleId)) {
+      getModule(this.props.params.courseId, this.props.params.moduleId, dados => {
         this.setState({
           dados,
           editando: true
         })
+      })
+    } else {
+      this.setState({
+        dados: {
+          ...this.state.dados,
+          course_id: this.props.params.courseId
+        }
       })
     }
   }
 
   salvar = () => {
     let response = null
-    saveCourse(this.props.params.courseId, this.state.dados, (success) => {
+    saveModule(this.props.params.courseId, this.props.params.moduleId, this.state.dados, (success) => {
       this.setState({
           dados: this.state.editando ? this.state.dados : dadosVazios,
           mensagem: { tipo: 'success', conteudo: 'Dados salvos com sucesso.' },
@@ -51,7 +59,7 @@ class Edit extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <Grid>
           <Row>
@@ -61,24 +69,19 @@ class Edit extends React.Component {
               </Alert>
             : null }
             <Col md={10} xs={8}>
-              <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Curso</PageHeader>
+              <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Módulo</PageHeader>
             </Col>
           </Row>
           <Panel className="showgrid">
-            <FormGroup validationState={this.state.erros.name ? 'error' : null}>
-              <ControlLabel>Nome</ControlLabel>
-              <FormControl type="text" placeholder='Nome' value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
-              <HelpBlock>{this.state.erros.name}</HelpBlock>
+            <FormGroup validationState={this.state.erros.title ? 'error' : null}>
+              <ControlLabel>Título</ControlLabel>
+              <FormControl type="text" placeholder='Título' value={this.state.dados.title} onChange={(event) => this.setState({dados: {...this.state.dados, title: event.target.value}})} />
+              <HelpBlock>{this.state.erros.title}</HelpBlock>
             </FormGroup>
-            <FormGroup validationState={this.state.erros.keywords ? 'error' : null}>
-              <ControlLabel>Keywords</ControlLabel>
-              <FormControl type="text" placeholder='Keywords' value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
-              <HelpBlock>{this.state.erros.keywords}</HelpBlock>
-            </FormGroup>
-            <FormGroup validationState={this.state.erros.available ? 'error' : null}>
-              <ControlLabel>Available</ControlLabel>
-              <FormControl type="text" placeholder='Disponível' value={this.state.dados.available} onChange={(event) => this.setState({dados: {...this.state.dados, available: event.target.value}})} />
-              <HelpBlock>{this.state.erros.available}</HelpBlock>
+            <FormGroup validationState={this.state.erros.description ? 'error' : null}>
+              <ControlLabel>Descrição</ControlLabel>
+              <FormControl componentClass="textarea" placeholder='Descrição' value={this.state.dados.description} onChange={(event) => this.setState({dados: {...this.state.dados, description: event.target.value}})} />
+              <HelpBlock>{this.state.erros.description}</HelpBlock>
             </FormGroup>
             <Button bsStyle="primary" bsSize="small" onClick={this.salvar}>Salvar</Button>
           </Panel>

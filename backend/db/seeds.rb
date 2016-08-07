@@ -5,4 +5,5 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Course.create([{ name: 'Gestão de Negócios', keywords: 'negocios;gestao', available: false }])
+courses = Course.create([{ name: 'Gestão de Negócios', keywords: 'negocios;gestao', available: false }])
+Modulo.create([{ course: courses.first, title: 'Introdução', description: 'Como fazer uma introdução se tornar memorável e tão atraente que irá incentivar o leitor a continuar lendo seu texto, independente do tema?' }])
