@@ -7,7 +7,8 @@ import { saveVideo,
          getVideo } from '../../tools/api'
 
 var dadosVazios = {
-  video_id: '',
+  course_id: '',
+  modulo_id: '',
   title: '',
   link: '',
   description: ''
@@ -40,7 +41,7 @@ class Edit extends React.Component {
         dados: {
           ...this.state.dados,
           course_id: this.props.params.courseId,
-          module_id: this.props.params.moduleId
+          modulo_id: this.props.params.moduleId
         }
       })
     }
@@ -48,9 +49,16 @@ class Edit extends React.Component {
 
   salvar = () => {
     let response = null
+    console.log(this.state.dados);
     saveVideo(this.props.params.courseId, this.props.params.moduleId, this.props.params.videoId, this.state.dados, (success) => {
+      var dados = dadosVazios
+      dados = {...dados,
+        course_id: this.props.params.courseId,
+        modulo_id: this.props.params.moduleId
+      }
+      console.log(dados);
       this.setState({
-          dados: this.state.editando ? this.state.dados : dadosVazios,
+          dados: this.state.editando ? this.state.dados : dados,
           mensagem: { tipo: 'success', conteudo: 'Dados salvos com sucesso.' },
           erros: dadosVazios
       })

@@ -2,9 +2,11 @@ import React from 'react'
 import _ from 'lodash'
 import { Panel, Grid, Row, Col, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, PageHeader, Label } from 'react-bootstrap'
 import { Link } from 'react-router'
+import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
 import { getCourse,
-         getModules } from '../../tools/api'
+         getModules,
+         getVideos } from '../../tools/api'
 
 
 class Index extends React.Component {
@@ -35,6 +37,17 @@ class Index extends React.Component {
 
   }
 
+  visualizarVideos = (index) => {
+    console.log(this.state.dados[index].id);
+    getVideos(this.state.dados[index].course_id, this.state.dados[index].id, (videos) => {
+      this.setState({ dados: [...this.state.dados.slice(0,index),
+                              {...this.state.dados[index],
+                                  videos
+                              },
+                              ...this.state.dados.slice(index + 1)]})
+    })
+  }
+
   render() {
     return(
       <div>
@@ -51,13 +64,22 @@ class Index extends React.Component {
                   <Col>
                     <PageHeader>{dado.title}</PageHeader>
                     <div>{dado.description}</div>
-                    <Button bsStyle="default" href={`/courses/${this.props.params.courseId}/modules/${dado.id}/videos/register`}>Adicionar Vídeo</Button>
+                    { dado.videos
+                      ? _.map(dado.videos, (video, key) =>
+                          <Row key={key}>
+                            <Col>Video: {video.title}</Col>
+                            <Col>Descrição: {video.description}</Col>
+                          </Row>
+                        )
+                      : <Button bsStyle="default" onClick={() => this.visualizarVideos(idx)}>Visualizar Vídeos</Button>
+                    }
+                    <LinkContainer to={`/courses/${this.props.params.courseId}/modules/${dado.id}/videos/register`}><Button bsStyle="default">Adicionar Vídeo</Button></LinkContainer>
                   </Col>
                 </Row>
               ) }
             </Panel>
             <Col>
-              <Button bsStyle="default" href={`/courses/${this.props.params.courseId}/modules/register`}>Adicionar Módulo</Button>
+              <LinkContainer to={`/courses/${this.props.params.courseId}/modules/register`}><Button bsStyle="default">Adicionar Módulo</Button></LinkContainer>
             </Col>
           </Loading>
         </Grid>

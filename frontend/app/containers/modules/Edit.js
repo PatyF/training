@@ -47,8 +47,13 @@ class Edit extends React.Component {
   salvar = () => {
     let response = null
     saveModule(this.props.params.courseId, this.props.params.moduleId, this.state.dados, (success) => {
+      var dados = dadosVazios
+      dados = {
+        ...dados,
+        course_id: this.props.params.courseId
+      }
       this.setState({
-          dados: this.state.editando ? this.state.dados : dadosVazios,
+          dados: this.state.editando ? this.state.dados : dados,
           mensagem: { tipo: 'success', conteudo: 'Dados salvos com sucesso.' },
           erros: dadosVazios
       })

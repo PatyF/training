@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label } from 'react-bootstrap'
 import { Link } from 'react-router'
+import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
 import { getCourses } from '../../tools/api'
 
@@ -59,7 +60,9 @@ class Index extends React.Component {
             </Loading>
           </Panel>
           <Col>
-            <Button bsStyle="default" href="/courses/register">Adicionar Curso</Button>
+            <LinkContainer to={"/courses/register"}>
+              <Button bsStyle="default">Adicionar Curso</Button>
+            </LinkContainer>
           </Col>
         </Grid>
       </div>

@@ -20,7 +20,7 @@ class VideosController < ApplicationController
       respond_with(video)
     end
   end
-
+  
   def update
     @video.update(video_params)
     if @video.valid?
@@ -29,7 +29,7 @@ class VideosController < ApplicationController
       respond_with(@video)
     end
   end
-  
+
   def destroy
     @modulo.destroy
     respond_with()
