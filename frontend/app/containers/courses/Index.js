@@ -11,7 +11,7 @@ class Index extends React.Component {
 
   constructor() {
     super();
-    this.state = { carregando: true }
+    this.state = { carregando: true, dados: [] }
   }
 
   componentDidMount() {
@@ -26,45 +26,32 @@ class Index extends React.Component {
   render() {
     return(
       <div>
-        <Grid>
-          <Row>
-            <Col>
-              <PageHeader>Cursos</PageHeader>
+        <Col>
+          <PageHeader className={'title-header'}>Cursos</PageHeader>
+        </Col>
+        <Loading carregando={this.state.carregando}>
+          <Row >
+            {_.map(this.state.dados, (course, idx) =>
+                <Col key={idx} md={4} className={'box-curso'}>
+                  <Link to={`/courses/view/${course.id}`}>
+                    <Panel className={idx%2 ? 'box-height color1' : 'box-height color2' }>
+                      <div className={'text'}>{course.name}</div>
+                    </Panel>
+                  </Link>
+                </Col>
+            )}
+            <Col md={4} className={'box-curso'}>
+              <Link to={'/courses/register'}>
+                <Panel className={'box-curso color0'}>
+                  <div className={'box-align'}>
+                    <div className={'new-icon glyphicon glyphicon-plus'}></div>
+                    <div className={'text'}>Adicionar Curso</div>
+                  </div>
+                </Panel>
+              </Link>
             </Col>
-
           </Row>
-          <Panel>
-            <Loading carregando={this.state.carregando}>
-              <Table responsive >
-                <thead>
-                  <tr>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Keywords</th>
-                    <th>Disponível</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {_.map(this.state.dados, (course, idx) =>
-                    <tr key={idx}>
-                      <td>{course.id}</td>
-                      <td><Link to={`courses/view/${course.id}`}>{course.name}</Link></td>
-                      <td>{course.keywords}</td>
-                      <td>{course.available ? 'Disponível' : 'Indisponível'}</td>
-                      <td><Link to={`/courses/register/${course.id}`}>Editar</Link></td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
-            </Loading>
-          </Panel>
-          <Col>
-            <LinkContainer to={"/courses/register"}>
-              <Button bsStyle="default">Adicionar Curso</Button>
-            </LinkContainer>
-          </Col>
-        </Grid>
+        </Loading>
       </div>
     )
   }

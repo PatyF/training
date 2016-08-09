@@ -53,36 +53,33 @@ class Edit extends React.Component {
   render() {
     return(
       <div>
-        <Grid>
-          <Row>
-            { this.state.mensagem.tipo ?
-              <Alert bsStyle={this.state.mensagem.tipo}>
-                {this.state.mensagem.conteudo}
-              </Alert>
-            : null }
-            <Col md={10} xs={8}>
-              <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Curso</PageHeader>
-            </Col>
-          </Row>
-          <Panel className="showgrid">
-            <FormGroup validationState={this.state.erros.name ? 'error' : null}>
-              <ControlLabel>Nome</ControlLabel>
-              <FormControl type="text" placeholder='Nome' value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
-              <HelpBlock>{this.state.erros.name}</HelpBlock>
-            </FormGroup>
-            <FormGroup validationState={this.state.erros.keywords ? 'error' : null}>
-              <ControlLabel>Keywords</ControlLabel>
-              <FormControl type="text" placeholder='Keywords' value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
-              <HelpBlock>{this.state.erros.keywords}</HelpBlock>
-            </FormGroup>
-            <FormGroup validationState={this.state.erros.available ? 'error' : null}>
-              <ControlLabel>Available</ControlLabel>
-              <FormControl type="text" placeholder='Disponível' value={this.state.dados.available} onChange={(event) => this.setState({dados: {...this.state.dados, available: event.target.value}})} />
-              <HelpBlock>{this.state.erros.available}</HelpBlock>
-            </FormGroup>
-            <Button bsStyle="primary" bsSize="small" onClick={this.salvar}>Salvar</Button>
-          </Panel>
-        </Grid>
+        <Row>
+          <Col md={10} mdOffset={1}>
+          { this.state.mensagem.tipo ?
+            <Alert bsStyle={this.state.mensagem.tipo}>
+              {this.state.mensagem.conteudo}
+            </Alert>
+          : null }
+            <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Curso</PageHeader>
+        <FormGroup validationState={this.state.erros.name ? 'error' : null}>
+          <ControlLabel>Nome</ControlLabel>
+          <FormControl type="text" placeholder='Nome' value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
+          <HelpBlock>{this.state.erros.name}</HelpBlock>
+        </FormGroup>
+        <FormGroup validationState={this.state.erros.keywords ? 'error' : null}>
+          <ControlLabel>Keywords</ControlLabel>
+          <FormControl type="text" placeholder='Keywords' value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
+          <HelpBlock>{this.state.erros.keywords}</HelpBlock>
+        </FormGroup>
+        <FormGroup validationState={this.state.erros.available ? 'error' : null}>
+          <ControlLabel>Available</ControlLabel>
+          <FormControl type="text" placeholder='Disponível' value={this.state.dados.available} onChange={(event) => this.setState({dados: {...this.state.dados, available: event.target.value}})} />
+          <HelpBlock>{this.state.erros.available}</HelpBlock>
+        </FormGroup>
+        <Button bsStyle="primary" bsSize="small" onClick={this.salvar}>Salvar</Button>
+      </Col>
+    </Row>
+
       </div>
     )
   }

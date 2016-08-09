@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap'
-import { Navbar, Nav, NavItem } from 'react-bootstrap'
+import { Navbar, Nav, NavItem, Grid, Col } from 'react-bootstrap'
 import ReactPlayer from 'react-player'
 
 class App extends React.Component {
@@ -18,9 +18,13 @@ class App extends React.Component {
             </Navbar.Header>
           </Link>
         </Navbar>
-        <div className="margin-body">
-          {this.props.children}
-        </div>
+        <Grid>
+          <Col md={12} className={'grid-background'}>
+            <div className="margin-body row-fluid">
+              {this.props.children}
+            </div>
+          </Col>
+        </Grid>
       </div>
 
 

@@ -38,7 +38,6 @@ class Index extends React.Component {
   }
 
   visualizarVideos = (index) => {
-    console.log(this.state.dados[index].id);
     getVideos(this.state.dados[index].course_id, this.state.dados[index].id, (videos) => {
       this.setState({ dados: [...this.state.dados.slice(0,index),
                               {...this.state.dados[index],
@@ -56,6 +55,7 @@ class Index extends React.Component {
             <Row>
               <Col>
                 <PageHeader>{this.state.course}</PageHeader>
+                <div className={'content'}><Link to={`/courses/register/${this.props.params.courseId}`}>Editar</Link></div>
               </Col>
             </Row>
             <Panel>
