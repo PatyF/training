@@ -34,7 +34,7 @@ class Index extends React.Component {
             {_.map(this.state.dados, (course, idx) =>
                 <Col key={idx} md={4} className={'box-curso'}>
                   <Link to={`/courses/view/${course.id}`}>
-                    <Panel className={idx%2 ? 'box-height color1' : 'box-height color2' }>
+                    <Panel className={`box-height color${idx%5 + 1}`}>
                       <div className={'text'}>{course.name}</div>
                     </Panel>
                   </Link>

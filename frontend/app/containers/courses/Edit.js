@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label, FormGroup, ControlLabel, FormControl, HelpBlock, Checkbox } from 'react-bootstrap'
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
 import { getCourse, saveCourse } from '../../tools/api'
@@ -51,6 +51,7 @@ class Edit extends React.Component {
   }
 
   render() {
+    console.log(this.state.dados.available);
     return(
       <div>
         <Row>
@@ -61,25 +62,32 @@ class Edit extends React.Component {
             </Alert>
           : null }
             <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Curso</PageHeader>
-        <FormGroup validationState={this.state.erros.name ? 'error' : null}>
-          <ControlLabel>Nome</ControlLabel>
-          <FormControl type="text" placeholder='Nome' value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
-          <HelpBlock>{this.state.erros.name}</HelpBlock>
-        </FormGroup>
-        <FormGroup validationState={this.state.erros.keywords ? 'error' : null}>
-          <ControlLabel>Keywords</ControlLabel>
-          <FormControl type="text" placeholder='Keywords' value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
-          <HelpBlock>{this.state.erros.keywords}</HelpBlock>
-        </FormGroup>
-        <FormGroup validationState={this.state.erros.available ? 'error' : null}>
-          <ControlLabel>Available</ControlLabel>
-          <FormControl type="text" placeholder='Disponível' value={this.state.dados.available} onChange={(event) => this.setState({dados: {...this.state.dados, available: event.target.value}})} />
-          <HelpBlock>{this.state.erros.available}</HelpBlock>
-        </FormGroup>
-        <Button bsStyle="primary" bsSize="small" onClick={this.salvar}>Salvar</Button>
-      </Col>
-    </Row>
-
+            <FormGroup validationState={this.state.erros.name ? 'error' : null}>
+              <ControlLabel>Nome</ControlLabel>
+              <FormControl type="text" placeholder='Nome' value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
+              <HelpBlock>{this.state.erros.name}</HelpBlock>
+            </FormGroup>
+            <FormGroup validationState={this.state.erros.keywords ? 'error' : null}>
+              <ControlLabel>Palavras Chave</ControlLabel>
+              <FormControl type="text" placeholder='Keywords' value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
+              <HelpBlock>{this.state.erros.keywords}</HelpBlock>
+            </FormGroup>
+            <FormGroup validationState={this.state.erros.available ? 'error' : null}>
+              <Checkbox inline checked={this.state.dados.available} onClick={(event) => this.setState({dados: {...this.state.dados, available: event.target.checked}})}>
+                Disponível
+              </Checkbox>
+              <HelpBlock>{this.state.erros.available}</HelpBlock>
+            </FormGroup>
+            <Row>
+              <Col md={1}>
+                <Button bsStyle="primary" onClick={this.salvar}>Salvar</Button>
+              </Col>
+              <Col md={1}>
+                <Link to={this.state.editando ? '/courses/view/' + this.props.params.courseId : '/'}><Button bsStyle="default">Cancelar</Button></Link>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </div>
     )
   }

@@ -10,7 +10,7 @@ class App extends React.Component {
   //     playing={true}
   //   />
   render(){
-    return <div>
+    return <div >
         <Navbar fluid className="navbar-fixed-top navbar-background">
           <Link to={'/'}>
             <Navbar.Header>
@@ -18,9 +18,9 @@ class App extends React.Component {
             </Navbar.Header>
           </Link>
         </Navbar>
-        <Grid>
+        <Grid >
           <Col md={12} className={'grid-background'}>
-            <div className="margin-body row-fluid">
+            <div className="margin-body">
               {this.props.children}
             </div>
           </Col>

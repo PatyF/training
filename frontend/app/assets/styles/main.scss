@@ -1,5 +1,7 @@
 body {
   background: #eee;
+  font-family: "alte", sans-serif;
+
 }
 
 .logo {
@@ -15,6 +17,7 @@ body {
 
 .grid-background {
   background: #fff;
+  padding-bottom: 70px;
 }
 
 .margin-body {
@@ -24,7 +27,8 @@ body {
 
 .title-header{
   h1 {
-    color: #182F3F;
+    color: #280F36;
+    font-family: "alte", sans-serif;
   }
 }
 
@@ -47,36 +51,61 @@ body {
 
     .color0 {
       background-color: #eee; //280F36; 65326D
-      border-left: 25px solid #bbb;
-      border-top: 2px solid #bbb;
-      border-right: 2px solid #bbb;
-      border-bottom: 2px solid #bbb;
+      border-left: 5px solid #bbb;
+      border-top: 1px solid #bbb;
+      border-right: 1px solid #bbb;
+      border-bottom: 1px solid #bbb;
       height: 120px;
       color: #bbb;
     }
 
     .color1 {
-      background-color: #55B5AC; //280F36; 65326D
-      border-left: 25px solid #1D9089;
-      border-top: 2px solid #1D9089;
-      border-right: 2px solid #1D9089;
-      border-bottom: 2px solid #1D9089;
+      background-color: #5D8FD8; //280F36; 65326D
+      border-left: 5px solid #2872DD;
+      border-top: 1px solid #2872DD;
+      border-right: 1px solid #2872DD;
+      border-bottom: 1px solid #2872DD;
     }
 
     .color2 {
-      background-color: #854A91;
-      border-left: 25px solid #65326D;
-      border-top: 2px solid #65326D;
-      border-right: 2px solid #65326D;
-      border-bottom: 2px solid #65326D;
+      background-color: #E78AA0;
+      border-left: 5px solid #D1426B;
+      border-top: 1px solid #D1426B;
+      border-right: 1px solid #D1426B;
+      border-bottom: 1px solid #D1426B;
     }
+
+    .color3 {
+      background-color: #EED47D;
+      border-left: 5px solid #CC9E1D;
+      border-top: 1px solid #CC9E1D;
+      border-right: 1px solid #CC9E1D;
+      border-bottom: 1px solid #CC9E1D;
+    }
+
+    .color4 {
+      background-color: #EC866D;
+      border-left: 5px solid #DD3E1F;
+      border-top: 1px solid #DD3E1F;
+      border-right: 1px solid #DD3E1F;
+      border-bottom: 1px solid #DD3E1F;
+    }
+
+    .color5 {
+      background-color: #67D3B2;
+      border-left: 5px solid #339677;
+      border-top: 1px solid #339677;
+      border-right: 1px solid #339677;
+      border-bottom: 1px solid #339677;
+    }
+
     .box-align {
       text-align: center;
     }
     &:hover, &:active, &:focus{
       color: #ddd;
       text-decoration: none;
-      .color0, .color1, .color2{
+      .color0, .color1, .color2, .color3, .color4, .color5{
         opacity: 0.8;
       }
     }
