@@ -32,7 +32,7 @@ class Index extends React.Component {
         <Loading carregando={this.state.carregando}>
           <Row >
             {_.map(this.state.dados, (course, idx) =>
-                <Col key={idx} md={4} className={'box-curso'}>
+                <Col key={idx} md={4} className={'box'}>
                   <Link to={`/courses/view/${course.id}`}>
                     <Panel className={`box-height color${idx%5 + 1}`}>
                       <div className={'text'}>{course.name}</div>
@@ -40,9 +40,9 @@ class Index extends React.Component {
                   </Link>
                 </Col>
             )}
-            <Col md={4} className={'box-curso'}>
+            <Col md={4} className={'box'}>
               <Link to={'/courses/register'}>
-                <Panel className={'box-curso color0'}>
+                <Panel className={'box color0'}>
                   <div className={'box-align'}>
                     <div className={'new-icon glyphicon glyphicon-plus'}></div>
                     <div className={'text'}>Adicionar Curso</div>

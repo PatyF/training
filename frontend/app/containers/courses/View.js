@@ -4,6 +4,7 @@ import { Panel, Grid, Row, Col, FormGroup, ControlLabel, FormControl, ButtonTool
 import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
+import ReactPlayer from 'react-player'
 import { getCourse,
          getModules,
          getVideos } from '../../tools/api'
@@ -47,42 +48,128 @@ class Index extends React.Component {
     })
   }
 
+  assistirVideo = (indexModulo, indexVideo) => {
+    var videos = this.state.dados[indexModulo].videos
+    videos = _.map(videos, (video) => {
+      return {...video, assistir: false}
+    })
+    videos = [...videos.slice(0, indexVideo),
+              {...videos[indexVideo],
+                assistir: true},
+              ...videos.slice(indexVideo + 1)]
+    this.setState({ dados: [...this.state.dados.slice(0, indexModulo),
+                            {...this.state.dados[indexModulo],
+                                videos
+                            },
+                            ...this.state.dados.slice(indexModulo + 1)]})
+  }
+
+  header(title, id){
+    return <Row>
+      <Col md={11}>
+        <h4>{title}</h4>
+      </Col>
+      <Col md={1}>
+        <Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${id}`}><span className="icons sub glyphicon glyphicon-pencil"></span></Link>
+      </Col>
+    </Row>
+  }
+
   render() {
     return(
       <div>
-        <Grid>
-          <Loading carregando={this.state.carregando}>
-            <Row>
-              <Col>
-                <PageHeader>{this.state.course}</PageHeader>
-                <div className={'content'}><Link to={`/courses/register/${this.props.params.courseId}`}>Editar</Link></div>
-              </Col>
-            </Row>
-            <Panel>
+        <Row>
+          <Col md={10} mdOffset={1}>
+            <Loading carregando={this.state.carregando}>
+              <Row>
+                <PageHeader>
+                  {this.state.course}
+                  <Link title="Editar Curso" to={`/courses/register/${this.props.params.courseId}`}><span className="icons glyphicon glyphicon-pencil" aria-hidden="true"></span></Link>
+                </PageHeader>
+              </Row>
               { _.map(this.state.dados, (dado, idx) =>
                 <Row key={idx}>
                   <Col>
-                    <PageHeader>{dado.title}</PageHeader>
-                    <div>{dado.description}</div>
-                    { dado.videos
-                      ? _.map(dado.videos, (video, key) =>
-                          <Row key={key}>
-                            <Col>Video: {video.title}</Col>
-                            <Col>Descrição: {video.description}</Col>
-                          </Row>
-                        )
-                      : <Button bsStyle="default" onClick={() => this.visualizarVideos(idx)}>Visualizar Vídeos</Button>
-                    }
-                    <LinkContainer to={`/courses/${this.props.params.courseId}/modules/${dado.id}/videos/register`}><Button bsStyle="default">Adicionar Vídeo</Button></LinkContainer>
+                    <Panel header={this.header(dado.title, dado.id)} className='panel-background'>
+                      <div className='description'>{dado.description}</div>
+                      { dado.videos
+                        ? _.map(dado.videos, (video, key) =>
+                          <div key={key}>
+                            { video.assistir
+                              ? <Row key={key}>
+                                 <Col mdOffset={2} md={8}>
+                                   <h3>
+                                     {video.title}
+                                     <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${dado.id}/videos/register/${video.id}`}>
+                                       <span className="icons glyphicon glyphicon-pencil" aria-hidden="true"/>
+                                     </Link>
+                                   </h3>
+                                   <ReactPlayer
+                                     width={'auto'}
+                                     url={video.link}
+                                     playing={true}
+                                     />
+                                   <div className='description-video'>{video.description}</div>
+                                 </Col>
+                                </Row>
+
+                              : <Row key={key} className={'box-video'}>
+                                 <Col md={3} className={'left-video'}>
+                                   <ReactPlayer
+                                     className={'assistir-video-video'}
+                                     width={'auto'}
+                                     height={'auto'}
+                                     url={video.link}
+                                     playing={false}
+                                     />
+                                   <Button bsStyle='link' onClick={() => this.assistirVideo(idx, key)}><div className={'assistir-video-button'}></div></Button>
+                                 </Col>
+                                 <Col md={9}>
+                                   <h4>
+                                     {video.title}
+                                     <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${dado.id}/videos/register/${video.id}`}>
+                                       <span className="icons glyphicon glyphicon-pencil" aria-hidden="true"/>
+                                     </Link>
+                                   </h4>
+                                   <p>{video.description}</p>
+                                 </Col>
+                               </Row>
+                            }
+                          </div>
+                          )
+                        : <Button bsStyle="link" onClick={() => this.visualizarVideos(idx)}>Carregar Vídeos ...</Button>
+                      }
+                      <Row>
+                        <Col md={3} className={'box-modulo'}>
+                          <Link to={`/courses/${this.props.params.courseId}/modules/${dado.id}/videos/register`}>
+                            <Panel className={'box color0'}>
+                              <div className={'box-align'}>
+                                <div className={'new-icon glyphicon glyphicon-plus'}></div>
+                                <div className={'text'}>Adicionar Vídeo</div>
+                              </div>
+                            </Panel>
+                          </Link>
+                        </Col>
+                      </Row>
+                    </Panel>
                   </Col>
                 </Row>
-              ) }
-            </Panel>
-            <Col>
-              <LinkContainer to={`/courses/${this.props.params.courseId}/modules/register`}><Button bsStyle="default">Adicionar Módulo</Button></LinkContainer>
-            </Col>
-          </Loading>
-        </Grid>
+              )}
+              <Row>
+                <Col className={'box-modulo'}>
+                  <Link to={`/courses/${this.props.params.courseId}/modules/register`}>
+                    <Panel className={'box color0'}>
+                      <div className={'box-align'}>
+                        <div className={'new-icon glyphicon glyphicon-plus'}></div>
+                        <div className={'text'}>Adicionar Módulo</div>
+                      </div>
+                    </Panel>
+                  </Link>
+                </Col>
+              </Row>
+            </Loading>
+          </Col>
+        </Row>
       </div>
     )
   }

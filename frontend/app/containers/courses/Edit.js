@@ -51,7 +51,6 @@ class Edit extends React.Component {
   }
 
   render() {
-    console.log(this.state.dados.available);
     return(
       <div>
         <Row>
