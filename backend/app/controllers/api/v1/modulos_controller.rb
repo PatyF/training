@@ -1,4 +1,4 @@
-class ModulosController < ApplicationController
+class Api::V1::ModulosController < ApplicationController
   before_action :set_course
   before_action :set_modulo, only: [:show, :edit, :update, :destroy]
 
@@ -14,7 +14,7 @@ class ModulosController < ApplicationController
     modulo = @course.modulos.create(modulo_params)
 
     if modulo.valid?
-      respond_with(modulo, :location => course_modulo_path(@course, modulo))
+      respond_with(modulo, :location => api_v1_course_modulo_path(@course, modulo))
     else
       respond_with(modulo)
     end
@@ -23,7 +23,7 @@ class ModulosController < ApplicationController
   def update
     @modulo.update(modulo_params)
     if @modulo.valid?
-      respond_with(@modulo, :location => course_modulo_path(@course, @modulo))
+      respond_with(@modulo, :location => api_v1_course_modulo_path(@course, @modulo))
     else
       respond_with(@modulo)
     end

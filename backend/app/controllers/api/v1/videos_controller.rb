@@ -1,4 +1,4 @@
-class VideosController < ApplicationController
+class Api::V1::VideosController < ApplicationController
   before_action :set_course
   before_action :set_modulo
   before_action :set_video, only: [:show, :edit, :update, :destroy]
@@ -15,16 +15,16 @@ class VideosController < ApplicationController
     video = @modulo.videos.create(video_params)
 
     if video.valid?
-      respond_with(video, :location => course_modulo_video_path(@course, @modulo, video))
+      respond_with(video, :location => api_v1_course_modulo_video_path(@course, @modulo, video))
     else
       respond_with(video)
     end
   end
-  
+
   def update
     @video.update(video_params)
     if @video.valid?
-      respond_with(@video, :location => course_modulo_video_path(@course, @modulo, @video))
+      respond_with(@video, :location => api_v1_course_modulo_video_path(@course, @modulo, @video))
     else
       respond_with(@video)
     end

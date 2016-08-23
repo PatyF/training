@@ -1,4 +1,4 @@
-class CoursesController < ApplicationController
+class Api::V1::CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -14,7 +14,7 @@ class CoursesController < ApplicationController
     course = Course.create(course_params)
 
     if course.valid?
-      respond_with(course, :location => course_path(course))
+      respond_with(course, :location => api_v1_course_path(course))
     else
       respond_with(course)
     end
@@ -23,7 +23,7 @@ class CoursesController < ApplicationController
   def update
     @course.update(course_params)
     if @course.valid?
-      respond_with(@course, :location => course_path(@course))
+      respond_with(@course, :location => api_v1_course_path(@course))
     else
       respond_with(@course)
     end
