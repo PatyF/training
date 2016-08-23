@@ -4,7 +4,7 @@ import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label 
 import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
-import { getCourses } from '../../tools/api'
+import { getCourses, saveUser } from '../../tools/api'
 
 
 class Index extends React.Component {
@@ -23,11 +23,25 @@ class Index extends React.Component {
     })
   }
 
+  salvar = () => {
+    saveUser((success) => {
+      this.setState({
+          dados: this.state.editando ? this.state.dados : dadosVazios,
+          mensagem: { tipo: 'success', conteudo: 'Dados salvos com sucesso.' },
+          erros: dadosVazios
+      })
+      javascript:scroll(0, 0);
+    }, (errors) => {
+      this.setState({ mensagem: { tipo: 'danger', conteudo: 'Corrija os erros para salvar.' }, erros: errors.errors })
+    })
+  }
+
   render() {
     return(
       <div>
         <Col>
           <PageHeader className={'title-header'}>Cursos</PageHeader>
+          <Button bsStyle="primary" onClick={this.salvar}>Teste</Button>
         </Col>
         <Loading carregando={this.state.carregando}>
           <Row >

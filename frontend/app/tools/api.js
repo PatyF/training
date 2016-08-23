@@ -34,8 +34,12 @@ export function saveVideo(idCourse, idModule, idVideo, data, success, errors) {
   submitUrl(`courses/${idCourse}/modulos/${idModule}/videos`, idVideo, data, success, errors)
 }
 
+export function saveUser(success, errors) {
+  submitUrl(`users`, null, {email:'patyfurtado_1989@hotmail.com', password:'123456', confirmation_password: '123456'}, success, errors)
+}
+
 export function fetchUrl(url, callback) {
-  fetch('http://192.168.99.100:3000/' + url + '.json')
+  fetch('http://192.168.99.100:3000/api/v1/' + url + '.json')
     .then(res => { return res.json() })
     .then(callback)
     .catch(erro => { console.log(erro) })
@@ -43,7 +47,7 @@ export function fetchUrl(url, callback) {
 
 export function submitUrl(url, id, data, success, errors) {
   var response = null
-  fetch('http://192.168.99.100:3000/' + url + (id ? '/' + id : ''), {
+  fetch('http://192.168.99.100:3000/api/v1/' + url + (id ? '/' + id : ''), {
       method: (id ? 'PATCH' : 'POST'),
       headers: {'content-type': 'application/json'},
       body: JSON.stringify(data)
