@@ -8,18 +8,21 @@ import { getCourses, saveUser } from '../../tools/api'
 
 
 class Index extends React.Component {
-
   constructor() {
     super();
     this.state = { carregando: true, dados: [] }
   }
 
-  componentDidMount() {
-    getCourses(json => {
+  login = () => {
+    authentication((success) => {
       this.setState({
-        dados: _.sortBy(json, 'name'),
-        carregando: false
+          dados: {tipo: 'auth'},
+          mensagem: { tipo: 'success', conteudo: 'Login realizado com sucesso.' },
+          erros: dadosVazios
       })
+      javascript:scroll(0, 0);
+    }, (errors) => {
+      this.setState({ mensagem: { tipo: 'danger', conteudo: 'Dados incorretos para o login.' }, erros: errors.errors })
     })
   }
 

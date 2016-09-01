@@ -1,4 +1,5 @@
 class Api::V1::CoursesController < ApplicationController
+  before_filter :authenticate_request!
   before_action :set_course, only: [:show, :edit, :update, :destroy]
 
   def index

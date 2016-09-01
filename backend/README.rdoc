@@ -6,3 +6,7 @@ use training;
 docker-compose run --rm web bash
 rake db:migrate
 rake db:seed
+
+docker-compose build
+
+curl --header "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.oD20qrjKsGz787TJy6vRkX4IgTWmzGKWuO9ribJfU-4" http://192.168.99.100:3000/api/v1/courses.json
