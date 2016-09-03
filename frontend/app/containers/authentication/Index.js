@@ -1,25 +1,25 @@
 import React from 'react'
 import _ from 'lodash'
-import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label } from 'react-bootstrap'
-import { Link } from 'react-router'
-import { LinkContainer } from 'react-router-bootstrap'
-import Loading from '../../components/Loading'
-import { getCourses, saveUser } from '../../tools/api'
+import { Button, PageHeader, FormGroup, ControlLabel, FormControl, HelpBlock, Row, Col } from 'react-bootstrap'
+import { authentication } from '../../tools/api'
+import { browserHistory } from 'react-router'
 
+
+var dadosVazios = {
+  email: '',
+  password: ''
+}
 
 class Index extends React.Component {
   constructor() {
     super();
-    this.state = { carregando: true, dados: [] }
+    this.state = { dados: dadosVazios, erros: dadosVazios }
   }
 
   login = () => {
-    authentication((success) => {
-      this.setState({
-          dados: {tipo: 'auth'},
-          mensagem: { tipo: 'success', conteudo: 'Login realizado com sucesso.' },
-          erros: dadosVazios
-      })
+    authentication(this.state.dados, (success) => {
+      localStorage.setItem('auth_token', success.auth_token)
+      browserHistory.push('/courses')
       javascript:scroll(0, 0);
     }, (errors) => {
       this.setState({ mensagem: { tipo: 'danger', conteudo: 'Dados incorretos para o login.' }, erros: errors.errors })
@@ -28,34 +28,26 @@ class Index extends React.Component {
 
   render() {
     return(
-      <div>
-        <Col>
-          <PageHeader className={'title-header'}>Cursos</PageHeader>
-        </Col>
-        <Loading carregando={this.state.carregando}>
-          <Row >
-            {_.map(this.state.dados, (course, idx) =>
-                <Col key={idx} md={4} className={'box'}>
-                  <Link to={`/courses/view/${course.id}`}>
-                    <Panel className={`box-height color${idx%5 + 1}`}>
-                      <div className={'text'}>{course.name}</div>
-                    </Panel>
-                  </Link>
-                </Col>
-            )}
-            <Col md={4} className={'box'}>
-              <Link to={'/courses/register'}>
-                <Panel className={'box color0'}>
-                  <div className={'box-align'}>
-                    <div className={'new-icon glyphicon glyphicon-plus'}></div>
-                    <div className={'text'}>Adicionar Curso</div>
-                  </div>
-                </Panel>
-              </Link>
+      <Row>
+        <Col mdOffset={4} md={4} className={'box-login'} >
+          <PageHeader className={'title-header'}><img className="logo" src="/assets/images/knap.png"/></PageHeader>
+          <FormGroup validationState={this.state.erros.email ? 'error' : null}>
+            <ControlLabel>Email</ControlLabel>
+            <FormControl type="text" placeholder='Email' value={this.state.dados.email} onChange={(event) => this.setState({dados: {...this.state.dados, email: event.target.value}})} />
+            <HelpBlock>{this.state.erros.email}</HelpBlock>
+          </FormGroup>
+          <FormGroup validationState={this.state.erros.password ? 'error' : null}>
+            <ControlLabel>Senha</ControlLabel>
+            <FormControl type="password" placeholder='Senha' value={this.state.dados.password} onChange={(event) => this.setState({dados: {...this.state.dados, password: event.target.value}})} />
+            <HelpBlock>{this.state.erros.password}</HelpBlock>
+          </FormGroup>
+          <Row>
+            <Col md={12} className={'btn-login'}>
+              <Button bsStyle='primary' bsSize='large' block onClick={() => this.login()}>Login</Button>
             </Col>
           </Row>
-        </Loading>
-      </div>
+        </Col>
+      </Row>
     )
   }
 

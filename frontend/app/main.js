@@ -26,8 +26,9 @@ render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/">
+        <Route path="login" component={LoginIndex} />
         <Route component={AppPage}>
-          <IndexRoute component={LoginIndex}/>
+          <IndexRoute component={CoursesIndex}/>
           <Route path="courses">
             <IndexRoute component={CoursesIndex} />
             <Route path="register(/:courseId)" component={CoursesEdit} />

@@ -1,4 +1,5 @@
 class Api::V1::ModulosController < ApplicationController
+  before_filter :authenticate_request!
   before_action :set_course
   before_action :set_modulo, only: [:show, :edit, :update, :destroy]
 

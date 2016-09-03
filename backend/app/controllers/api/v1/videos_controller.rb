@@ -1,4 +1,5 @@
 class Api::V1::VideosController < ApplicationController
+  before_filter :authenticate_request!
   before_action :set_course
   before_action :set_modulo
   before_action :set_video, only: [:show, :edit, :update, :destroy]

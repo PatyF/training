@@ -4,6 +4,17 @@ body {
 
 }
 
+.box-login {
+  background: #DDD;
+  margin-top: 100px;
+  border-radius: 5px;
+  padding: 10px 25px 50px 25px;
+}
+
+.btn-login {
+  margin-top: 10px;
+}
+
 .logo {
   width: 100px;
   margin-top: 11px;
@@ -272,6 +283,7 @@ h1 {
 .video-box-adicionar {
     color: #444;
     margin-left: 30px;
+    margin-bottom: 30px;
     width: 200px;
     height: 120px;
     text-align: center;

@@ -1,3 +1,5 @@
+import { browserHistory } from 'react-router'
+
 export function getCourses(callback) {
   fetchUrl('courses', (json) => callback(json))
 }
@@ -34,13 +36,33 @@ export function saveVideo(idCourse, idModule, idVideo, data, success, errors) {
   submitUrl(`courses/${idCourse}/modulos/${idModule}/videos`, idVideo, data, success, errors)
 }
 
-export function saveUser(success, errors) {
-  submitUrl(`users`, null, {email:'patyfurtado_1989@hotmail.com', password:'123456', confirmation_password: '123456'}, success, errors)
+export function authentication(data, success, errors) {
+  var response = null
+  fetch('http://192.168.99.100:3000/auth_user', {
+    method: ('POST'),
+    headers: {'content-type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  .then(res => {
+    response = res
+    return res.json()
+  })
+  .then(json => {
+    if (response.status < 400) success(json)
+    else errors(json)
+
+  })
+  .catch(erro => { console.log(erro) })
 }
 
 export function fetchUrl(url, callback) {
-  fetch('http://192.168.99.100:3000/api/v1/' + url + '.json')
-    .then(res => { return res.json() })
+  fetch('http://192.168.99.100:3000/api/v1/' + url + '.json',{
+      headers : {'Authorization': 'Bearer ' + localStorage.getItem('auth_token')}
+    })
+    .then(res => {
+      if (res.status == 401) browserHistory.push('/login')
+      return res.json()
+    })
     .then(callback)
     .catch(erro => { console.log(erro) })
 }
@@ -49,10 +71,12 @@ export function submitUrl(url, id, data, success, errors) {
   var response = null
   fetch('http://192.168.99.100:3000/api/v1/' + url + (id ? '/' + id : ''), {
       method: (id ? 'PATCH' : 'POST'),
-      headers: {'content-type': 'application/json'},
+      headers: {'content-type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('auth_token')},
       body: JSON.stringify(data)
     })
     .then(res => {
+      if (res.status == 401) browserHistory.push('/login')
       response = res
       if (response.status < 400 && id) return res
       return res.json()
