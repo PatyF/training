@@ -13,13 +13,11 @@ class App extends React.Component {
             </Navbar.Header>
           </Link>
         </Navbar>
-        <Grid >
-          <Col md={12} className={'grid-background'}>
+          <div className={'grid-background'}>
             <div className="margin-body">
               {this.props.children}
             </div>
-          </Col>
-        </Grid>
+          </div>
       </div>
 
 

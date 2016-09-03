@@ -67,10 +67,10 @@ class Index extends React.Component {
   header(title, id){
     return <Row>
       <Col md={11}>
-        <h4>{title}</h4>
+        <h4 className='title-module'>{title}</h4>
       </Col>
       <Col md={1}>
-        <Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${id}`}><span className="icons sub glyphicon glyphicon-pencil"></span></Link>
+        <Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>
       </Col>
     </Row>
   }
@@ -82,7 +82,7 @@ class Index extends React.Component {
           <Col md={10} mdOffset={1}>
             <Loading carregando={this.state.carregando}>
               <Row>
-                <PageHeader>
+                <PageHeader className='title-header'>
                   {this.state.course}
                   <Link title="Editar Curso" to={`/courses/register/${this.props.params.courseId}`}><span className="icons glyphicon glyphicon-pencil" aria-hidden="true"></span></Link>
                 </PageHeader>
@@ -90,7 +90,7 @@ class Index extends React.Component {
               { _.map(this.state.dados, (dado, idx) =>
                 <Row key={idx}>
                   <Col>
-                    <Panel header={this.header(dado.title, dado.id)} className='panel-background'>
+                    <Panel header={this.header(dado.title, dado.id)}>
                       <div className='description'>{dado.description}</div>
                       { dado.videos
                         ? _.map(dado.videos, (video, key) =>
@@ -109,7 +109,7 @@ class Index extends React.Component {
                                      url={video.link}
                                      playing={true}
                                      />
-                                   <div className='description-video'>{video.description}</div>
+                                   <div>{video.description}</div>
                                  </Col>
                                 </Row>
 
@@ -156,11 +156,10 @@ class Index extends React.Component {
                 </Row>
               )}
               <Row>
-                <Col className={'box-modulo'}>
+                <Col className={'box'}>
                   <Link to={`/courses/${this.props.params.courseId}/modules/register`}>
-                    <Panel className={'box color0'}>
+                    <Panel className={'box-color0'}>
                       <div className={'box-align'}>
-                        <div className={'new-icon glyphicon glyphicon-plus'}></div>
                         <div className={'text'}>Adicionar Módulo</div>
                       </div>
                     </Panel>
