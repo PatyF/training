@@ -13,6 +13,7 @@ var dadosVazios = {
 class Index extends React.Component {
   constructor() {
     super();
+    localStorage.removeItem('auth_token')
     this.state = { dados: dadosVazios, erros: dadosVazios }
   }
 

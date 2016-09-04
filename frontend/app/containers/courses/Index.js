@@ -4,7 +4,7 @@ import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label 
 import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
-import { getCourses, saveUser } from '../../tools/api'
+import { getCourses } from '../../tools/api'
 
 
 class Index extends React.Component {

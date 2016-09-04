@@ -1,5 +1,29 @@
 import { browserHistory } from 'react-router'
 
+export function getStudents(callback) {
+  fetchUrl('students', (json) => callback(json))
+}
+
+export function getStudent(id, callback) {
+  fetchUrl(`students/${id}`, (json) => callback(json))
+}
+
+export function saveStudent(id, data, success, errors) {
+  submitUrl('students', id, data, success, errors)
+}
+
+export function getInstructors(callback) {
+  fetchUrl('instructors', (json) => callback(json))
+}
+
+export function getInstructor(id, callback) {
+  fetchUrl(`instructors/${id}`, (json) => callback(json))
+}
+
+export function saveInstructor(id, data, success, errors) {
+  submitUrl('instructors', id, data, success, errors)
+}
+
 export function getCourses(callback) {
   fetchUrl('courses', (json) => callback(json))
 }
