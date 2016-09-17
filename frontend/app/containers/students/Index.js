@@ -53,7 +53,7 @@ class Index extends React.Component {
                   {dado.email}
                 </Col>
                 <Col md={1}>
-                  <Link title="Editar Aluno" to={`/student/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>
+                  <Link title="Editar Aluno" to={`/students/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>
                 </Col>
               </Row>
               {dado.aberto ? this.exibeVideos(dado, idx) : null}

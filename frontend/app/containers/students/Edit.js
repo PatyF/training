@@ -28,7 +28,7 @@ class Edit extends React.Component {
 
   componentDidMount() {
     if (isFinite(this.props.params.studentId)) {
-      getUser(this.props.params.studentId, dados => {
+      getStudent(this.props.params.studentId, dados => {
         this.setState({
           dados,
           editando: true
@@ -39,7 +39,7 @@ class Edit extends React.Component {
 
   salvar = () => {
     let response = null
-    saveUser(this.props.params.studentId, this.state.dados, (success) => {
+    saveStudent(this.props.params.studentId, this.state.dados, (success) => {
       this.setState({
           dados: this.state.editando ? this.state.dados : dadosVazios,
           mensagem: { tipo: 'success', conteudo: 'Dados salvos com sucesso.' },
@@ -91,7 +91,7 @@ class Edit extends React.Component {
                 <Button bsStyle="primary" onClick={this.salvar}>Salvar</Button>
               </Col>
               <Col md={1}>
-                <Link to={this.state.editando ? '/student/view/' + this.props.params.studentId : '/students'}><Button bsStyle="default">Cancelar</Button></Link>
+                <Link to={'/students'}><Button bsStyle="default">Cancelar</Button></Link>
               </Col>
             </Row>
           </Col>

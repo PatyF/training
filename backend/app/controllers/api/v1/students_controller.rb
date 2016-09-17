@@ -1,20 +1,10 @@
-class Api::V1::UsersController < ApplicationController
+class Api::V1::StudentsController < ApplicationController
   before_filter :authenticate_request!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    users = User.all
-    respond_with(users)
-  end
-
-  def students
     @students = User.where(profile: 2)
     respond_with(@students)
-  end
-
-  def instructors
-    @instructors = User.where(profile: 1)
-    respond_with(@instructors)
   end
 
   def show
@@ -23,9 +13,8 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     user = User.create(user_params)
-
     if user.valid?
-      respond_with(user, :location => api_v1_user_path(user))
+      respond_with(user, :location => api_v1_student_path(user))
     else
       respond_with(user)
     end
@@ -34,7 +23,7 @@ class Api::V1::UsersController < ApplicationController
   def update
     @user.update(user_params)
     if @user.valid?
-      respond_with(@user, :location => api_v1_user_path(@user))
+      respond_with(@user, :location => api_v1_student_path(@user))
     else
       respond_with(@user)
     end
@@ -42,7 +31,7 @@ class Api::V1::UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    respond_with()
+    respond_with(true)
   end
 
   private
@@ -51,6 +40,9 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:name, :email, :gender, :birthday, :profile, :password, :password_confirmation)
+      user = params.require(:student).permit(:name, :email, :gender, :birthday)
+      user["profile"] = 2
+      user["password"] = (1..6).map { (rand(8)+1).to_s}.join
+      user
     end
 end
