@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label, FormGroup, ControlLabel, FormControl, HelpBlock, Checkbox } from 'react-bootstrap'
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
+import InputText from '../../components/InputText'
 import { getCourse, saveCourse } from '../../tools/api'
 
 var dadosVazios = {
@@ -61,16 +62,8 @@ class Edit extends React.Component {
             </Alert>
           : null }
             <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Curso</PageHeader>
-            <FormGroup validationState={this.state.erros.name ? 'error' : null}>
-              <ControlLabel>Nome</ControlLabel>
-              <FormControl type="text" placeholder='Nome' value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
-              <HelpBlock>{this.state.erros.name}</HelpBlock>
-            </FormGroup>
-            <FormGroup validationState={this.state.erros.keywords ? 'error' : null}>
-              <ControlLabel>Palavras Chave</ControlLabel>
-              <FormControl type="text" placeholder='Keywords' value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
-              <HelpBlock>{this.state.erros.keywords}</HelpBlock>
-            </FormGroup>
+            <InputText erros={this.state.erros.name} label={"Nome"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
+            <InputText erros={this.state.erros.keywords} label={"Palavras Chave"} value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
             <FormGroup validationState={this.state.erros.available ? 'error' : null}>
               <Checkbox inline checked={this.state.dados.available} onClick={(event) => this.setState({dados: {...this.state.dados, available: event.target.checked}})}>
                 Disponível

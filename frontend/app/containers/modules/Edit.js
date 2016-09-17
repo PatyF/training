@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
+import InputText from '../../components/InputText'
 import { saveModule,
          getModule } from '../../tools/api'
 
@@ -78,16 +79,8 @@ class Edit extends React.Component {
                 <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Módulo</PageHeader>
               </Col>
             </Row>
-            <FormGroup validationState={this.state.erros.title ? 'error' : null}>
-              <ControlLabel>Título</ControlLabel>
-              <FormControl type="text" placeholder='Título' value={this.state.dados.title} onChange={(event) => this.setState({dados: {...this.state.dados, title: event.target.value}})} />
-              <HelpBlock>{this.state.erros.title}</HelpBlock>
-            </FormGroup>
-            <FormGroup validationState={this.state.erros.description ? 'error' : null}>
-              <ControlLabel>Descrição</ControlLabel>
-              <FormControl componentClass="textarea" placeholder='Descrição' value={this.state.dados.description} onChange={(event) => this.setState({dados: {...this.state.dados, description: event.target.value}})} />
-              <HelpBlock>{this.state.erros.description}</HelpBlock>
-            </FormGroup>
+            <InputText erros={this.state.erros.title} label={"Título"} value={this.state.dados.title} onChange={(event) => this.setState({dados: {...this.state.dados, title: event.target.value}})} />
+            <InputText componentClass="textarea" erros={this.state.erros.description} label={"Descrição"} value={this.state.dados.description} onChange={(event) => this.setState({dados: {...this.state.dados, description: event.target.value}})} />
             <Row>
               <Col md={1}>
                 <Button bsStyle="primary" onClick={this.salvar}>Salvar</Button>
