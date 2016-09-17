@@ -4,6 +4,7 @@ import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader,
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
 import InputText from '../../components/InputText'
+import InputDate from '../../components/InputDate'
 import { getStudent, saveStudent } from '../../tools/api'
 
 var dadosVazios = {
@@ -39,7 +40,6 @@ class Edit extends React.Component {
   }
 
   salvar = () => {
-    let response = null
     saveStudent(this.props.params.studentId, this.state.dados, (success) => {
       this.setState({
           dados: this.state.editando ? this.state.dados : dadosVazios,
@@ -75,7 +75,7 @@ class Edit extends React.Component {
               </Radio>
               <HelpBlock>{this.state.erros.gender}</HelpBlock>
             </FormGroup>
-            <InputText erros={this.state.erros.birthday} label={"Data de Nascimento"} value={this.state.dados.birthday} onChange={(event) => this.setState({dados: {...this.state.dados, birthday: event.target.value}})} />
+            <InputDate erros={this.state.erros.birthday} label={"Data de Nascimento"} value={this.state.dados.birthday} onChange={(data) => this.setState({dados: {...this.state.dados, birthday: data}})} />
             <Row>
               <Col md={1}>
                 <Button bsStyle="primary" onClick={this.salvar}>Salvar</Button>
