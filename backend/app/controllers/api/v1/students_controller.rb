@@ -14,6 +14,7 @@ class Api::V1::StudentsController < ApplicationController
   def create
     user = User.create(user_params)
     if user.valid?
+      UserMailer.new_user(user).deliver_now
       respond_with(user, :location => api_v1_student_path(user))
     else
       respond_with(user)
@@ -23,6 +24,7 @@ class Api::V1::StudentsController < ApplicationController
   def update
     @user.update(user_params)
     if @user.valid?
+      UserMailer.edit_user(@user).deliver_now
       respond_with(@user, :location => api_v1_student_path(@user))
     else
       respond_with(@user)
