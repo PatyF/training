@@ -13,7 +13,6 @@ class Api::V1::CoursesController < ApplicationController
 
   def create
     course = Course.create(course_params)
-
     if course.valid?
       respond_with(course, :location => api_v1_course_path(course))
     else
@@ -41,6 +40,6 @@ class Api::V1::CoursesController < ApplicationController
     end
 
     def course_params
-      params.require(:course).permit(:name, :keywords, :available)
+      params.permit(:name, :keywords, :available, category_ids: [])
     end
 end

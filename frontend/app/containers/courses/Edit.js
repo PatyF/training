@@ -4,7 +4,7 @@ import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader,
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
 import InputText from '../../components/InputText'
-import { getCourse, saveCourse } from '../../tools/api'
+import { getCourse, saveCourse, getCategories } from '../../tools/api'
 
 var dadosVazios = {
   name: '',
@@ -22,7 +22,8 @@ class Edit extends React.Component {
       mensagem: {
         tipo: false
       },
-      editando: false
+      editando: false,
+      categories: { carregando: true, dados: [] }
     }
   }
 
@@ -35,11 +36,29 @@ class Edit extends React.Component {
         })
       })
     }
+    getCategories( dados => {
+      _.map(dados, (dado, index) => {
+        dados = [ ...dados.slice(0,index),
+                       {...dados[index],
+                          checked: false
+                       },
+                  ...dados.slice(index + 1)]
+      })
+      this.setState({
+        categories: {
+          carregando: false,
+          dados
+        }
+      })
+    })
   }
 
   salvar = () => {
     let response = null
-    saveCourse(this.props.params.courseId, this.state.dados, (success) => {
+    var dados = { ...this.state.dados,
+        category_ids: _.map(_.filter(this.state.categories.dados, 'checked'), 'id')
+      }
+    saveCourse(this.props.params.courseId, dados, (success) => {
       this.setState({
           dados: this.state.editando ? this.state.dados : dadosVazios,
           mensagem: { tipo: 'success', conteudo: 'Dados salvos com sucesso.' },
@@ -51,25 +70,56 @@ class Edit extends React.Component {
     })
   }
 
+  checkCategoria = (event, index) => {
+    this.setState({
+      categories: { ...this.state.categories,
+        dados: [ ...this.state.categories.dados.slice(0,index),
+                   {...this.state.categories.dados[index],
+                      checked: event.target.checked
+                   },
+                   ...this.state.categories.dados.slice(index + 1)]
+
+      }
+    })
+  }
+
   render() {
     return(
       <div>
         <Row>
           <Col md={10} mdOffset={1}>
-          { this.state.mensagem.tipo ?
-            <Alert bsStyle={this.state.mensagem.tipo}>
-              {this.state.mensagem.conteudo}
-            </Alert>
-          : null }
+            { this.state.mensagem.tipo ?
+              <Alert bsStyle={this.state.mensagem.tipo}>
+                {this.state.mensagem.conteudo}
+              </Alert>
+            : null }
             <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Curso</PageHeader>
-            <InputText erros={this.state.erros.name} label={"Nome"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
-            <InputText erros={this.state.erros.keywords} label={"Palavras Chave"} value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
-            <FormGroup validationState={this.state.erros.available ? 'error' : null}>
-              <Checkbox inline checked={this.state.dados.available} onClick={(event) => this.setState({dados: {...this.state.dados, available: event.target.checked}})}>
-                Disponível
-              </Checkbox>
-              <HelpBlock>{this.state.erros.available}</HelpBlock>
-            </FormGroup>
+            <Row>
+              <Col md={9}>
+                <InputText erros={this.state.erros.name} label={"Nome"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
+                <InputText erros={this.state.erros.keywords} label={"Palavras Chave"} value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
+                <FormGroup validationState={this.state.erros.available ? 'error' : null}>
+                  <Checkbox inline checked={this.state.dados.available} onClick={(event) => this.setState({dados: {...this.state.dados, available: event.target.checked}})}>
+                    Disponível
+                  </Checkbox>
+                  <HelpBlock>{this.state.erros.available}</HelpBlock>
+                </FormGroup>
+              </Col>
+              <Col md={3}>
+                <ControlLabel>Categorias</ControlLabel>
+                <Panel className={'panel-categories'}>
+                  <Loading carregando={this.state.categories.carregando}>
+                    {
+                      _.map(this.state.categories.dados, (dado, key) =>
+                        <Checkbox key={key} checked={dado.checked} onClick={(event) => this.checkCategoria(event, key)}>
+                          {dado.name}
+                        </Checkbox>
+                      )
+                    }
+                  </Loading>
+                </Panel>
+              </Col>
+            </Row>
             <Row>
               <Col md={1}>
                 <Button bsStyle="primary" onClick={this.salvar}>Salvar</Button>

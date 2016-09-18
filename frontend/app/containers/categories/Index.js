@@ -17,7 +17,7 @@ class Index extends React.Component {
   componentDidMount() {
     getCategories(json => {
       this.setState({
-        dados: _.sortBy(json, 'name'),
+        dados: json,
         carregando: false
       })
     })

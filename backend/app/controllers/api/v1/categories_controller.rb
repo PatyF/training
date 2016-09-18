@@ -3,7 +3,7 @@ class Api::V1::CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   def index
-    categories = Category.all
+    categories = Category.order(:name)
     respond_with(categories)
   end
 
