@@ -24,6 +24,18 @@ export function saveInstructor(id, data, success, errors) {
   submitUrl('instructors', id, data, success, errors)
 }
 
+export function getCategories(callback) {
+  fetchUrl('categories', (json) => callback(json))
+}
+
+export function getCategory(id, callback) {
+  fetchUrl(`categories/${id}`, (json) => callback(json))
+}
+
+export function saveCategory(id, data, success, errors) {
+  submitUrl('categories', id, data, success, errors)
+}
+
 export function getCourses(callback) {
   fetchUrl('courses', (json) => callback(json))
 }

@@ -16,6 +16,8 @@ import StudentsIndex from './containers/students/Index'
 import StudentsEdit from './containers/students/Edit'
 import InstructorsIndex from './containers/instructors/Index'
 import InstructorsEdit from './containers/instructors/Edit'
+import CategoriesIndex from './containers/Categories/Index'
+import CategoriesEdit from './containers/Categories/Edit'
 
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
@@ -46,6 +48,10 @@ render(
           <Route path="instructors">
             <IndexRoute component={InstructorsIndex} />
             <Route path="register(/:instructorId)" component={InstructorsEdit} />
+          </Route>
+          <Route path="categories">
+            <IndexRoute component={CategoriesIndex} />
+            <Route path="register(/:categoryId)" component={CategoriesEdit} />
           </Route>
         </Route>
       </Route>

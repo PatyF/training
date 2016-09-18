@@ -4,7 +4,7 @@ import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label 
 import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
-import { getInstructors } from '../../tools/api'
+import { getCategories } from '../../tools/api'
 
 
 class Index extends React.Component {
@@ -15,7 +15,7 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    getInstructors(json => {
+    getCategories(json => {
       this.setState({
         dados: _.sortBy(json, 'name'),
         carregando: false
@@ -28,16 +28,13 @@ class Index extends React.Component {
       <div>
         <Row>
           <PageHeader className='title-header'>
-            Instrutores
+            Categorias
           </PageHeader>
         </Row>
         <Row className='header-modulo'>
-          <Col md={6}>
-            <span className="icon-modulo glyphicon glyphicon-user" aria-hidden="true"></span>
+          <Col md={11}>
+            <span className="icon-modulo glyphicon glyphicon-th-list" aria-hidden="true"></span>
             Nome
-          </Col>
-          <Col md={5}>
-            Email
           </Col>
           <Col md={1}>
           </Col>
@@ -46,23 +43,20 @@ class Index extends React.Component {
           { _.map(this.state.dados, (dado, idx) =>
             <div  key={idx}>
               <Row className={`body-modulo color-modulo${idx%2+1}`}>
-                <Col md={6}>
+                <Col md={11}>
                   {dado.name}
                 </Col>
-                <Col md={5}>
-                  {dado.email}
-                </Col>
                 <Col md={1}>
-                  <Link title="Editar Instrutor" to={`/instructors/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>
+                  <Link title="Editar Categoria" to={`/categories/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>
                 </Col>
               </Row>
             </div>
           )}
         </Loading>
-        <Link title="Novo Instrutor" to={`/instructors/register`}>
+        <Link title="Nova Categoria" to={`/categories/register`}>
           <Row className={`body-modulo color-modulo0`}>
             <Col md={8}>
-              <Button bsStyle="link" className={`title-modulo`}>Adicionar Instrutor</Button>
+              <Button bsStyle="link" className={`title-modulo`}>Adicionar Categoria</Button>
             </Col>
             <Col md={3}>
             </Col>
