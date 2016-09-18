@@ -4,11 +4,12 @@ import { Alert, Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader,
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
 import InputText from '../../components/InputText'
-import { getCourse, saveCourse, getCategories } from '../../tools/api'
+import { getCourse, saveCourse, getCategories, getInstructors } from '../../tools/api'
 
 var dadosVazios = {
   name: '',
   keywords: '',
+  instructor_id: '',
   available: false
 }
 
@@ -23,7 +24,8 @@ class Edit extends React.Component {
         tipo: false
       },
       editando: false,
-      categories: { carregando: true, dados: [] }
+      categories: { carregando: true, dados: [] },
+      instructors: { carregando: true, dados: [] }
     }
   }
 
@@ -46,6 +48,14 @@ class Edit extends React.Component {
       })
       this.setState({
         categories: {
+          carregando: false,
+          dados
+        }
+      })
+    })
+    getInstructors( dados => {
+      this.setState({
+        instructors: {
           carregando: false,
           dados
         }
@@ -98,6 +108,16 @@ class Edit extends React.Component {
               <Col md={9}>
                 <InputText erros={this.state.erros.name} label={"Nome"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
                 <InputText erros={this.state.erros.keywords} label={"Palavras Chave"} value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
+                <FormGroup validationState={this.state.erros.instructor_id ? 'error' : null}>
+                  <ControlLabel>Instrutor</ControlLabel>
+                  <FormControl componentClass="select" placeholder="Instrutor" value={this.state.dados.instructor_id} onChange={(event) => this.setState({dados: {...this.state.dados, instructor_id: event.target.value}})}>
+                    <option value="">Selecione...</option>
+                    {_.map(this.state.instructors.dados, (instructor, key) =>
+                      <option key={key} value={instructor.id}>{instructor.name}</option>
+                    )}
+                  </FormControl>
+                  <HelpBlock>{this.state.erros.instructor_id}</HelpBlock>
+                </FormGroup>
                 <FormGroup validationState={this.state.erros.available ? 'error' : null}>
                   <Checkbox inline checked={this.state.dados.available} onClick={(event) => this.setState({dados: {...this.state.dados, available: event.target.checked}})}>
                     Disponível
