@@ -14,6 +14,8 @@ import ModulesEdit from './containers/modules/Edit'
 import VideosEdit from './containers/videos/Edit'
 import StudentsIndex from './containers/students/Index'
 import StudentsEdit from './containers/students/Edit'
+import InstructorsIndex from './containers/instructors/Index'
+import InstructorsEdit from './containers/instructors/Edit'
 
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
@@ -40,6 +42,10 @@ render(
           <Route path="students">
             <IndexRoute component={StudentsIndex} />
             <Route path="register(/:studentId)" component={StudentsEdit} />
+          </Route>
+          <Route path="instructors">
+            <IndexRoute component={InstructorsIndex} />
+            <Route path="register(/:instructorId)" component={InstructorsEdit} />
           </Route>
         </Route>
       </Route>
