@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :courses do
         resources :modulos do
           resources :videos
+          resources :activities
         end
       end
     end

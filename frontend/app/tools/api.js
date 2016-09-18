@@ -72,6 +72,18 @@ export function saveVideo(idCourse, idModule, idVideo, data, success, errors) {
   submitUrl(`courses/${idCourse}/modulos/${idModule}/videos`, idVideo, data, success, errors)
 }
 
+export function getActivities(idCourse, idModule, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/activities`, (json) => callback(json))
+}
+
+export function getActivity(idCourse, idModule, idActivity, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/activities/${idActivity}`, (json) => callback(json))
+}
+
+export function saveActivity(idCourse, idModule, idActivity, data, success, errors) {
+  submitUrl(`courses/${idCourse}/modulos/${idModule}/activities`, idActivity, data, success, errors)
+}
+
 export function authentication(data, success, errors) {
   var response = null
   fetch('http://192.168.99.100:3000/auth_user', {

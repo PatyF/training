@@ -12,6 +12,7 @@ import CoursesEdit from './containers/courses/Edit'
 import CoursesView from './containers/courses/View'
 import ModulesEdit from './containers/modules/Edit'
 import VideosEdit from './containers/videos/Edit'
+import ActivitiesEdit from './containers/activities/Edit'
 import StudentsIndex from './containers/students/Index'
 import StudentsEdit from './containers/students/Edit'
 import InstructorsIndex from './containers/instructors/Index'
@@ -40,6 +41,7 @@ render(
             <Route path="view/:courseId" component={CoursesView} />
             <Route path=":courseId/modules/register(/:moduleId)" component={ModulesEdit} />
             <Route path=":courseId/modules/:moduleId/videos/register(/:videoId)" component={VideosEdit} />
+            <Route path=":courseId/modules/:moduleId/activities/register(/:activityId)" component={ActivitiesEdit} />
           </Route>
           <Route path="students">
             <IndexRoute component={StudentsIndex} />

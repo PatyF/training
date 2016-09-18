@@ -7,7 +7,8 @@ import Loading from '../../components/Loading'
 import ReactPlayer from 'react-player'
 import { getCourse,
          getModules,
-         getVideos } from '../../tools/api'
+         getVideos,
+         getActivities } from '../../tools/api'
 
 
 class Index extends React.Component {
@@ -38,7 +39,7 @@ class Index extends React.Component {
 
   }
 
-  visualizarVideos = (index) => {
+  visualizarDetalhes = (index) => {
     var modulos = this.state.dados
     modulos = _.map(modulos, (modulo, idx) => {
       return {...modulo, aberto: false}
@@ -50,7 +51,15 @@ class Index extends React.Component {
                     aberto: true
                  },
                  ...modulos.slice(index + 1)]
-      this.setState({ dados: modulos })
+
+     getActivities(this.state.dados[index].course_id, this.state.dados[index].id, (activities) => {
+       modulos = [ ...modulos.slice(0,index),
+         {...modulos[index],
+           activities
+         },
+         ...modulos.slice(index + 1)]
+         this.setState({ dados: modulos })
+       })
     })
   }
 
@@ -70,7 +79,7 @@ class Index extends React.Component {
                             ...this.state.dados.slice(indexModulo + 1)]})
   }
 
-  exibeVideos(modulo, indexModulo) {
+  exibeDetalhes(modulo, indexModulo) {
     return <Row className='box-video'>
       <Col md={12} className='modulo-description'>
         {modulo.description}
@@ -131,6 +140,19 @@ class Index extends React.Component {
             </Link>
           </Col>
         </Row>
+
+        <Row>
+          <Col md={3} className={'modulo-box-adicionar color-modulo0'}>
+            <Link to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register`}>
+              <Row>
+                <Col md={12}>
+                  <div className={'adicionar-modulo-icon glyphicon glyphicon-plus'}></div>
+                  <Button bsStyle="link" className={`title-modulo`}>Adicionar Atividade</Button>
+                </Col>
+              </Row>
+            </Link>
+          </Col>
+        </Row>
     </Row>
   }
 
@@ -162,7 +184,7 @@ class Index extends React.Component {
                 <div  key={idx}>
                   <Row className={`body-modulo color-modulo${idx%2+1}`}>
                     <Col md={8}>
-                      <Button bsStyle="link" className={`title-modulo`} onClick={() => this.visualizarVideos(idx)}>{dado.title}</Button>
+                      <Button bsStyle="link" className={`title-modulo`} onClick={() => this.visualizarDetalhes(idx)}>{dado.title}</Button>
                     </Col>
                     <Col md={3}>
                       5.0
@@ -171,7 +193,7 @@ class Index extends React.Component {
                       <Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>
                     </Col>
                   </Row>
-                  {dado.aberto ? this.exibeVideos(dado, idx) : null}
+                  {dado.aberto ? this.exibeDetalhes(dado, idx) : null}
                 </div>
               )}
               <Link title="Novo Módulo" to={`/courses/${this.props.params.courseId}/modules/register/`}>
