@@ -140,13 +140,28 @@ class Index extends React.Component {
             </Link>
           </Col>
         </Row>
-
+        { _.map(modulo.activities, (activity, key) =>
+            <Col md={12} key={key}>
+              {  <Row key={key}>
+                   <Col md={9}>
+                     <div className='video-title'>
+                       Questão {key+1}
+                       <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register/${activity.id}`}>
+                         <span className="video-icon icons glyphicon glyphicon-pencil" aria-hidden="true"/>
+                       </Link>
+                     </div>
+                     <p className='video-description'>{activity.question}</p>
+                   </Col>
+                 </Row>
+              }
+            </Col>
+          )}
         <Row>
-          <Col md={3} className={'modulo-box-adicionar color-modulo0'}>
+          <Col md={3} className={'atividade-box-adicionar color-modulo0'}>
             <Link to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register`}>
               <Row>
                 <Col md={12}>
-                  <div className={'adicionar-modulo-icon glyphicon glyphicon-plus'}></div>
+                  <div className={'adicionar-video-icon glyphicon glyphicon-plus'}></div>
                   <Button bsStyle="link" className={`title-modulo`}>Adicionar Atividade</Button>
                 </Col>
               </Row>

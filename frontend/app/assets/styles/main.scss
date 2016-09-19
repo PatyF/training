@@ -310,6 +310,31 @@ h1 {
   color: #1D9089;
 }
 
+.atividade-box-adicionar {
+    color: #444;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    &:hover, &:active, &:focus {
+      color: #111;
+      background-color: #BBB;
+      text-decoration: none;
+      .color0 {
+        opacity: 0.8;
+      }
+      .adicionar-video-icon {
+        color: #5DAFA7;
+      }
+    }
+    .row {
+      height: 50px;
+      display: flex;
+      align-items: center;
+    }
+}
+
 .panel-categories {
   height: 210px;
   overflow:scroll;
