@@ -1,9 +1,10 @@
 class Api::V1::StudentsController < ApplicationController
+  PROFILE_STUDENT = 2
   before_filter :authenticate_request!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @students = User.where(profile: 2)
+    @students = User.where(profile: PROFILE_STUDENT)
     respond_with(@students)
   end
 
@@ -43,7 +44,7 @@ class Api::V1::StudentsController < ApplicationController
 
     def user_params
       user = params.require(:student).permit(:name, :email, :gender, :birthday)
-      user["profile"] = 2
+      user["profile"] = PROFILE_STUDENT
       user["password"] = (1..6).map { (rand(8)+1).to_s}.join
       user
     end

@@ -131,7 +131,7 @@ class Edit extends React.Component {
                 <InputText erros={this.state.erros.keywords} label={"Palavras Chave"} value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
                 <FormGroup validationState={this.state.erros.instructor_id ? 'error' : null}>
                   <ControlLabel>Instrutor</ControlLabel>
-                  <FormControl componentClass="select" placeholder="Instrutor" value={this.state.dados.instructor_id} onChange={(event) => this.setState({dados: {...this.state.dados, instructor_id: event.target.value}})}>
+                  <FormControl componentClass="select" placeholder="Instrutor" value={this.state.dados.instructor_id || ''} onChange={(event) => this.setState({dados: {...this.state.dados, instructor_id: event.target.value}})}>
                     <option value="">Selecione...</option>
                     {_.map(this.state.instructors.dados, (instructor, key) =>
                       <option key={key} value={instructor.id}>{instructor.name}</option>
