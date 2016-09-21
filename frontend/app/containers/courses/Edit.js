@@ -36,22 +36,24 @@ class Edit extends React.Component {
           dados,
           editando: true
         })
+        this.carregaCategorias()
       })
     }
-    getCategories( dados => {
-      _.map(dados, (dado, index) => {
-        dados = [ ...dados.slice(0,index),
-                       {...dados[index],
+    getCategories( categories => {
+      _.each(categories, (dado, index) => {
+        categories = [ ...categories.slice(0,index),
+                       {...categories[index],
                           checked: false
                        },
-                  ...dados.slice(index + 1)]
+                  ...categories.slice(index + 1)]
       })
       this.setState({
         categories: {
           carregando: false,
-          dados
+          dados: categories
         }
       })
+      this.carregaCategorias()
     })
     getInstructors( dados => {
       this.setState({
@@ -62,6 +64,25 @@ class Edit extends React.Component {
       })
     })
   }
+
+  carregaCategorias() {
+    if(this.state.editando) {
+      var categories = this.state.categories.dados
+      _.each(categories, (dado, index) => {
+        categories = [ ...categories.slice(0,index),
+                       {...categories[index],
+                          checked: _.indexOf(_.map(this.state.dados.categories, 'id'), dado.id) >= 0
+                       },
+                  ...categories.slice(index + 1)]
+      })
+      this.setState({
+        categories: { ...categories,
+          dados: categories
+        }
+      })
+    }
+  }
+
 
   salvar = () => {
     let response = null
