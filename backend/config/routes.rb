@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   namespace :api do
     namespace :v1 do
+      get 'profile' => 'users#profile'
       resources :students
       resources :instructors
       resources :categories
@@ -13,6 +14,9 @@ Rails.application.routes.draw do
           resources :activities
         end
       end
+
+      get 'courses/:id/registry' => 'courses#haveRegistry'
+      post 'courses/:id/registry' => 'courses#registry'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

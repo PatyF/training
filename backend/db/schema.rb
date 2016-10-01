@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918182400) do
+ActiveRecord::Schema.define(version: 20160926213100) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "modulo_id",          limit: 4
@@ -61,6 +61,18 @@ ActiveRecord::Schema.define(version: 20160918182400) do
   end
 
   add_index "modulos", ["course_id"], name: "index_modulos_on_course_id", using: :btree
+
+  create_table "registries", force: :cascade do |t|
+    t.integer  "course_id",    limit: 4
+    t.integer  "user_id",      limit: 4
+    t.date     "initial_date"
+    t.date     "final_date"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "registries", ["course_id"], name: "index_registries_on_course_id", using: :btree
+  add_index "registries", ["user_id"], name: "index_registries_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false

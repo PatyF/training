@@ -2,12 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import App from '../components/App'
-import { thunkExample } from '../actions/example'
+import { requestProfile } from '../actions/auth_action'
 
-let mapStateToProps = state => ({})
+let mapStateToProps = state => ({
+  profile: state.auth.profile
+})
 
 let mapDispatchToProps = dispatch => ({
-  thunkExample: () => dispatch(thunkExample())
+  requestProfile: () => dispatch(requestProfile())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

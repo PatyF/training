@@ -1,6 +1,6 @@
 body {
-  background: #5DAFA7;
-  font-family: "alte", sans-serif;
+  background: #EFEFEF;
+  font-family: "Existence", sans-serif;
 
 }
 
@@ -27,7 +27,7 @@ body {
 }
 
 .navbar-background {
-  background: #ddd;
+  background: #bbb;
 }
 
 .grid-background {
@@ -40,7 +40,7 @@ body {
 
 h1 {
   color: #3A0C41;
-  font-family: "alte", sans-serif;
+  font-family: "Existence", sans-serif;
   width: 100%;
 }
 
@@ -48,19 +48,12 @@ h1 {
   display: table;
   margin: 0 auto;
   border-bottom: none;
-  text-transform: uppercase;
-
 }
 
 .box-height {
-  height: 240px;
-}
-
-.box-circle {
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto;
+  height: 200px;
+  border-left: #52C1B6;
+  border-left-style: inset;
 }
 
 .color0 {
@@ -79,10 +72,6 @@ h1 {
   background-color: #ccc;
 }
 
-.box-color1, .box-color2 {
-  background-color: #eee;
-}
-
 .box-align {
   width: 120px;
   height: 120px;
@@ -92,41 +81,42 @@ h1 {
   align-items: center;
 }
 
-.box-icon {
-  color: #eee;
-  font-size: 60px;
+.box-text {
+  padding-top: 50px;
+  align-items: left;
+  font-size: larger;
 }
 
-.box-icon0 {
-  padding-left: 5px;
-}
-.box-text {
-  padding-top: 30px;
+.box-keywords {
+  font-size: small;
+  padding-top: 70px;
+  color: #999;
 }
 
 .box {
   a{
     color: #444;
-    font-size: larger;
-    text-transform: uppercase;
-    text-align: center;
     &:hover, &:active, &:focus{
-      color: #CCC;
-
       text-decoration: none;
       .color0, .color1, .color2{
         opacity: 0.8;
       }
       .box-color0 {
         background-color: #888;
+        border-left: #52C1B6;
+        border-left-style: inset;
       }
       .box-color1 {
-        background-color: #227F75;
-        border: 1px solid #5DAFA7;
+        background-color: #DDD;
+        border: 1px solid #DDD;
+        border-left: #52C1B6;
+        border-left-style: inset;
       }
       .box-color2 {
-        background-color: #3A0C41;
-        border: 1px solid #65326D;
+        background-color: #DDD;
+        border: 1px solid #DDD;
+        border-left: #52C1B6;
+        border-left-style: inset;
       }
     }
   }
@@ -134,7 +124,7 @@ h1 {
 
 .form-group {
   color: #333;
-  font-family: "alte", sans-serif;
+  font-family: "Existence", sans-serif;
 }
 
 
@@ -192,7 +182,7 @@ h1 {
 }
 
 .color-modulo1 {
-  background-color: #EEE;
+  background-color: #D6D6D6;
 }
 
 .color-modulo2 {
@@ -210,7 +200,7 @@ h1 {
 }
 
 .box-video {
-  background-color: #F1F1F1;
+  background-color: #FEFEFE;
   box-shadow: 0px 6px 5px -4px #BBB inset;
   padding-left: 12px;
   padding-right: 12px;
@@ -338,4 +328,8 @@ h1 {
 .panel-categories {
   height: 210px;
   overflow:scroll;
+}
+
+.button-top {
+  margin-top: 45px;
 }

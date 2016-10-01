@@ -5,6 +5,8 @@ import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
 import { getCourses } from '../../tools/api'
+import Authorize from '../../components/Authorize'
+import { PROFILE_ADMIN, PROFILE_INSTRUCTOR, PROFILE_STUDENT } from '../../tools/profiles'
 
 
 class Index extends React.Component {
@@ -32,28 +34,21 @@ class Index extends React.Component {
                 <Col key={idx} md={3} className={'box'}>
                   <Link to={`/courses/view/${course.id}`}>
                     <Panel className={`box-height box-color${idx%2+1}`}>
-                      <div className={`box-circle color${idx%2+1}`} aria-hidden="true">
-                        <div className="box-align">
-                          <span className={`box-icon glyphicon glyphicon-tower`}></span>
-                        </div>
-                      </div>
                       <div className={'box-text'}>{course.name}</div>
+                      <div className={'box-keywords'}>{course.keywords}</div>
                     </Panel>
                   </Link>
                 </Col>
             )}
-            <Col md={3} className={'box'}>
-              <Link to={'/courses/register'}>
-                <Panel className={'box-height box-color0'}>
-                  <div className={`box-circle color0`}>
-                    <div className={'box-align'}>
-                      <span className={'box-icon box-icon0 glyphicon glyphicon-plus'}></span>
-                    </div>
+            <Authorize viewFor={PROFILE_ADMIN}>
+              <Col md={3} className={'box'}>
+                <Link to={'/courses/register'}>
+                  <Panel className={'box-height box-color0'}>
                     <div className={'box-text'}>Adicionar Curso</div>
-                  </div>
-                </Panel>
-              </Link>
-            </Col>
+                  </Panel>
+                </Link>
+              </Col>
+            </Authorize>
           </Row>
         </Loading>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import _ from 'lodash'
 import { Panel, Grid, Row, Col, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, PageHeader, Label } from 'react-bootstrap'
 import { Link } from 'react-router'
@@ -8,7 +9,11 @@ import ReactPlayer from 'react-player'
 import { getCourse,
          getModules,
          getVideos,
-         getActivities } from '../../tools/api'
+         getActivities,
+         getRegistry,
+         saveRegistry } from '../../tools/api'
+import Authorize from '../../components/Authorize'
+import { PROFILE_ADMIN, PROFILE_INSTRUCTOR, PROFILE_STUDENT } from '../../tools/profiles'
 
 
 class Index extends React.Component {
@@ -18,7 +23,8 @@ class Index extends React.Component {
     this.state = {
       carregando: true,
       course: '',
-      dados: []
+      dados: [],
+      registry: []
     }
   }
 
@@ -37,6 +43,25 @@ class Index extends React.Component {
       })
     })
 
+    if (this.props.profile === PROFILE_STUDENT) {
+      getRegistry(this.props.params.courseId, json => {
+        this.setState({
+          registry: json
+        })
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile) {
+      if (nextProps.profile === PROFILE_STUDENT) {
+        getRegistry(this.props.params.courseId, json => {
+          this.setState({
+            registry: json
+          })
+        })
+      }
+    }
   }
 
   visualizarDetalhes = (index) => {
@@ -84,91 +109,116 @@ class Index extends React.Component {
       <Col md={12} className='modulo-description'>
         {modulo.description}
       </Col>
-      { _.map(modulo.videos, (video, key) =>
-          <Col md={12} key={key}>
-            { video.assistir
-              ? <Row key={key}>
-                 <Col mdOffset={2} md={8}>
-                   <div className='video-title-assistir'>
-                     {video.title}
-                     <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register/${video.id}`}>
-                       <span className="video-icon-assistir icons glyphicon glyphicon-pencil" aria-hidden="true"/>
-                     </Link>
-                   </div>
-                   <ReactPlayer
-                     width={'auto'}
-                     url={video.link}
-                     playing={true}
-                     />
-                   <div className='video-description-assistir' >{video.description}</div>
-                 </Col>
-                </Row>
-
-              : <Row key={key}>
-                 <Col md={3} className={'left-video'}>
-                   <ReactPlayer
-                     className={'assistir-video-video'}
-                     width={'auto'}
-                     height={'auto'}
-                     url={video.link}
-                     playing={false}
-                     />
-                   <Button bsStyle='link' onClick={() => this.assistirVideo(indexModulo, key)}><div className={'assistir-video-button'}></div></Button>
-                 </Col>
-                 <Col md={9}>
-                   <div className='video-title'>
-                     {video.title}
-                     <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register/${video.id}`}>
-                       <span className="video-icon icons glyphicon glyphicon-pencil" aria-hidden="true"/>
-                     </Link>
-                   </div>
-                   <p className='video-description'>{video.description}</p>
-                 </Col>
-               </Row>
-            }
-          </Col>
-        )}
-        <Row>
-          <Col md={3} className={'video-box-adicionar color-modulo0'}>
-            <Link to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register`}>
-              <Row>
-                <Col md={12}>
-                  <div className={'adicionar-video-icon glyphicon glyphicon-plus'}></div>
-                  <Button bsStyle="link" className={`title-modulo`}>Adicionar Vídeo</Button>
-                </Col>
-              </Row>
-            </Link>
-          </Col>
-        </Row>
-        { _.map(modulo.activities, (activity, key) =>
+      { this.state.registry.length != 0 || this.props.profile !== PROFILE_STUDENT
+      ? <div>
+        { _.map(modulo.videos, (video, key) =>
             <Col md={12} key={key}>
-              {  <Row key={key}>
-                   <Col md={9}>
-                     <div className='video-title'>
-                       Questão {key+1}
-                       <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register/${activity.id}`}>
-                         <span className="video-icon icons glyphicon glyphicon-pencil" aria-hidden="true"/>
+              { video.assistir
+                ? <Row key={key}>
+                   <Col mdOffset={2} md={8}>
+                     <div className='video-title-assistir'>
+                       {video.title}
+                       <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register/${video.id}`}>
+                         <span className="video-icon-assistir icons glyphicon glyphicon-pencil" aria-hidden="true"/>
                        </Link>
                      </div>
-                     <p className='video-description'>{activity.question}</p>
+                     <ReactPlayer
+                       width={'auto'}
+                       url={video.link}
+                       playing={true}
+                       />
+                     <div className='video-description-assistir' >{video.description}</div>
+                   </Col>
+                  </Row>
+
+                : <Row key={key}>
+                   <Col md={3} className={'left-video'}>
+                     <ReactPlayer
+                       className={'assistir-video-video'}
+                       width={'auto'}
+                       height={'auto'}
+                       url={video.link}
+                       playing={false}
+                       />
+                     <Button bsStyle='link' onClick={() => this.assistirVideo(indexModulo, key)}><div className={'assistir-video-button'}></div></Button>
+                   </Col>
+                   <Col md={9}>
+                     <div className='video-title'>
+                       {video.title}
+                       <Authorize viewFor={PROFILE_INSTRUCTOR}>
+                         <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register/${video.id}`}>
+                           <span className="video-icon icons glyphicon glyphicon-pencil" aria-hidden="true"/>
+                         </Link>
+                       </Authorize>
+                     </div>
+                     <p className='video-description'>{video.description}</p>
                    </Col>
                  </Row>
               }
             </Col>
           )}
-        <Row>
-          <Col md={3} className={'atividade-box-adicionar color-modulo0'}>
-            <Link to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register`}>
-              <Row>
-                <Col md={12}>
-                  <div className={'adicionar-video-icon glyphicon glyphicon-plus'}></div>
-                  <Button bsStyle="link" className={`title-modulo`}>Adicionar Atividade</Button>
-                </Col>
-              </Row>
-            </Link>
-          </Col>
-        </Row>
+          <Authorize viewFor={PROFILE_INSTRUCTOR}>
+            <Row>
+              <Col md={3} className={'video-box-adicionar color-modulo0'}>
+                <Link to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register`}>
+                  <Row>
+                    <Col md={12}>
+                      <div className={'adicionar-video-icon glyphicon glyphicon-plus'}></div>
+                      <Button bsStyle="link" className={`title-modulo`}>Adicionar Vídeo</Button>
+                    </Col>
+                  </Row>
+                </Link>
+              </Col>
+            </Row>
+          </Authorize>
+          { _.map(modulo.activities, (activity, key) =>
+              <Col md={12} key={key}>
+                {  <Row key={key}>
+                    <Col md={9}>
+                      <div className='video-title'>
+                        Questão {key+1}
+                        <Authorize viewFor={PROFILE_INSTRUCTOR}>
+                          <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register/${activity.id}`}>
+                            <span className="video-icon icons glyphicon glyphicon-pencil" aria-hidden="true"/>
+                          </Link>
+                        </Authorize>
+                      </div>
+                      <p className='video-description'>{activity.question}</p>
+                    </Col>
+                   </Row>
+                }
+              </Col>
+            )}
+          <Authorize viewFor={PROFILE_INSTRUCTOR}>
+            <Row>
+              <Col md={3} className={'atividade-box-adicionar color-modulo0'}>
+                <Link to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register`}>
+                  <Row>
+                    <Col md={12}>
+                      <div className={'adicionar-video-icon glyphicon glyphicon-plus'}></div>
+                      <Button bsStyle="link" className={`title-modulo`}>Adicionar Atividade</Button>
+                    </Col>
+                  </Row>
+                </Link>
+              </Col>
+            </Row>
+          </Authorize>
+      </div>
+      : null
+      }
     </Row>
+  }
+
+  matricular = () => {
+    let response = null
+    saveRegistry(this.props.params.courseId, (success) => {
+      this.setState({
+          registry: success
+      })
+      javascript:scroll(0, 0);
+    }, (errors) => {
+      this.setState({ mensagem: { tipo: 'danger', conteudo: 'Corrija os erros para salvar.' }, erros: errors.errors })
+    })
   }
 
   render() {
@@ -180,7 +230,7 @@ class Index extends React.Component {
               <Row>
                 <PageHeader className='title-header'>
                   {this.state.course}
-                  <Link title="Editar Curso" to={`/courses/register/${this.props.params.courseId}`}><span className="icons glyphicon glyphicon-pencil" aria-hidden="true"></span></Link>
+                  <Authorize viewFor={PROFILE_ADMIN}><Link title="Editar Curso" to={`/courses/register/${this.props.params.courseId}`}><span className="icons glyphicon glyphicon-pencil" aria-hidden="true"></span></Link></Authorize>
                 </PageHeader>
               </Row>
               <Row className='header-modulo'>
@@ -205,31 +255,50 @@ class Index extends React.Component {
                       5.0
                     </Col>
                     <Col md={1}>
-                      <Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>
+                      <Authorize viewFor={PROFILE_INSTRUCTOR}><Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link></Authorize>
                     </Col>
                   </Row>
                   {dado.aberto ? this.exibeDetalhes(dado, idx) : null}
                 </div>
               )}
-              <Link title="Novo Módulo" to={`/courses/${this.props.params.courseId}/modules/register/`}>
-                <Row className={`body-modulo color-modulo0`}>
-                  <Col md={8}>
-                    <Button bsStyle="link" className={`title-modulo`}>Adicionar Módulo</Button>
-                  </Col>
-                  <Col md={3}>
-                  </Col>
-                  <Col md={1}>
-                    <span className="icons sub-icon glyphicon glyphicon-plus"></span>
-                  </Col>
-                </Row>
-              </Link>
+              <Authorize viewFor={PROFILE_INSTRUCTOR}>
+                <Link title="Novo Módulo" to={`/courses/${this.props.params.courseId}/modules/register/`}>
+                  <Row className={`body-modulo color-modulo0`}>
+                    <Col md={8}>
+                      <Button bsStyle="link" className={`title-modulo`}>Adicionar Módulo</Button>
+                    </Col>
+                    <Col md={3}>
+                    </Col>
+                    <Col md={1}>
+                      <span className="icons sub-icon glyphicon glyphicon-plus"></span>
+                    </Col>
+                  </Row>
+                </Link>
+              </Authorize>
             </Loading>
           </Col>
         </Row>
+        <Authorize viewFor={PROFILE_STUDENT}>
+          { this.state.registry.length != 0
+            ? null
+            : <Row>
+              <Col mdOffset={5} md={2} >
+                <Button className={"button-top"} bsStyle="primary" bsSize="large" onClick={() => this.matricular()}>
+                  Matricular-se
+                </Button>
+              </Col>
+            </Row>
+          }
+
+        </Authorize>
       </div>
     )
   }
 
 }
 
-export default Index
+let mapStateToProps = state => ({
+  profile: state.auth.profile.profile
+})
+
+export default connect(mapStateToProps)(Index)

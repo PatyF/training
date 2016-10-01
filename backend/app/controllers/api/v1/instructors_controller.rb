@@ -1,10 +1,9 @@
 class Api::V1::InstructorsController < ApplicationController
-  PROFILE_INSTRUCTOR = 3
   before_filter :authenticate_request!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @instructors = User.where(profile: PROFILE_INSTRUCTOR)
+    @instructors = User.where(profile: User::PROFILE_INSTRUCTOR)
     respond_with(@instructors)
   end
 
@@ -44,7 +43,7 @@ class Api::V1::InstructorsController < ApplicationController
 
     def user_params
       user = params.require(:instructor).permit(:name, :email, :gender, :birthday)
-      user["profile"] = PROFILE_INSTRUCTOR
+      user["profile"] = User::PROFILE_INSTRUCTOR
       user["password"] = (1..6).map { (rand(8)+1).to_s}.join
       user
     end

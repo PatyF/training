@@ -80,6 +80,18 @@ export function getActivity(idCourse, idModule, idActivity, callback) {
   fetchUrl(`courses/${idCourse}/modulos/${idModule}/activities/${idActivity}`, (json) => callback(json))
 }
 
+export function getProfile(callback) {
+  fetchUrl(`profile`, (json) => callback(json))
+}
+
+export function getRegistry(idCourse, callback) {
+  fetchUrl(`courses/${idCourse}/registry`, (json) => callback(json))
+}
+
+export function saveRegistry(idCourse, success, errors) {
+  submitUrl(`courses/${idCourse}/registry`, '', '', success, errors)
+}
+
 export function saveActivity(idCourse, idModule, idActivity, data, success, errors) {
   submitUrl(`courses/${idCourse}/modulos/${idModule}/activities`, idActivity, data, success, errors)
 }

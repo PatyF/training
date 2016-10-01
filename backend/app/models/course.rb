@@ -3,6 +3,8 @@ class Course < ActiveRecord::Base
   belongs_to :instructor
   has_many :modulos
   has_and_belongs_to_many :categories
+  has_many :registries
+  has_many :users, through: :registries
 
   def builder_show
     Jbuilder.new do |course|

@@ -1,9 +1,15 @@
 class Api::V1::CoursesController < ApplicationController
   before_filter :authenticate_request!
-  before_action :set_course, only: [:show, :edit, :update, :destroy]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :haveRegistry, :registry]
 
   def index
-    courses = Course.all
+    if @current_user.profile == User::PROFILE_STUDENT
+      courses = Course.where(available: true)
+    elsif @current_user.profile == User::PROFILE_INSTRUCTOR
+      courses = Course.where(instructor_id: @current_user.id)
+    else
+      courses = Course.all
+    end
     respond_with(courses)
   end
 
@@ -32,6 +38,15 @@ class Api::V1::CoursesController < ApplicationController
   def destroy
     @course.destroy
     respond_with()
+  end
+
+  def haveRegistry
+    respond_with(@course.registries.where(user_id: @current_user.id))
+  end
+
+  def registry
+    @course.registries.create(course_id: @course.id, user_id: @current_user.id, initial_date: Date.today.to_time)
+    respond_with(@course.registries.where(user_id: @current_user.id))
   end
 
   private
