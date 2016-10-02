@@ -178,8 +178,13 @@ class Index extends React.Component {
                       <div className='video-title'>
                         Questão {key+1}
                         <Authorize viewFor={PROFILE_INSTRUCTOR}>
-                          <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register/${activity.id}`}>
+                          <Link title="Editar Atividade" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/register/${activity.id}`}>
                             <span className="video-icon icons glyphicon glyphicon-pencil" aria-hidden="true"/>
+                          </Link>
+                        </Authorize>
+                        <Authorize viewFor={PROFILE_STUDENT}>
+                          <Link title="Responder Atividade" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/${activity.id}/question`}>
+                            <span className="video-icon icons" aria-hidden="true">Responder</span>
                           </Link>
                         </Authorize>
                       </div>

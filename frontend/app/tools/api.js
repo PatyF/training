@@ -80,6 +80,14 @@ export function getActivity(idCourse, idModule, idActivity, callback) {
   fetchUrl(`courses/${idCourse}/modulos/${idModule}/activities/${idActivity}`, (json) => callback(json))
 }
 
+export function getStudentActivity(idCourse, idModule, idActivity, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/activities/${idActivity}/question_student`, (json) => callback(json))
+}
+
+export function saveStudentActivity(idCourse, idModule, idActivity, answer_student, callback) {
+  submitUrl(`courses/${idCourse}/modulos/${idModule}/activities/${idActivity}/answer_student`, '', answer_student, (json) => callback(json))
+}
+
 export function getProfile(callback) {
   fetchUrl(`profile`, (json) => callback(json))
 }

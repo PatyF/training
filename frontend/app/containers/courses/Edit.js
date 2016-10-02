@@ -85,7 +85,6 @@ class Edit extends React.Component {
 
 
   salvar = () => {
-    let response = null
     var dados = { ...this.state.dados,
         category_ids: _.map(_.filter(this.state.categories.dados, 'checked'), 'id')
       }

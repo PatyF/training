@@ -4,7 +4,8 @@ class User < ActiveRecord::Base
   PROFILE_STUDENT = 2
   has_many :registries
   has_many :courses, through: :registries
-
+  has_many :answers
+  has_many :activities, through: :answers
 
   validates :name, presence: true, length: { minimum:3 }
   validates :email, presence: true, length: { minimum:3 }

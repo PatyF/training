@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926213100) do
+ActiveRecord::Schema.define(version: 20160930233700) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "modulo_id",          limit: 4
@@ -26,6 +26,22 @@ ActiveRecord::Schema.define(version: 20160926213100) do
   end
 
   add_index "activities", ["modulo_id"], name: "index_activities_on_modulo_id", using: :btree
+
+  create_table "answers", force: :cascade do |t|
+    t.integer  "user_id",        limit: 4
+    t.integer  "activity_id",    limit: 4
+    t.integer  "answer_a",       limit: 4
+    t.integer  "answer_b",       limit: 4
+    t.integer  "answer_c",       limit: 4
+    t.integer  "answer_d",       limit: 4
+    t.integer  "answer_e",       limit: 4
+    t.integer  "answer_student", limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "answers", ["activity_id"], name: "index_answers_on_activity_id", using: :btree
+  add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       limit: 255

@@ -1,6 +1,6 @@
 class Api::V1::CoursesController < ApplicationController
   before_filter :authenticate_request!
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :haveRegistry, :registry]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry]
 
   def index
     if @current_user.profile == User::PROFILE_STUDENT
@@ -40,13 +40,13 @@ class Api::V1::CoursesController < ApplicationController
     respond_with()
   end
 
-  def haveRegistry
+  def have_registry
     respond_with(@course.registries.where(user_id: @current_user.id))
   end
 
   def registry
-    @course.registries.create(course_id: @course.id, user_id: @current_user.id, initial_date: Date.today.to_time)
-    respond_with(@course.registries.where(user_id: @current_user.id))
+    @registry = @course.registries.create(course_id: @course.id, user_id: @current_user.id, initial_date: Date.today.to_time)
+    respond_with(@registry, :location => api_v1_course_path(@course))
   end
 
   private
