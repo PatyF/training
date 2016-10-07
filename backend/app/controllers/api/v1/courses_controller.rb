@@ -45,7 +45,10 @@ class Api::V1::CoursesController < ApplicationController
   end
 
   def registry
-    @registry = @course.registries.create(course_id: @course.id, user_id: @current_user.id, initial_date: Date.today.to_time)
+    @registry = @course.registries.where(user_id: @current_user.id).first
+    if (!@registry)
+      @registry = @course.registries.create(course_id: @course.id, user_id: @current_user.id, initial_date: Date.today.to_time)
+    end
     respond_with(@registry, :location => api_v1_course_path(@course))
   end
 
