@@ -269,7 +269,6 @@ h1 {
   padding-bottom: 25px;
 }
 
-
 .video-box-adicionar {
     color: #444;
     margin-left: 30px;
@@ -323,6 +322,16 @@ h1 {
       display: flex;
       align-items: center;
     }
+}
+
+.atividade-icon-correta {
+  font-size: 18px;
+  color: #228B22;
+}
+
+.atividade-icon-incorreta {
+  font-size: 18px;
+  color: #B22222;
 }
 
 .panel-categories {

@@ -5,7 +5,7 @@ class Api::V1::ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy, :question_from_student, :answer_from_student]
 
   def index
-    respond_with(@modulo.activities)
+    @modulo.activities
   end
 
   def show

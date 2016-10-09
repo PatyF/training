@@ -18,6 +18,7 @@ var dadosVazios = {
   answer_d: '',
   answer_e: '',
   answer_student: '',
+  answer_correct: '',
   responded: false
 }
 
@@ -67,6 +68,18 @@ class Question extends React.Component {
     }
   }
 
+  isCorrect(view_answer) {
+    if (this.state.dados.answer_correct == null) {
+      return null
+    } else if (this.state.dados.answer_correct == view_answer && this.state.dados.answer_correct == this.state.dados.answer_student) {
+      return <span className={'label label-success'}>Você acertou</span>
+    } else if (this.state.dados.answer_correct != view_answer && view_answer == this.state.dados.answer_student) {
+      return <span className={'label label-danger'} aria-hidden="true">Você errou</span>
+    } else if (this.state.dados.answer_correct == view_answer) {
+      return <span className={'label label-warning'}>Resposta Correta</span>
+    }
+  }
+
   render() {
     return (
       <div>
@@ -83,35 +96,36 @@ class Question extends React.Component {
             </Col>
           </Row>
           <div>{this.state.dados.question}</div>
+
           <Radio
             disabled={this.state.dados.responded}
             checked={this.state.dados.answer_student == 'answer_a'}
             onClick={() =>this.setState({dados: {...this.state.dados, answer_student: 'answer_a'}})}>
-              {this.state.dados.answer_a}
+              {this.state.dados.answer_a} {this.isCorrect('answer_a')}
           </Radio>
           <Radio
             disabled={this.state.dados.responded}
             checked={this.state.dados.answer_student == 'answer_b'}
             onClick={() => this.setState({dados: {...this.state.dados, answer_student: 'answer_b'}})}>
-              {this.state.dados.answer_b}
+              {this.state.dados.answer_b} {this.isCorrect('answer_b')}
           </Radio>
           <Radio
             disabled={this.state.dados.responded}
             checked={this.state.dados.answer_student == 'answer_c'}
             onClick={() => this.setState({dados: {...this.state.dados, answer_student: 'answer_c'}})}>
-              {this.state.dados.answer_c}
+              {this.state.dados.answer_c} {this.isCorrect('answer_c')}
           </Radio>
           <Radio
             disabled={this.state.dados.responded}
             checked={this.state.dados.answer_student == 'answer_d'}
             onClick={() => this.setState({dados: {...this.state.dados, answer_student: 'answer_d'}})}>
-              {this.state.dados.answer_d}
+              {this.state.dados.answer_d} {this.isCorrect('answer_d')}
           </Radio>
           <Radio
             disabled={this.state.dados.responded}
             checked={this.state.dados.answer_student == 'answer_e'}
             onClick={() => this.setState({dados: {...this.state.dados, answer_student: 'answer_e'}})}>
-              {this.state.dados.answer_e}
+              {this.state.dados.answer_e} {this.isCorrect('answer_e')}
           </Radio>
           <Row>
             {this.state.dados.responded

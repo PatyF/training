@@ -31,7 +31,7 @@ class Index extends React.Component {
   componentDidMount() {
     getCourse(this.props.params.courseId, course => {
       this.setState({
-        course: course.name,
+        course: course.course.name,
         carregando: false
       })
     })
@@ -80,7 +80,7 @@ class Index extends React.Component {
      getActivities(this.state.dados[index].course_id, this.state.dados[index].id, (activities) => {
        modulos = [ ...modulos.slice(0,index),
          {...modulos[index],
-           activities
+           activities: activities.activities
          },
          ...modulos.slice(index + 1)]
          this.setState({ dados: modulos })
@@ -102,6 +102,16 @@ class Index extends React.Component {
                                 videos
                             },
                             ...this.state.dados.slice(indexModulo + 1)]})
+  }
+
+  linkDescricao(activity) {
+    if ("correct_answer" in activity) {
+      if (activity.correct_answer)
+        return <span className="atividade-icon-correta icons glyphicon glyphicon-ok" aria-hidden="true"/>
+      else
+        return <span className="atividade-icon-incorreta icons glyphicon glyphicon-remove" aria-hidden="true"/>
+    } else
+      return <span className="video-icon icons" aria-hidden="true">Responder</span>
   }
 
   exibeDetalhes(modulo, indexModulo) {
@@ -183,8 +193,8 @@ class Index extends React.Component {
                           </Link>
                         </Authorize>
                         <Authorize viewFor={PROFILE_STUDENT}>
-                          <Link title="Responder Atividade" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/${activity.id}/question`}>
-                            <span className="video-icon icons" aria-hidden="true">Responder</span>
+                          <Link title={!("correct_answer" in activity) ? "Responder Atividade": "Conferir resposta"} to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/${activity.id}/question`}>
+                            {this.linkDescricao(activity)}
                           </Link>
                         </Authorize>
                       </div>

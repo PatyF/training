@@ -32,6 +32,7 @@ class Edit extends React.Component {
   componentDidMount() {
     if (isFinite(this.props.params.courseId)) {
       getCourse(this.props.params.courseId, dados => {
+        dados = dados.course
         this.setState({
           dados,
           editando: true

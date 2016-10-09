@@ -6,14 +6,4 @@ class Course < ActiveRecord::Base
   has_many :registries
   has_many :users, through: :registries
 
-  def builder_show
-    Jbuilder.new do |course|
-      course.id self.id
-      course.name self.name
-      course.keywords self.keywords
-      course.instructor_id self.instructor_id
-      course.available self.available
-      course.categories self.categories
-    end
-  end
 end

@@ -31,4 +31,47 @@ RSpec.describe Api::V1::ActivitiesController, type: :api do
     expect(post_json["answer_correct"]).equal? "answer_a"
   end
 
+  it "should return the result of the answer in the course details if the student has answered wrong" do
+    activity = FactoryGirl.create(:activity)
+    user = FactoryGirl.create(:user, profile: User::PROFILE_STUDENT )
+    post "auth_user", {:email => "patricia@knap.com", :password => "password"}
+    post_json = JSON.parse last_response.body
+    header "Authorization", "Bearer #{post_json["auth_token"]}"
+    answer = FactoryGirl.create(:answer, user_id: user.id, activity_id: activity.id)
+
+    get "api/v1/courses/#{activity.modulo.course_id}/modulos/#{activity.modulo.id}/activities.json"
+
+    post_json = JSON.parse last_response.body
+    post_json["activities"][0]
+    expect(post_json["activities"][0]["correct_answer"]).to be true
+  end
+
+  it "should return the result of the answer true in the course details if the student has answered correctly" do
+    activity = FactoryGirl.create(:activity)
+    user = FactoryGirl.create(:user, profile: User::PROFILE_STUDENT )
+    post "auth_user", {:email => "patricia@knap.com", :password => "password"}
+    post_json = JSON.parse last_response.body
+    header "Authorization", "Bearer #{post_json["auth_token"]}"
+    answer = FactoryGirl.create(:answer, user_id: user.id, activity_id: activity.id, answer_student: 1)
+
+    get "api/v1/courses/#{activity.modulo.course_id}/modulos/#{activity.modulo.id}/activities.json"
+
+    post_json = JSON.parse last_response.body
+    post_json["activities"][0]
+    expect(post_json["activities"][0]["correct_answer"]).to be false
+  end
+
+  it "should not return the correct answer if the student did not answer in the course details" do
+    activity = FactoryGirl.create(:activity)
+    user = FactoryGirl.create(:user, profile: User::PROFILE_STUDENT )
+    post "auth_user", {:email => "patricia@knap.com", :password => "password"}
+    post_json = JSON.parse last_response.body
+    header "Authorization", "Bearer #{post_json["auth_token"]}"
+    get "api/v1/courses/#{activity.modulo.course_id}/modulos/#{activity.modulo.id}/activities.json"
+
+    post_json = JSON.parse last_response.body
+    post_json["activities"][0]
+    expect(post_json["activities"][0]["correct_answer"]).to be nil
+	end
+
 end

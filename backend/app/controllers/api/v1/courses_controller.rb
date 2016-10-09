@@ -14,7 +14,7 @@ class Api::V1::CoursesController < ApplicationController
   end
 
   def show
-    respond_with(@course.builder_show.target!)
+    @course
   end
 
   def create
