@@ -5,7 +5,7 @@ import { Panel, Grid, Row, Col, FormGroup, ControlLabel, FormControl, ButtonTool
 import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
-import ReactPlayer from 'react-player'
+import ViewVideos from '../videos/View'
 import { getCourse,
          getModules,
          getVideos,
@@ -121,66 +121,13 @@ class Index extends React.Component {
       </Col>
       { this.state.registry.length != 0 || this.props.profile !== PROFILE_STUDENT
       ? <div>
-        { _.map(modulo.videos, (video, key) =>
-            <Col md={12} key={key}>
-              { video.assistir
-                ? <Row key={key}>
-                   <Col mdOffset={2} md={8}>
-                     <div className='video-title-assistir'>
-                       {video.title}
-                       <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register/${video.id}`}>
-                         <span className="video-icon-assistir icons glyphicon glyphicon-pencil" aria-hidden="true"/>
-                       </Link>
-                     </div>
-                     <ReactPlayer
-                       width={'auto'}
-                       url={video.link}
-                       playing={true}
-                       />
-                     <div className='video-description-assistir' >{video.description}</div>
-                   </Col>
-                  </Row>
-
-                : <Row key={key}>
-                   <Col md={3} className={'left-video'}>
-                     <ReactPlayer
-                       className={'assistir-video-video'}
-                       width={'auto'}
-                       height={'auto'}
-                       url={video.link}
-                       playing={false}
-                       />
-                     <Button bsStyle='link' onClick={() => this.assistirVideo(indexModulo, key)}><div className={'assistir-video-button'}></div></Button>
-                   </Col>
-                   <Col md={9}>
-                     <div className='video-title'>
-                       {video.title}
-                       <Authorize viewFor={PROFILE_INSTRUCTOR}>
-                         <Link title="Editar Vídeo" to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register/${video.id}`}>
-                           <span className="video-icon icons glyphicon glyphicon-pencil" aria-hidden="true"/>
-                         </Link>
-                       </Authorize>
-                     </div>
-                     <p className='video-description'>{video.description}</p>
-                   </Col>
-                 </Row>
-              }
-            </Col>
-          )}
-          <Authorize viewFor={PROFILE_INSTRUCTOR}>
-            <Row>
-              <Col md={3} className={'video-box-adicionar color-modulo0'}>
-                <Link to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/videos/register`}>
-                  <Row>
-                    <Col md={12}>
-                      <div className={'adicionar-video-icon glyphicon glyphicon-plus'}></div>
-                      <Button bsStyle="link" className={`title-modulo`}>Adicionar Vídeo</Button>
-                    </Col>
-                  </Row>
-                </Link>
-              </Col>
-            </Row>
-          </Authorize>
+          <ViewVideos
+            videos={modulo.videos}
+            courseId={this.props.params.courseId}
+            moduloId={modulo.id}
+            indexModulo={indexModulo}
+            assistirVideo={this.assistirVideo}
+          />
           { _.map(modulo.activities, (activity, key) =>
               <Col md={12} key={key}>
                 {  <Row key={key}>
@@ -249,13 +196,9 @@ class Index extends React.Component {
                 </PageHeader>
               </Row>
               <Row className='header-modulo'>
-                <Col md={8}>
+                <Col md={11}>
                   <span className="icon-modulo glyphicon glyphicon-blackboard" aria-hidden="true"></span>
                   Módulo
-                </Col>
-                <Col md={3}>
-                  <span className="icon-modulo glyphicon glyphicon-dashboard" aria-hidden="true"></span>
-                  Nota
                 </Col>
                 <Col md={1}>
                 </Col>
@@ -263,11 +206,8 @@ class Index extends React.Component {
               { _.map(this.state.dados, (dado, idx) =>
                 <div  key={idx}>
                   <Row className={`body-modulo color-modulo${idx%2+1}`}>
-                    <Col md={8}>
+                    <Col md={11}>
                       <Button bsStyle="link" className={`title-modulo`} onClick={() => this.visualizarDetalhes(idx)}>{dado.title}</Button>
-                    </Col>
-                    <Col md={3}>
-                      5.0
                     </Col>
                     <Col md={1}>
                       <Authorize viewFor={PROFILE_INSTRUCTOR}><Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link></Authorize>

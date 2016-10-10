@@ -68,6 +68,14 @@ export function getVideo(idCourse, idModule, idVideo, callback) {
   fetchUrl(`courses/${idCourse}/modulos/${idModule}/videos/${idVideo}`, (json) => callback(json))
 }
 
+export function savePositionVideo(idCourse, idModule, idVideo, data, success, errors) {
+  submitUrl(`courses/${idCourse}/modulos/${idModule}/videos/${idVideo}/position_video`, '' , data, success, errors)
+}
+
+export function getPositionVideo(idCourse, idModule, idVideo, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/videos/${idVideo}/position_video`, (json) => callback(json))
+}
+
 export function saveVideo(idCourse, idModule, idVideo, data, success, errors) {
   submitUrl(`courses/${idCourse}/modulos/${idModule}/videos`, idVideo, data, success, errors)
 }
