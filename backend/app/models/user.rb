@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :courses, through: :registries
   has_many :answers
   has_many :activities, through: :answers
+  has_many :positions
+  has_many :videos, through: :positions
 
   validates :name, presence: true, length: { minimum:3 }
   validates :email, presence: true, length: { minimum:3 }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930233700) do
+ActiveRecord::Schema.define(version: 20161009235000) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "modulo_id",          limit: 4
@@ -77,6 +77,18 @@ ActiveRecord::Schema.define(version: 20160930233700) do
   end
 
   add_index "modulos", ["course_id"], name: "index_modulos_on_course_id", using: :btree
+
+  create_table "positions", force: :cascade do |t|
+    t.integer  "video_id",   limit: 4
+    t.integer  "user_id",    limit: 4
+    t.boolean  "watched",    limit: 1
+    t.float    "position",   limit: 24
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "positions", ["user_id"], name: "index_positions_on_user_id", using: :btree
+  add_index "positions", ["video_id"], name: "index_positions_on_video_id", using: :btree
 
   create_table "registries", force: :cascade do |t|
     t.integer  "course_id",    limit: 4

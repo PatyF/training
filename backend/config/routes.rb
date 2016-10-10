@@ -20,6 +20,9 @@ Rails.application.routes.draw do
 
       get 'courses/:course_id/modulos/:modulo_id/activities/:id/question_student' => 'activities#question_from_student'
       post 'courses/:course_id/modulos/:modulo_id/activities/:id/answer_student' => 'activities#answer_from_student'
+      get 'courses/:course_id/modulos/:modulo_id/videos/:id/position_video' => 'videos#get_position_video'
+      post 'courses/:course_id/modulos/:modulo_id/videos/:id/position_video' => 'videos#position_video'
+
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

@@ -2,7 +2,7 @@ class Api::V1::VideosController < ApplicationController
   before_filter :authenticate_request!
   before_action :set_course
   before_action :set_modulo
-  before_action :set_video, only: [:show, :edit, :update, :destroy]
+  before_action :set_video, only: [:show, :edit, :update, :destroy, :get_position_video, :position_video]
 
   def index
     respond_with(@modulo.videos)
@@ -34,6 +34,28 @@ class Api::V1::VideosController < ApplicationController
   def destroy
     @modulo.destroy
     respond_with()
+  end
+
+  def get_position_video
+    respond_with(@video.positions.where(user_id: @current_user.id))
+  end
+
+  def position_video
+    @position = @video.positions.where(user_id: @current_user.id).first
+
+    if (!@position)
+      @position = @video.positions.create(
+        video_id: @video.id,
+        user_id: @current_user.id,
+        position: params["position"],
+        watched: params["assistido"])
+      return respond_with(@position, :location => api_v1_course_modulo_video_path(@course, @modulo, @video))
+    else
+      @position.update(
+        position: params["position"],
+        watched: params["assistido"])
+      return respond_with(@position, :location => api_v1_course_modulo_video_path(@course, @modulo, @video))
+    end
   end
 
   private
