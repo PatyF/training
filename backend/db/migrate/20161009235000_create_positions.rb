@@ -5,6 +5,7 @@ class CreatePositions < ActiveRecord::Migration
       t.belongs_to :user, index: true
       t.boolean :watched
       t.float :position
+      t.float :duration
 
       t.timestamps null: false
     end

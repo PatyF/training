@@ -72,7 +72,7 @@ class Index extends React.Component {
     getVideos(this.state.dados[index].course_id, this.state.dados[index].id, (videos) => {
       modulos = [ ...modulos.slice(0,index),
                  {...modulos[index],
-                    videos,
+                    videos: videos.videos,
                     aberto: true
                  },
                  ...modulos.slice(index + 1)]

@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20161009235000) do
     t.integer  "user_id",    limit: 4
     t.boolean  "watched",    limit: 1
     t.float    "position",   limit: 24
+    t.float    "duration",   limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end

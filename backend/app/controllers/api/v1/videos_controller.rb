@@ -5,7 +5,7 @@ class Api::V1::VideosController < ApplicationController
   before_action :set_video, only: [:show, :edit, :update, :destroy, :get_position_video, :position_video]
 
   def index
-    respond_with(@modulo.videos)
+    @modulo.videos
   end
 
   def show
@@ -42,18 +42,19 @@ class Api::V1::VideosController < ApplicationController
 
   def position_video
     @position = @video.positions.where(user_id: @current_user.id).first
-
     if (!@position)
       @position = @video.positions.create(
         video_id: @video.id,
         user_id: @current_user.id,
         position: params["position"],
-        watched: params["assistido"])
+        duration: params["duration"],
+        watched: params["watched"])
       return respond_with(@position, :location => api_v1_course_modulo_video_path(@course, @modulo, @video))
     else
       @position.update(
         position: params["position"],
-        watched: params["assistido"])
+        duration: params["duration"],
+        watched: (params["watched"] || @position.watched))
       return respond_with(@position, :location => api_v1_course_modulo_video_path(@course, @modulo, @video))
     end
   end
