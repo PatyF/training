@@ -20,7 +20,8 @@ RSpec.describe Api::V1::ModulosController, type: :api do
     get "api/v1/courses/#{course.id}/modulos.json"
 
     post_json = JSON.parse last_response.body
-    expect(post_json["modulos"][0]["watched_videos"]).to be true
+    expect(post_json["modulos"][0]["number_videos"]).to eq 2
+    expect(post_json["modulos"][0]["watched_videos"]).to eq 2
   end
 
   it "should return false if the student did not watch all videos" do
@@ -32,7 +33,8 @@ RSpec.describe Api::V1::ModulosController, type: :api do
     get "api/v1/courses/#{course.id}/modulos.json"
 
     post_json = JSON.parse last_response.body
-    expect(post_json["modulos"][0]["watched_videos"]).to be false
+    expect(post_json["modulos"][0]["number_videos"]).to eq 2
+    expect(post_json["modulos"][0]["watched_videos"]).to eq 1
   end
 
   it "should return the number of questions answered" do

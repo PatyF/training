@@ -4,23 +4,26 @@ class Modulo < ActiveRecord::Base
   has_many :videos
   has_many :activities
 
-  def watched_videos? current_user
+  def number_videos
+    self.videos.length
+  end
+
+  def watched_videos current_user
+    count = 0
     self.videos.find_each do |video|
       position = video.positions.where(user_id: current_user.id)
       if position.length > 0
-        return false if position.first.watched != true
-      else
-        return false
+        count+=1 if position.first.watched == true
       end
     end
-    return true
+    count
   end
 
-  def number_activities? current_user
+  def number_activities
     self.activities.length
   end
 
-  def answered_activities? current_user
+  def answered_activities current_user
     count = 0
     self.activities.find_each do |activity|
       answer = activity.answers.where(user_id: current_user.id)

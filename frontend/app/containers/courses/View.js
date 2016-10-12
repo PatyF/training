@@ -216,7 +216,7 @@ class Index extends React.Component {
                       <Button bsStyle="link" className={`title-modulo`} onClick={() => this.visualizarDetalhes(idx)}>{dado.title}</Button>
                     </Col>
                     <Col md={2}>
-                      <Authorize viewFor={PROFILE_STUDENT}><span className={'label label-success'}>{dado.watched_videos ? "Ok" : ""}</span></Authorize>
+                      <Authorize viewFor={PROFILE_STUDENT}><span className={dado.watched_videos == dado.number_videos ? 'label label-success' : 'label label-warning'}>{dado.watched_videos}/{dado.number_videos}</span></Authorize>
                     </Col>
                     <Col md={2}>
                       <Authorize viewFor={PROFILE_STUDENT}><span className={dado.answered_activities == dado.number_activities ? 'label label-success' : 'label label-warning'}>{dado.answered_activities}/{dado.number_activities}</span></Authorize>
