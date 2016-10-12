@@ -38,7 +38,7 @@ class Index extends React.Component {
 
     getModules(this.props.params.courseId, json => {
       this.setState({
-        dados: json,
+        dados: json.modulos,
         carregando: false
       })
     })
@@ -196,9 +196,15 @@ class Index extends React.Component {
                 </PageHeader>
               </Row>
               <Row className='header-modulo'>
-                <Col md={11}>
+                <Col md={7}>
                   <span className="icon-modulo glyphicon glyphicon-blackboard" aria-hidden="true"></span>
                   Módulo
+                </Col>
+                <Col md={2}>
+                  <Authorize viewFor={PROFILE_STUDENT}><div>Vídeos</div></Authorize>
+                </Col>
+                <Col md={2}>
+                  <Authorize viewFor={PROFILE_STUDENT}><div>Questões</div></Authorize>
                 </Col>
                 <Col md={1}>
                 </Col>
@@ -206,8 +212,14 @@ class Index extends React.Component {
               { _.map(this.state.dados, (dado, idx) =>
                 <div  key={idx}>
                   <Row className={`body-modulo color-modulo${idx%2+1}`}>
-                    <Col md={11}>
+                    <Col md={7}>
                       <Button bsStyle="link" className={`title-modulo`} onClick={() => this.visualizarDetalhes(idx)}>{dado.title}</Button>
+                    </Col>
+                    <Col md={2}>
+                      <Authorize viewFor={PROFILE_STUDENT}><span className={'label label-success'}>{dado.watched_videos ? "Ok" : ""}</span></Authorize>
+                    </Col>
+                    <Col md={2}>
+                      <Authorize viewFor={PROFILE_STUDENT}><span className={'label label-warning'}>{dado.answered_questions}</span></Authorize>
                     </Col>
                     <Col md={1}>
                       <Authorize viewFor={PROFILE_INSTRUCTOR}><Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link></Authorize>

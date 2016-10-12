@@ -47,13 +47,11 @@ class Api::V1::VideosController < ApplicationController
         video_id: @video.id,
         user_id: @current_user.id,
         position: params["position"],
-        duration: params["duration"],
         watched: params["watched"])
       return respond_with(@position, :location => api_v1_course_modulo_video_path(@course, @modulo, @video))
     else
       @position.update(
         position: params["position"],
-        duration: params["duration"],
         watched: (params["watched"] || @position.watched))
       return respond_with(@position, :location => api_v1_course_modulo_video_path(@course, @modulo, @video))
     end

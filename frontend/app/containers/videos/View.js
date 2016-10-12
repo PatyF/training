@@ -74,8 +74,10 @@ class View extends React.Component {
           state["watched"] = true
           data["watched"] = true
         }
-        var videoId = _.filter(this.props.videos, 'assistir')[0].id
-        savePositionVideo(this.props.courseId, this.props.moduloId, videoId, data, (success) => {}, (errors) => {})
+        if (this.props.profile === PROFILE_STUDENT) {
+          var videoId = _.filter(this.props.videos, 'assistir')[0].id
+          savePositionVideo(this.props.courseId, this.props.moduloId, videoId, data, (success) => {}, (errors) => {})
+        }
       }
       this.setState(state)
     }

@@ -4,7 +4,7 @@ class Api::V1::ModulosController < ApplicationController
   before_action :set_modulo, only: [:show, :edit, :update, :destroy]
 
   def index
-    respond_with(@course.modulos)
+    @course.modulos
   end
 
   def show
