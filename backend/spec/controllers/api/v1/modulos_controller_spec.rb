@@ -23,7 +23,7 @@ RSpec.describe Api::V1::ModulosController, type: :api do
     expect(post_json["modulos"][0]["watched_videos"]).to be true
   end
 
-  it "should return false if the student not watched all videos" do
+  it "should return false if the student did not watch all videos" do
     course = FactoryGirl.create(:course, :available => true)
     modulo = FactoryGirl.create(:modulo, :course_id => course.id)
     video_1 = FactoryGirl.create(:video, :modulo_id => modulo.id)
@@ -33,5 +33,19 @@ RSpec.describe Api::V1::ModulosController, type: :api do
 
     post_json = JSON.parse last_response.body
     expect(post_json["modulos"][0]["watched_videos"]).to be false
+  end
+
+  it "should return the number of questions answered" do
+    course = FactoryGirl.create(:course, :available => true)
+    modulo = FactoryGirl.create(:modulo, :course_id => course.id)
+    activity_1 = FactoryGirl.create(:activity, :modulo_id => modulo.id)
+    activity_2 = FactoryGirl.create(:activity, :modulo_id => modulo.id)
+    FactoryGirl.create(:answer, :activity_id => activity_1.id, :user_id => @user.id, :answer_student => 1)
+    FactoryGirl.create(:answer, :activity_id => activity_2.id, :user_id => @user.id, :answer_student => nil)
+    get "api/v1/courses/#{course.id}/modulos.json"
+
+    post_json = JSON.parse last_response.body
+    expect(post_json["modulos"][0]["number_activities"]).to eq 2
+    expect(post_json["modulos"][0]["answered_activities"]).to eq 1
   end
 end
