@@ -35,4 +35,17 @@ class Modulo < ActiveRecord::Base
     end
     count
   end
+
+  def correct_answers current_user
+    count = 0
+    self.activities.find_each do |activity|
+      answer = activity.answers.where(user_id: current_user.id)
+      if answer.length > 0
+        if answer.first.answer_student == 0
+          count+=1
+        end
+      end
+    end
+    count
+  end
 end

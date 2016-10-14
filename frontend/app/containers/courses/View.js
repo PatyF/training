@@ -6,6 +6,7 @@ import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
 import ViewVideos from '../videos/View'
+import Grades from './Grades'
 import { getCourse,
          getModules,
          getVideos,
@@ -31,7 +32,7 @@ class Index extends React.Component {
   componentDidMount() {
     getCourse(this.props.params.courseId, course => {
       this.setState({
-        course: course.course.name,
+        course: course.course,
         carregando: false
       })
     })
@@ -191,7 +192,7 @@ class Index extends React.Component {
             <Loading carregando={this.state.carregando}>
               <Row>
                 <PageHeader className='title-header'>
-                  {this.state.course}
+                  {this.state.course.name}
                   <Authorize viewFor={PROFILE_ADMIN}><Link title="Editar Curso" to={`/courses/register/${this.props.params.courseId}`}><span className="icons glyphicon glyphicon-pencil" aria-hidden="true"></span></Link></Authorize>
                 </PageHeader>
               </Row>
@@ -247,7 +248,14 @@ class Index extends React.Component {
         </Row>
         <Authorize viewFor={PROFILE_STUDENT}>
           { this.state.registry.length != 0
-            ? null
+            ? <Grades
+                number_videos={this.state.course.number_videos}
+                watched_videos={this.state.course.watched_videos}
+                number_activities={this.state.course.number_activities}
+                answered_activities={this.state.course.answered_activities}
+                grade={this.state.course.grade}
+                generate_certificate={this.state.course.generate_certificate}
+              />
             : <Row>
               <Col mdOffset={5} md={2} >
                 <Button className={"button-top"} bsStyle="primary" bsSize="large" onClick={() => this.matricular()}>

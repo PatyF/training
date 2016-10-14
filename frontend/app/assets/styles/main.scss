@@ -342,3 +342,30 @@ h1 {
 .button-top {
   margin-top: 45px;
 }
+
+.box-grades {
+  border-color: #CCC;
+  border-style: solid;
+  border-width: 1px;
+  padding: 6px;
+}
+
+.box-grades-legend {
+  justify-content: center;
+  display: flex;
+  font-size: 12px;
+  color: #AAA;
+}
+
+.box-grades-value {
+  color: #4C4C4C;
+  font-weight: bold;
+  margin-top: 12px;
+  justify-content: center;
+  display: flex;
+  font-size: 34px;
+}
+
+.box-grades-button {
+  padding-top: 13px;
+}
