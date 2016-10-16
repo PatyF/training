@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161016095500) do
+ActiveRecord::Schema.define(version: 20161016115000) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "modulo_id",          limit: 4
@@ -56,6 +56,18 @@ ActiveRecord::Schema.define(version: 20161016095500) do
 
   add_index "categories_courses", ["category_id"], name: "index_categories_courses_on_category_id", using: :btree
   add_index "categories_courses", ["course_id"], name: "index_categories_courses_on_course_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.integer  "course_id",  limit: 4
+    t.integer  "user_id",    limit: 4
+    t.integer  "grade",      limit: 4
+    t.string   "comment",    limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "comments", ["course_id"], name: "index_comments_on_course_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "courses", force: :cascade do |t|
     t.string   "name",          limit: 255

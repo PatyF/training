@@ -369,3 +369,24 @@ h1 {
 .box-grades-button {
   padding-top: 13px;
 }
+
+.grade {
+  font-size: 34px;
+  color: #fae283;
+  margin-top: 5px;
+  &:hover, &:active, &:focus {
+    color: #e9bc07;
+  }
+}
+
+.nota {
+  color: #e9bc07;
+}
+
+.margin-grade {
+  margin-left: 15px;
+}
+
+.margin-top-comment {
+  margin-top: 15px;
+}

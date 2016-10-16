@@ -1,18 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import moment from 'moment'
 import { Panel, Grid, Row, Col, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, PageHeader, Label } from 'react-bootstrap'
 import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
 import ViewVideos from '../videos/View'
 import Grades from './Grades'
+import Comment from './Comment'
 import { getCourse,
          getModules,
          getVideos,
          getActivities,
          getRegistry,
-         saveRegistry } from '../../tools/api'
+         saveRegistry,
+         getComment,
+         saveComment,
+         download } from '../../tools/api'
 import Authorize from '../../components/Authorize'
 import { PROFILE_ADMIN, PROFILE_INSTRUCTOR, PROFILE_STUDENT } from '../../tools/profiles'
 
@@ -25,7 +30,12 @@ class Index extends React.Component {
       carregando: true,
       course: '',
       dados: [],
-      registry: []
+      registry: {},
+      comment: {
+        comment: '',
+        grade: 0,
+        saved: false
+      }
     }
   }
 
@@ -43,25 +53,30 @@ class Index extends React.Component {
         carregando: false
       })
     })
+    this.atualizaDados(this.props)
+  }
 
-    if (this.props.profile === PROFILE_STUDENT) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile) {
+      this.atualizaDados(nextProps)
+    }
+  }
+
+  atualizaDados(props) {
+    if (props.profile === PROFILE_STUDENT) {
       getRegistry(this.props.params.courseId, json => {
         this.setState({
           registry: json
         })
       })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.profile) {
-      if (nextProps.profile === PROFILE_STUDENT) {
-        getRegistry(this.props.params.courseId, json => {
+      getComment(this.props.params.courseId, json => {
+        if (json) {
+          json = {...json, saved: true}
           this.setState({
-            registry: json[0]
+            comment: json
           })
-        })
-      }
+        }
+      })
     }
   }
 
@@ -184,6 +199,31 @@ class Index extends React.Component {
     })
   }
 
+  onGenerateCertified = () => {
+    download(`courses/${this.props.params.courseId}/certified`,`certificado_${this.props.params.courseId}_${this.props.profileId}.pdf`)
+    this.setState({
+        registry: {...this.state.registry,
+                    final_date: moment().format('YYYY-MM-DD')
+                  }
+    })
+  }
+
+  onChangeGrade = (value) => {
+    this.setState({comment: {...this.state.comment, grade: value}})
+  }
+
+  onSaveComment = () => {
+    saveComment(this.props.params.courseId, this.state.comment, (success) => {
+      success = {...success, saved: true}
+      this.setState({
+          comment: success
+      })
+      javascript:scroll(0, 0);
+    }, (errors) => {
+      this.setState({ mensagem: { tipo: 'danger', conteudo: 'Corrija os erros para salvar.' }, erros: errors.errors })
+    })
+  }
+
   render() {
     return(
       <div>
@@ -247,18 +287,30 @@ class Index extends React.Component {
           </Col>
         </Row>
         <Authorize viewFor={PROFILE_STUDENT}>
-          { this.state.registry.length != 0
-            ? <Grades
-                course_id={this.props.params.courseId}
-                profile_id={this.props.profileId}
-                number_videos={this.state.course.number_videos}
-                watched_videos={this.state.course.watched_videos}
-                number_activities={this.state.course.number_activities}
-                answered_activities={this.state.course.answered_activities}
-                grade={this.state.course.grade}
-                generate_certificate={this.state.course.generate_certificate}
-                final_date={this.state.registry.final_date}
-              />
+          { this.state.registry
+            ? <div>
+                <Grades
+                  course_id={this.props.params.courseId}
+                  profile_id={this.props.profileId}
+                  number_videos={this.state.course.number_videos}
+                  watched_videos={this.state.course.watched_videos}
+                  number_activities={this.state.course.number_activities}
+                  answered_activities={this.state.course.answered_activities}
+                  grade={this.state.course.grade}
+                  generate_certificate={this.state.course.generate_certificate}
+                  final_date={this.state.registry.final_date}
+                  onGenerateCertified={this.onGenerateCertified}
+                />
+              { this.state.registry.final_date
+                ? <Comment
+                    comment={this.state.comment}
+                    onChangeComment={(event) => this.setState({comment: {...this.state.comment, comment: event.target.value}})}
+                    onChangeGrade={this.onChangeGrade}
+                    onSaveComment={this.onSaveComment}
+                  />
+                : null
+              }
+              </div>
             : <Row>
               <Col mdOffset={5} md={2} >
                 <Button className={"button-top"} bsStyle="primary" bsSize="large" onClick={() => this.matricular()}>
@@ -267,7 +319,6 @@ class Index extends React.Component {
               </Col>
             </Row>
           }
-
         </Authorize>
       </div>
     )

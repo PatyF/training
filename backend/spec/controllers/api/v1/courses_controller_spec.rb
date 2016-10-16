@@ -14,7 +14,8 @@ RSpec.describe Api::V1::CoursesController, type: :api do
   it "creating a course" do
     post "#{url}", {
       :name => "Tutorial",
-    	:keywords => "keyword"
+    	:keywords => "keyword",
+      :workload => 13
     }
 
 		post_json = JSON.parse last_response.body

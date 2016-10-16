@@ -8,6 +8,7 @@ class InputText extends React.Component {
       {this.props.componentClass
         ? <FormControl
           componentClass="textarea"
+          disabled={this.props.disabled ? true : false}
           type="text"
           placeholder={this.props.label} value={this.props.value}
           onChange={this.props.onChange} />

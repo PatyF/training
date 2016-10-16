@@ -6,6 +6,8 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :categories
   has_many :registries
   has_many :users, through: :registries
+  has_many :comments
+  has_many :users, through: :comments
 
   def number_videos
     count = 0

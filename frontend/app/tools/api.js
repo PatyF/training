@@ -112,6 +112,14 @@ export function saveActivity(idCourse, idModule, idActivity, data, success, erro
   submitUrl(`courses/${idCourse}/modulos/${idModule}/activities`, idActivity, data, success, errors)
 }
 
+export function getComment(idCourse, callback) {
+  fetchUrl(`courses/${idCourse}/comment`, (json) => callback(json))
+}
+
+export function saveComment(idCourse, data, success, errors) {
+  submitUrl(`courses/${idCourse}/comment`, '', data, success, errors)
+}
+
 export function authentication(data, success, errors) {
   var response = null
   fetch('http://192.168.99.100:3000/auth_user', {

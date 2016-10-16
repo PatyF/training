@@ -1,6 +1,6 @@
 class Api::V1::CoursesController < ApplicationController
   before_filter :authenticate_request!
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry, :certified]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry, :certified, :have_comment, :comment]
 
   def index
     if @current_user.profile == User::PROFILE_STUDENT
@@ -41,7 +41,7 @@ class Api::V1::CoursesController < ApplicationController
   end
 
   def have_registry
-    respond_with(@course.registries.where(user_id: @current_user.id))
+    respond_with(@course.registries.where(user_id: @current_user.id).first)
   end
 
   def registry
@@ -58,17 +58,30 @@ class Api::V1::CoursesController < ApplicationController
       name_file = "certified_#{@course.id}_#{@current_user.id}.pdf"
       save_path = File.join Rails.root.join('storage')
       FileUtils.mkdir_p(save_path) unless File.exist?(save_path)
-      # if (!@registry.final_date)
+      if (!@registry.final_date)
         @registry.update(final_date: Date.today.to_time)
         pdf = WickedPdf.new.pdf_from_string(render_to_string("certifieds/show.html.erb", layout: false))
         File.open(File.join(save_path, name_file), 'wb') do |file|
           file.write(pdf)
         end
-      # end
+      end
       File.open(File.join(save_path, name_file), 'r') do |f|
         send_data f.read.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
       end
     end
+  end
+
+  def have_comment
+    @comment = @course.comments.where(user_id: @current_user.id).first
+    respond_with(@comment, :location => api_v1_course_path(@course))
+  end
+
+  def comment
+    @comment = @course.comments.where(user_id: @current_user.id).first
+    if (!@comment)
+      @comment = @course.comments.create(course_id: @course.id, user_id: @current_user.id, grade: params[:grade], comment: params[:comment])
+    end
+    respond_with(@comment, :location => api_v1_course_path(@course))
   end
 
   private

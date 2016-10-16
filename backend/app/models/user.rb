@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   PROFILE_STUDENT = 2
   has_many :registries
   has_many :courses, through: :registries
+  has_many :comments
+  has_many :courses, through: :comments
   has_many :answers
   has_many :activities, through: :answers
   has_many :positions
