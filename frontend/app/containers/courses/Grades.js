@@ -56,7 +56,7 @@ class Grade extends React.Component {
                 { this.props.generate_certificate
                   ? <Row className={'box-grades-value box-grades-button'}>
                       <Button bsStyle="primary" bsSize="small" onClick={this.onGenerateCertified}>
-                        Gerar Certificado
+                        {this.props.final_date ? 'Download Certificado' : 'Finalizar Curso'}
                       </Button>
                     </Row>
                   : null

@@ -58,7 +58,7 @@ class Index extends React.Component {
       if (nextProps.profile === PROFILE_STUDENT) {
         getRegistry(this.props.params.courseId, json => {
           this.setState({
-            registry: json
+            registry: json[0]
           })
         })
       }
@@ -257,6 +257,7 @@ class Index extends React.Component {
                 answered_activities={this.state.course.answered_activities}
                 grade={this.state.course.grade}
                 generate_certificate={this.state.course.generate_certificate}
+                final_date={this.state.registry.final_date}
               />
             : <Row>
               <Col mdOffset={5} md={2} >
