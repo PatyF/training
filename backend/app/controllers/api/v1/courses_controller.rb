@@ -58,13 +58,13 @@ class Api::V1::CoursesController < ApplicationController
       name_file = "certified_#{@course.id}_#{@current_user.id}.pdf"
       save_path = File.join Rails.root.join('storage')
       FileUtils.mkdir_p(save_path) unless File.exist?(save_path)
-      if (!@registry.final_date)
+      # if (!@registry.final_date)
+        @registry.update(final_date: Date.today.to_time)
         pdf = WickedPdf.new.pdf_from_string(render_to_string("certifieds/show.html.erb", layout: false))
         File.open(File.join(save_path, name_file), 'wb') do |file|
           file.write(pdf)
         end
-        @registry.update(final_date: Date.today.to_time)
-      end
+      # end
       File.open(File.join(save_path, name_file), 'r') do |f|
         send_data f.read.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
       end
@@ -77,6 +77,6 @@ class Api::V1::CoursesController < ApplicationController
     end
 
     def course_params
-      params.permit(:name, :keywords, :available, :instructor_id, category_ids: [])
+      params.permit(:name, :keywords, :available, :instructor_id, :workload, category_ids: [])
     end
 end

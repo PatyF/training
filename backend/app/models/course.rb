@@ -1,5 +1,6 @@
 class Course < ActiveRecord::Base
   validates :name, presence: true, length: { minimum:3 }
+  validates :workload, presence: true
   belongs_to :instructor
   has_many :modulos
   has_and_belongs_to_many :categories

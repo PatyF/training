@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <%=wicked_pdf_stylesheet_link_tag "certified.css" -%>
     <%=stylesheet_link_tag "certified.css"%>
   </head>
@@ -38,11 +38,11 @@
   <div/>
   <div >
     <p>Certificamos que</p>
-    <p class="bold">Patricia Furtado Silva</p>
+    <p class="bold"><%= @current_user.name %></p>
     <p>concluiu o curso de</p>
-    <p class="bold">Programação Funcional</p>
-    <p class="small">com carga horária de 12 horas</p>
-    <p class="small">iniciado em 01/09/2016 e finalizado em 15/09/2016</p>
+    <p class="bold"><%= @course.name %></p>
+    <p class="small">com carga horária de <%= @course.workload %> horas</p>
+    <p class="small">iniciado em <%= @registry.initial_date.strftime("%d/%m/%Y") %> e finalizado em <%= @registry.final_date.strftime("%d/%m/%Y") %></p>
   </div>
   <div class="img">
     <%=wicked_pdf_image_tag('logo.png', size: "120x53")%>
