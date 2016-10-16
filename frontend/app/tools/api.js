@@ -164,3 +164,22 @@ export function submitUrl(url, id, data, success, errors) {
     })
     .catch(erro => { console.log(erro) })
 }
+
+export function download(url, fileName) {
+  fetch('http://192.168.99.100:3000/api/v1/' + url, {
+      headers: {'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
+    })
+    .then(res => res.blob())
+    .then(blob => {
+      var windowUrl = window.URL || window.webkitURL
+      var binaryData = []
+      binaryData.push(blob)
+      var urlDownload = windowUrl.createObjectURL(new Blob(binaryData))
+      var anchor = document.createElement('a')
+      anchor.href = urlDownload
+      anchor.download = fileName
+      anchor.click()
+      windowUrl.revokeObjectURL(urlDownload)
+    })
+    .catch(erro => { console.log(erro) })
+}

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
       get 'courses/:id/registry' => 'courses#have_registry'
       post 'courses/:id/registry' => 'courses#registry'
+      get 'courses/:id/certified' => 'courses#certified'
 
       get 'courses/:course_id/modulos/:modulo_id/activities/:id/question_student' => 'activities#question_from_student'
       post 'courses/:course_id/modulos/:modulo_id/activities/:id/answer_student' => 'activities#answer_from_student'
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
 
     end
   end
+  # get 'certifieds' => 'certifieds#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

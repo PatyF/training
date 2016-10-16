@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label } from 'react-bootstrap'
 import { Link } from 'react-router'
 import Loading from '../../components/Loading'
-import { getCourses } from '../../tools/api'
+import { getCourses, download } from '../../tools/api'
 
 
 class Grade extends React.Component {
@@ -20,6 +20,10 @@ class Grade extends React.Component {
         carregando: false
       })
     })
+  }
+
+  onGenerateCertified = () => {
+    download(`courses/${this.props.course_id}/certified`,`certificado_${this.props.course_id}_${this.props.profile_id}.pdf`)
   }
 
   render() {
@@ -51,7 +55,7 @@ class Grade extends React.Component {
               <Col md={2}>
                 { this.props.generate_certificate
                   ? <Row className={'box-grades-value box-grades-button'}>
-                      <Button bsStyle="primary" bsSize="small" onClick={() => this.matricular()}>
+                      <Button bsStyle="primary" bsSize="small" onClick={this.onGenerateCertified}>
                         Gerar Certificado
                       </Button>
                     </Row>

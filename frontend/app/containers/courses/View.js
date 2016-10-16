@@ -249,6 +249,8 @@ class Index extends React.Component {
         <Authorize viewFor={PROFILE_STUDENT}>
           { this.state.registry.length != 0
             ? <Grades
+                course_id={this.props.params.courseId}
+                profile_id={this.props.profileId}
                 number_videos={this.state.course.number_videos}
                 watched_videos={this.state.course.watched_videos}
                 number_activities={this.state.course.number_activities}
@@ -273,7 +275,8 @@ class Index extends React.Component {
 }
 
 let mapStateToProps = state => ({
-  profile: state.auth.profile.profile
+  profile: state.auth.profile.profile,
+  profileId: state.auth.profile.id
 })
 
 export default connect(mapStateToProps)(Index)
