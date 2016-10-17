@@ -68,10 +68,7 @@ class Course < ActiveRecord::Base
       sum+= comment.grade
       count+= 1
     end
-    if count == 0
-      return 0
-    else
-      return sum/count
-    end
+    return 0 if count == 0
+    return sum/count
   end
 end
