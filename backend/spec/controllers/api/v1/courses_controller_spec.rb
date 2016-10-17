@@ -2,7 +2,6 @@ require 'rails_helper'
 require './app/controllers/api/v1/courses_controller'
 
 RSpec.describe Api::V1::CoursesController, type: :api do
-  let(:url) { "api/v1/courses.json" }
 
   before do
     @user = User.create({:email => "paty@knap.com", :name => "Patricia", :birthday => "1989-09-22", :profile => User::PROFILE_STUDENT, :password => "password", :password_confirmation => "password"})
@@ -12,7 +11,7 @@ RSpec.describe Api::V1::CoursesController, type: :api do
   end
 
   it "creating a course" do
-    post "#{url}", {
+    post "api/v1/courses.json", {
       :name => "Tutorial",
     	:keywords => "keyword",
       :workload => 13
@@ -26,10 +25,21 @@ RSpec.describe Api::V1::CoursesController, type: :api do
   it "should get only available courses for a student" do
     FactoryGirl.create(:course, :available => true)
     FactoryGirl.create(:course, :available => false)
-    get "#{url}"
+    get "api/v1/courses.json"
 
     post_json = JSON.parse last_response.body
-    expect(post_json.length).to eq 1
+    expect(post_json["courses"].length).to eq 1
+  end
+
+  it "should return the average of grades" do
+    course = FactoryGirl.create(:course, :available => true)
+    FactoryGirl.create(:comment, :course_id => course.id, :user_id => @user.id, :grade => 3)
+    FactoryGirl.create(:comment, :course_id => course.id, :user_id => @user.id, :grade => 5)
+
+    get "api/v1/courses.json"
+
+    post_json = JSON.parse last_response.body
+    expect(post_json["courses"][0]["average_grades"]).to eq 4
   end
 
   it "should get only instructor's courses" do
@@ -40,11 +50,12 @@ RSpec.describe Api::V1::CoursesController, type: :api do
 
     instructor = FactoryGirl.create(:user, :profile => User::PROFILE_INSTRUCTOR)
     FactoryGirl.create(:course, :available => true, :instructor_id => user[:id])
+    FactoryGirl.create(:course, :available => true, :instructor_id => user[:id])
     FactoryGirl.create(:course, :available => false, :instructor_id => instructor[:id])
-    get "#{url}"
+    get "api/v1/courses.json"
 
     post_json = JSON.parse last_response.body
-    expect(post_json.length).to eq 1
+    expect(post_json["courses"].length).to eq 2
   end
 
   it "should return the number of questions answered" do

@@ -82,15 +82,20 @@ h1 {
 }
 
 .box-text {
-  padding-top: 50px;
+  padding-top: 5px;
   align-items: left;
-  font-size: larger;
+  font-size: 20px;
 }
 
 .box-keywords {
   font-size: small;
-  padding-top: 70px;
   color: #999;
+}
+
+.box-average {
+  font-size: 20px;
+  color: #e9bc07;
+  text-align: right;
 }
 
 .box {
@@ -379,6 +384,9 @@ h1 {
   }
 }
 
+.height-nota {
+  height: 20px;
+}
 .nota {
   color: #e9bc07;
 }

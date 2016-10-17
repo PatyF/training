@@ -19,7 +19,7 @@ class Index extends React.Component {
   componentDidMount() {
     getCourses(json => {
       this.setState({
-        dados: _.sortBy(json, 'name'),
+        dados: _.sortBy(json.courses, 'name'),
         carregando: false
       })
     })
@@ -34,6 +34,7 @@ class Index extends React.Component {
                 <Col key={idx} md={3} className={'box'}>
                   <Link to={`/courses/view/${course.id}`}>
                     <Panel className={`box-height box-color${idx%2+1}`}>
+                      <div className={'box-average'}>{course.average_grades == 0 ? <div className={'height-nota'}/> : <div className={'height-nota'}>{Array(course.average_grades).fill().map((e,i)=><span key={i} className={'nota nota-index glyphicon glyphicon-star'}/>)}</div>}</div>
                       <div className={'box-text'}>{course.name}</div>
                       <div className={'box-keywords'}>{course.keywords}</div>
                     </Panel>
@@ -44,6 +45,7 @@ class Index extends React.Component {
               <Col md={3} className={'box'}>
                 <Link to={'/courses/register'}>
                   <Panel className={'box-height box-color0'}>
+                    <div className={'height-nota'}/>
                     <div className={'box-text'}>Adicionar Curso</div>
                   </Panel>
                 </Link>

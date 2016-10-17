@@ -4,13 +4,13 @@ class Api::V1::CoursesController < ApplicationController
 
   def index
     if @current_user.profile == User::PROFILE_STUDENT
-      courses = Course.where(available: true)
+      @index_courses = Course.where(available: true)
     elsif @current_user.profile == User::PROFILE_INSTRUCTOR
-      courses = Course.where(instructor_id: @current_user.id)
+      @index_courses = Course.where(instructor_id: @current_user.id)
     else
-      courses = Course.all
+      @index_courses = Course.all
     end
-    respond_with(courses)
+    @index_courses
   end
 
   def show

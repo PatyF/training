@@ -60,4 +60,18 @@ class Course < ActiveRecord::Base
     return false if self.grade(current_user) < 70
     true
   end
+
+  def average_grades
+    sum = 0
+    count = 0
+    self.comments.find_each do |comment|
+      sum+= comment.grade
+      count+= 1
+    end
+    if count == 0
+      return 0
+    else
+      return sum/count
+    end
+  end
 end
