@@ -375,6 +375,22 @@ h1 {
   padding-top: 13px;
 }
 
+.box-comment {
+  min-height: 80px;
+}
+
+.comment-name {
+  text-align: right;
+}
+
+.comment-dialog {
+    border-left-color: #DDD;
+    border-left-style: solid;
+    border-left-width: 3px;
+    min-height: 60px;
+    font-style: italic;
+}
+
 .grade {
   font-size: 34px;
   color: #fae283;

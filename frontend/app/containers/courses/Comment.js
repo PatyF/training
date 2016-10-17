@@ -24,7 +24,7 @@ class Comment extends React.Component {
               </Row>
             </Col>
             <Col md={6}>
-              <InputText disabled={this.props.comment.saved ? true : false} componentClass="textarea" label={"Seu comentário"} value={this.props.comment.comment} onChange={this.props.onChangeComment} />
+              <InputText disabled={this.props.comment.saved ? true : false} componentClass="textarea" label={"Seu depoimento"} value={this.props.comment.comment} onChange={this.props.onChangeComment} />
             </Col>
             <Col md={2}>
               { !this.props.comment.saved

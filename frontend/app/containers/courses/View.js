@@ -16,6 +16,7 @@ import { getCourse,
          getRegistry,
          saveRegistry,
          getComment,
+         getComments,
          saveComment,
          download } from '../../tools/api'
 import Authorize from '../../components/Authorize'
@@ -42,8 +43,7 @@ class Index extends React.Component {
   componentDidMount() {
     getCourse(this.props.params.courseId, course => {
       this.setState({
-        course: course.course,
-        carregando: false
+        course: course.course
       })
     })
 
@@ -51,6 +51,12 @@ class Index extends React.Component {
       this.setState({
         dados: json.modulos,
         carregando: false
+      })
+    })
+
+    getComments(this.props.params.courseId, json => {
+      this.setState({
+        all_comments: json.comments
       })
     })
     this.atualizaDados(this.props)
@@ -320,6 +326,31 @@ class Index extends React.Component {
             </Row>
           }
         </Authorize>
+        {_.map(this.state.all_comments, (comment, idx) => {
+          return (this.props.profile == PROFILE_STUDENT && this.props.profileId == comment.user_id)
+            ? null
+            : <Row  key={idx}>
+              <Col md={10} mdOffset={1} className={'box-grades margin-top-comment box-comment'}>
+                <Row>
+                  <Col md={2} className={'comment-name'}>
+                    <Row>
+                      <Col md={12}>
+                        {comment.user_name}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md={12}>
+                        <div className={'height-nota'}>{Array(comment.grade).fill().map((e,i)=><span key={i} className={'nota nota-index glyphicon glyphicon-star'}/>)}</div>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col md={10} className={'comment-dialog'}>
+                    {`\"${comment.comment}\"`}
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+        })}
       </div>
     )
   }

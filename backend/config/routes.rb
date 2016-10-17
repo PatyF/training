@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       get 'courses/:id/certified' => 'courses#certified'
       get 'courses/:id/comment' => 'courses#have_comment'
       post 'courses/:id/comment' => 'courses#comment'
+      get 'courses/:id/comments' => 'courses#comments'
 
       get 'courses/:course_id/modulos/:modulo_id/activities/:id/question_student' => 'activities#question_from_student'
       post 'courses/:course_id/modulos/:modulo_id/activities/:id/answer_student' => 'activities#answer_from_student'

@@ -1,6 +1,6 @@
 class Api::V1::CoursesController < ApplicationController
   before_filter :authenticate_request!
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry, :certified, :have_comment, :comment]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry, :certified, :have_comment, :comment, :comments]
 
   def index
     if @current_user.profile == User::PROFILE_STUDENT
@@ -82,6 +82,11 @@ class Api::V1::CoursesController < ApplicationController
       @comment = @course.comments.create(course_id: @course.id, user_id: @current_user.id, grade: params[:grade], comment: params[:comment])
     end
     respond_with(@comment, :location => api_v1_course_path(@course))
+  end
+
+  def comments
+    @comments = @course.comments
+    @comments
   end
 
   private
