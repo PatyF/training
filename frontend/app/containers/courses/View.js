@@ -326,6 +326,28 @@ class Index extends React.Component {
             </Row>
           }
         </Authorize>
+        <Authorize viewFor={PROFILE_ADMIN}>
+          <Row>
+            <Col mdOffset={5} md={2} >
+              <Link to={`/courses/${this.props.params.courseId}/students`}>
+                <Button className={"button-top"} bsStyle="primary" bsSize="large">
+                  Visualizar Aproveitamento
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </Authorize>
+        <Authorize viewFor={PROFILE_INSTRUCTOR}>
+          <Row>
+            <Col mdOffset={5} md={2} >
+              <Link to={`/courses/${this.props.params.courseId}/students`}>
+                <Button className={"button-top"} bsStyle="primary" bsSize="large">
+                  Visualizar Aproveitamento
+                </Button>
+              </Link>
+            </Col>
+          </Row>
+        </Authorize>
         {_.map(this.state.all_comments, (comment, idx) => {
           return (this.props.profile == PROFILE_STUDENT && this.props.profileId == comment.user_id)
             ? null

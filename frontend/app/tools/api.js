@@ -124,6 +124,10 @@ export function getComments(idCourse, callback) {
   fetchUrl(`courses/${idCourse}/comments`, (json) => callback(json))
 }
 
+export function getCourseStudents(idCourse, callback) {
+  fetchUrl(`courses/${idCourse}/students`, (json) => callback(json))
+}
+
 export function authentication(data, success, errors) {
   var response = null
   fetch('http://192.168.99.100:3000/auth_user', {

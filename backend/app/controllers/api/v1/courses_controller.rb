@@ -1,6 +1,6 @@
 class Api::V1::CoursesController < ApplicationController
   before_filter :authenticate_request!
-  before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry, :certified, :have_comment, :comment, :comments]
+  before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry, :certified, :have_comment, :comment, :comments, :students]
 
   def index
     if @current_user.profile == User::PROFILE_STUDENT
@@ -87,6 +87,11 @@ class Api::V1::CoursesController < ApplicationController
   def comments
     @comments = @course.comments
     @comments
+  end
+
+  def students
+    @registries = @course.registries
+    @registries
   end
 
   private
