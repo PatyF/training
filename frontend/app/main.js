@@ -16,6 +16,7 @@ import VideosEdit from './containers/videos/Edit'
 import ActivitiesEdit from './containers/activities/Edit'
 import ActivitiesQuestion from './containers/activities/Question'
 import StudentsIndex from './containers/students/Index'
+import StudentGrades from './containers/students/Grades'
 import StudentsEdit from './containers/students/Edit'
 import InstructorsIndex from './containers/instructors/Index'
 import InstructorsEdit from './containers/instructors/Edit'
@@ -50,6 +51,7 @@ render(
           <Route path="students">
             <IndexRoute component={StudentsIndex} />
             <Route path="register(/:studentId)" component={StudentsEdit} />
+            <Route path=":studentId/grades" component={StudentGrades} />
           </Route>
           <Route path="instructors">
             <IndexRoute component={InstructorsIndex} />

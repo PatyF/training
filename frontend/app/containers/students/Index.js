@@ -46,11 +46,14 @@ class Index extends React.Component {
           { _.map(this.state.dados, (dado, idx) =>
             <div  key={idx}>
               <Row className={`body-modulo color-modulo${idx%2+1}`}>
-                <Col md={6}>
+                <Col md={5}>
                   {dado.name}
                 </Col>
                 <Col md={5}>
                   {dado.email}
+                </Col>
+                <Col md={1}>
+                  <Link title="Aproveitamento Aluno" to={`/students/${dado.id}/grades`}><span className="icons sub-icon glyphicon glyphicon-dashboard"></span></Link>
                 </Col>
                 <Col md={1}>
                   <Link title="Editar Aluno" to={`/students/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link>

@@ -1,6 +1,6 @@
 class Api::V1::StudentsController < ApplicationController
   before_filter :authenticate_request!
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :grades]
 
   def index
     @students = User.where(profile: User::PROFILE_STUDENT)
@@ -34,6 +34,10 @@ class Api::V1::StudentsController < ApplicationController
   def destroy
     @user.destroy
     respond_with(true)
+  end
+
+  def grades
+    @registries = @user.registries
   end
 
   private
