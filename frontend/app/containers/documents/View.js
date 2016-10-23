@@ -18,7 +18,7 @@ class View extends React.Component {
       <div>
         <Col md={12}>
           <div className='video-title'>
-            Documentos Auxiliares
+            { this.props.documents && this.props.documents.length > 0 ? 'Documentos Auxiliares' : null }
           </div>
         </Col>
       { _.map(this.props.documents, (document, key) =>
