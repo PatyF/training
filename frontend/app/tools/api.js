@@ -206,14 +206,12 @@ export function saveDocument(courseId, moduleId, files, successCallback, errorCa
       headers: {'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
       body: data
     })
-    .then((successCallback, errorCallback, json = true) => (res) => {
-      let data = json ? res.json() : res.text()
-      return data.then(response => {
+    .then((res) => {
+      return res.json().then(response => {
         if (res.status < 400) {
           if (successCallback) successCallback(response)
         } else {
-          if (errorCallback) errorCallback(response.error == undefined ? response : (response.error.message == undefined ? response.error : response.error.message))
-          if (res.status == 401) window.location = '/noauth'
+          if (errorCallback) errorCallback(response)
         }
         return response
       })

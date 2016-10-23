@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       post 'courses/:course_id/modulos/:modulo_id/activities/:id/answer_student' => 'activities#answer_from_student'
       get 'courses/:course_id/modulos/:modulo_id/videos/:id/position_video' => 'videos#get_position_video'
       post 'courses/:course_id/modulos/:modulo_id/videos/:id/position_video' => 'videos#position_video'
+      get 'courses/:course_id/modulos/:modulo_id/documents/:id/download' => 'documents#download'
 
     end
   end
