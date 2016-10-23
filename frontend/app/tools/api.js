@@ -218,8 +218,12 @@ function deleteUrl(url, id, successCallback, errorCallback) {
 
 export function saveDocument(courseId, moduleId, files, successCallback, errorCallback) {
   var data = new FormData()
-  data.append('file', files[0])
-  data.append('fileName', files[0].name)
+  if (files) {
+    data.append('file', files[0])
+    data.append('fileName', files[0].name)
+  } else {
+    data.append('fileName', '')
+  }
   var url = `courses/${courseId}/modulos/${moduleId}/documents`
 
   let response = null

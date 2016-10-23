@@ -94,11 +94,8 @@ class Edit extends React.Component {
               <InputText disabled={true} erros={this.state.erros.name} label={"Arquivo"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
             </Col>
             <Col md={5}>
-              <Button className="adicionar-documento">
-                <input
-                  type="file"
-                  onChange={this.handleChange} />
-              </Button>
+              <Button bsStyle="primary" className="adicionar-documento-button">Escolher arquivo</Button>
+              <input className="adicionar-documento" type="file" onChange={this.handleChange} />
             </Col>
           </Row>
           <Row>
