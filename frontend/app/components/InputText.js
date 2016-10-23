@@ -14,6 +14,7 @@ class InputText extends React.Component {
           onChange={this.props.onChange} />
         : <FormControl
           type="text"
+          disabled={this.props.disabled ? true : false}
           placeholder={this.props.label} value={this.props.value}
           onChange={this.props.onChange} />
       }

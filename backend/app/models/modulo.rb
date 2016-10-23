@@ -3,6 +3,7 @@ class Modulo < ActiveRecord::Base
   belongs_to :course
   has_many :videos
   has_many :activities
+  has_many :documents
 
   def number_videos
     self.videos.length

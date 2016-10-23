@@ -68,6 +68,14 @@ export function getVideo(idCourse, idModule, idVideo, callback) {
   fetchUrl(`courses/${idCourse}/modulos/${idModule}/videos/${idVideo}`, (json) => callback(json))
 }
 
+export function getDocuments(idCourse, idModule, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/documents`, (json) => callback(json))
+}
+
+export function getDocument(idCourse, idModule, idDocument, callback) {
+  fetchUrl(`courses/${idCourse}/modulos/${idModule}/documents/${idDocument}`, (json) => callback(json))
+}
+
 export function savePositionVideo(idCourse, idModule, idVideo, data, success, errors) {
   submitUrl(`courses/${idCourse}/modulos/${idModule}/videos/${idVideo}/position_video`, '' , data, success, errors)
 }
@@ -181,6 +189,34 @@ export function submitUrl(url, id, data, success, errors) {
       if (response.status < 400) success(json)
       else errors(json)
 
+    })
+    .catch(erro => { console.log(erro) })
+}
+
+export function saveDocument(courseId, moduleId, files, successCallback, errorCallback) {
+  var data = new FormData()
+  data.append('file', files[0])
+  data.append('fileName', files[0].name)
+  var url = `courses/${courseId}/modulos/${moduleId}/documents`
+
+  let response = null
+  data.append('_method', 'POST')
+  fetch('http://192.168.99.100:3000/api/v1/' + url, {
+      method: 'POST',
+      headers: {'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
+      body: data
+    })
+    .then((successCallback, errorCallback, json = true) => (res) => {
+      let data = json ? res.json() : res.text()
+      return data.then(response => {
+        if (res.status < 400) {
+          if (successCallback) successCallback(response)
+        } else {
+          if (errorCallback) errorCallback(response.error == undefined ? response : (response.error.message == undefined ? response.error : response.error.message))
+          if (res.status == 401) window.location = '/noauth'
+        }
+        return response
+      })
     })
     .catch(erro => { console.log(erro) })
 }

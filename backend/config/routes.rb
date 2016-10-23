@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         resources :modulos do
           resources :videos
           resources :activities
+          resources :documents
         end
       end
 

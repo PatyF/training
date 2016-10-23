@@ -7,11 +7,13 @@ import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
 import ViewVideos from '../videos/View'
+import ViewDocuments from '../documents/View'
 import Grades from './Grades'
 import Comment from './Comment'
 import { getCourse,
          getModules,
          getVideos,
+         getDocuments,
          getActivities,
          getRegistry,
          saveRegistry,
@@ -107,6 +109,15 @@ class Index extends React.Component {
          ...modulos.slice(index + 1)]
          this.setState({ dados: modulos })
        })
+
+       getDocuments(this.state.dados[index].course_id, this.state.dados[index].id, (documents) => {
+         modulos = [ ...modulos.slice(0,index),
+           {...modulos[index],
+             documents: documents.documents
+           },
+           ...modulos.slice(index + 1)]
+           this.setState({ dados: modulos })
+         })
     })
   }
 
@@ -141,7 +152,7 @@ class Index extends React.Component {
       <Col md={12} className='modulo-description'>
         {modulo.description}
       </Col>
-      { this.state.registry.length != 0 || this.props.profile !== PROFILE_STUDENT
+      { this.state.registry || this.props.profile !== PROFILE_STUDENT
       ? <div>
           <ViewVideos
             videos={modulo.videos}
@@ -187,6 +198,12 @@ class Index extends React.Component {
               </Col>
             </Row>
           </Authorize>
+          <ViewDocuments
+            documents={modulo.documents}
+            courseId={this.props.params.courseId}
+            moduloId={modulo.id}
+            indexModulo={indexModulo}
+            />
       </div>
       : null
       }

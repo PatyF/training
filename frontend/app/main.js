@@ -15,6 +15,7 @@ import ModulesEdit from './containers/modules/Edit'
 import VideosEdit from './containers/videos/Edit'
 import ActivitiesEdit from './containers/activities/Edit'
 import ActivitiesQuestion from './containers/activities/Question'
+import DocumentsEdit from './containers/documents/Edit'
 import StudentsIndex from './containers/students/Index'
 import StudentGrades from './containers/students/Grades'
 import StudentsEdit from './containers/students/Edit'
@@ -47,6 +48,7 @@ render(
             <Route path=":courseId/modules/:moduleId/videos/register(/:videoId)" component={VideosEdit} />
             <Route path=":courseId/modules/:moduleId/activities/register(/:activityId)" component={ActivitiesEdit} />
             <Route path=":courseId/modules/:moduleId/activities/:activityId/question" component={ActivitiesQuestion} />
+            <Route path=":courseId/modules/:moduleId/documents/register(/:documentId)" component={DocumentsEdit} />
           </Route>
           <Route path="students">
             <IndexRoute component={StudentsIndex} />
