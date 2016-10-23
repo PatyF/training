@@ -6,8 +6,13 @@ import ReactPlayer from 'react-player'
 import Authorize from '../../components/Authorize'
 import { PROFILE_ADMIN, PROFILE_INSTRUCTOR, PROFILE_STUDENT } from '../../tools/profiles'
 import _ from 'lodash'
-
+import { download } from '../../tools/api'
 class View extends React.Component {
+
+  downloadDocument = (id, name) => {
+    download(`courses/${this.props.courseId}/modulos/${this.props.moduloId}/documents/${id}/download`, name)
+  }
+
   render() {
     return (
       <div>
@@ -22,11 +27,13 @@ class View extends React.Component {
               <Row>
                 <Col md={12}>
                   <div className='video-description'>
-                    {document.name}
+                    <Button bsStyle="link" bsSize="small" onClick={() => this.downloadDocument(document.id, document.name)}>
+                      {document.name}
+                    </Button>
                     <Authorize viewFor={PROFILE_INSTRUCTOR}>
-                      <Link title="Excluir Documento" to={`/courses/${this.props.courseId}/modules/${this.props.moduloId}/documents/register/${document.id}`}>
+                      <Button bsStyle="link" bsSize="small" onClick={() => this.props.onDeleteDocumento(this.props.indexModulo, this.props.moduloId, document.id)}>
                         <span className="video-icon icons glyphicon glyphicon-trash" aria-hidden="true"/>
-                      </Link>
+                      </Button>
                     </Authorize>
                   </div>
                 </Col>

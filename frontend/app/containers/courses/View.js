@@ -20,7 +20,8 @@ import { getCourse,
          getComment,
          getComments,
          saveComment,
-         download } from '../../tools/api'
+         download,
+         deleteDocument } from '../../tools/api'
 import Authorize from '../../components/Authorize'
 import { PROFILE_ADMIN, PROFILE_INSTRUCTOR, PROFILE_STUDENT } from '../../tools/profiles'
 
@@ -137,6 +138,24 @@ class Index extends React.Component {
                             ...this.state.dados.slice(indexModulo + 1)]})
   }
 
+  deleteDoc = (indexModulo, moduloId, id) => {
+    if (confirm(`Confirma a exclusão do documento?`)) {
+      deleteDocument(this.props.params.courseId, moduloId, id, (success) => {
+        getDocuments(this.state.dados[indexModulo].course_id, this.state.dados[indexModulo].id, (documents) => {
+          var modulos = this.state.dados
+          modulos = [ ...modulos.slice(0,indexModulo),
+            {...modulos[indexModulo],
+              documents: documents.documents
+            },
+            ...modulos.slice(indexModulo + 1)]
+            this.setState({ dados: modulos })
+          })
+      }, (errors) => {
+        this.setState({ mensagem: { tipo: 'danger', conteudo: 'Não foi possível excluir' }, erros: errors.errors })
+      })
+    }
+  }
+
   linkDescricao(activity) {
     if ("correct_answer" in activity) {
       if (activity.correct_answer)
@@ -203,6 +222,7 @@ class Index extends React.Component {
             courseId={this.props.params.courseId}
             moduloId={modulo.id}
             indexModulo={indexModulo}
+            onDeleteDocumento={this.deleteDoc}
             />
       </div>
       : null

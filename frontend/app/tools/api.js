@@ -76,6 +76,10 @@ export function getDocument(idCourse, idModule, idDocument, callback) {
   fetchUrl(`courses/${idCourse}/modulos/${idModule}/documents/${idDocument}`, (json) => callback(json))
 }
 
+export function deleteDocument(idCourse, idModule, idDocument, success, errors) {
+  deleteUrl(`courses/${idCourse}/modulos/${idModule}/documents/`,idDocument, success, errors)
+}
+
 export function savePositionVideo(idCourse, idModule, idVideo, data, success, errors) {
   submitUrl(`courses/${idCourse}/modulos/${idModule}/videos/${idVideo}/position_video`, '' , data, success, errors)
 }
@@ -191,6 +195,25 @@ export function submitUrl(url, id, data, success, errors) {
 
     })
     .catch(erro => { console.log(erro) })
+}
+
+function deleteUrl(url, id, successCallback, errorCallback) {
+  let response = null
+  fetch('http://192.168.99.100:3000/api/v1/' + url + id, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
+    })
+    .then((res) => {
+      if (res.status < 400) {
+        if (successCallback) successCallback(response)
+      } else {
+        if (errorCallback) errorCallback(response)
+      }
+    })
+    .catch(erro => { console.log(erro) })
+
 }
 
 export function saveDocument(courseId, moduleId, files, successCallback, errorCallback) {

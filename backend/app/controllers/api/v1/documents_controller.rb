@@ -2,7 +2,7 @@ class Api::V1::DocumentsController < ApplicationController
   before_filter :authenticate_request!
   before_action :set_course
   before_action :set_modulo
-  before_action :set_document, only: [:show, :edit, :update, :destroy]
+  before_action :set_document, only: [:show, :edit, :update, :destroy, :download]
 
   def index
     @modulo.documents
@@ -31,8 +31,16 @@ class Api::V1::DocumentsController < ApplicationController
   end
 
   def destroy
-    @modulo.destroy
+    @document.destroy
     respond_with()
+  end
+
+  def download
+    name_file = @document.name
+    save_path = File.join Rails.root.join('storage/documents')
+    File.open(File.join(save_path, "#{@document.id}"), 'r') do |f|
+      send_data f.read.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
+    end
   end
 
   private
