@@ -24,4 +24,10 @@ class UserMailer < ApplicationMailer
     @user = user
     mail(to: user.email, subject: "[Knap] Login alterado")
   end
+
+  def new_course(course, user)
+    @course = course
+    @user = user
+    mail(to: @user.email, subject: "[Knap] Novo curso disponível")
+  end
 end

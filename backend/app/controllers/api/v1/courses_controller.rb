@@ -27,11 +27,22 @@ class Api::V1::CoursesController < ApplicationController
   end
 
   def update
+    was_available = @course.available
     @course.update(course_params)
     if @course.valid?
+      if was_available == false && @course.available == true
+        send_new_course
+      end
       respond_with(@course, :location => api_v1_course_path(@course))
     else
       respond_with(@course)
+    end
+  end
+
+  def send_new_course
+    @users = User.where(profile: User::PROFILE_STUDENT)
+    @users.find_each do |student|
+      UserMailer.new_course(@course, student).deliver_now
     end
   end
 
