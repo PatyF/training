@@ -1,10 +1,10 @@
 import React from 'react'
 import _ from 'lodash'
-import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label } from 'react-bootstrap'
+import { Panel, Grid, Row, Col, Table, ButtonToolbar, Button, PageHeader, Label, Form, FormGroup, FormControl, ControlLabel} from 'react-bootstrap'
 import { Link } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Loading from '../../components/Loading'
-import { getCourses } from '../../tools/api'
+import { getCourses, getCategories } from '../../tools/api'
 import Authorize from '../../components/Authorize'
 import { PROFILE_ADMIN, PROFILE_INSTRUCTOR, PROFILE_STUDENT } from '../../tools/profiles'
 
@@ -13,24 +13,56 @@ class Index extends React.Component {
 
   constructor() {
     super();
-    this.state = { carregando: true, dados: [] }
+    this.state = { carregando: true,
+      dados_filtrados: [],
+      dados: [],
+      categorias: [],
+      categoria_id: ''
+    }
   }
 
   componentDidMount() {
     getCourses(json => {
       this.setState({
+        dados_filtrados: _.sortBy(json.courses, 'name'),
         dados: _.sortBy(json.courses, 'name'),
         carregando: false
       })
     })
+    getCategories(json => {
+      this.setState({
+        categorias:json
+      })
+    })
+  }
+
+  onChangeCategoria = (event) => {
+    var dados_filtrados = this.state.dados
+    if (parseInt(event.target.value, 10) >= 0) {
+      dados_filtrados = _.filter(this.state.dados, (course) => {
+        return course.categories.indexOf(parseInt(event.target.value, 10)) >= 0
+      })
+    }
+    this.setState({categoria_id: event.target.value, dados_filtrados: dados_filtrados})
   }
 
   render() {
     return(
       <div>
         <Loading carregando={this.state.carregando}>
+          <Form inline className="filtrar-categoria">
+            <FormGroup>
+              <ControlLabel className="filtrar-categoria-label" >Filtrar por Categoria: </ControlLabel>
+              <FormControl className="filtrar-categoria-select" componentClass="select" placeholder="Categorias" value={this.state.categoria_id || ''} onChange={this.onChangeCategoria}>
+                <option value="">Categoria...</option>
+                {_.map(this.state.categorias, (categoria, key) =>
+                  <option key={key} value={categoria.id}>{categoria.name}</option>
+                )}
+              </FormControl>
+            </FormGroup>
+          </Form>
           <Row >
-            {_.map(this.state.dados, (course, idx) =>
+            {_.map(this.state.dados_filtrados, (course, idx) =>
                 <Col key={idx} md={3} className={'box'}>
                   <Link to={`/courses/view/${course.id}`}>
                     <Panel className={`box-height box-color${idx%2+1}`}>

@@ -6,4 +6,5 @@ json.courses @index_courses do |course|
   json.workload course.workload
   json.available course.available
   json.average_grades course.average_grades
+  json.categories course.categories.map {|category| category.id}
 end
