@@ -7,7 +7,7 @@ import Loading from '../../components/Loading'
 import { getCourses, getCategories } from '../../tools/api'
 import Authorize from '../../components/Authorize'
 import { PROFILE_ADMIN, PROFILE_INSTRUCTOR, PROFILE_STUDENT } from '../../tools/profiles'
-
+import InputText from '../../components/InputText'
 
 class Index extends React.Component {
 
@@ -17,7 +17,8 @@ class Index extends React.Component {
       dados_filtrados: [],
       dados: [],
       categorias: [],
-      categoria_id: ''
+      categoria_id: '',
+      palavra: '',
     }
   }
 
@@ -37,13 +38,26 @@ class Index extends React.Component {
   }
 
   onChangeCategoria = (event) => {
+    this.setFilter(event.target.value, this.state.palavra)
+  }
+
+  onChangePalavra = (event) => {
+    this.setFilter(this.state.categoria_id, event.target.value)
+  }
+
+  setFilter(categoria_id, palavra ) {
     var dados_filtrados = this.state.dados
-    if (parseInt(event.target.value, 10) >= 0) {
-      dados_filtrados = _.filter(this.state.dados, (course) => {
-        return course.categories.indexOf(parseInt(event.target.value, 10)) >= 0
+    if (parseInt(categoria_id, 10) >= 0) {
+      dados_filtrados = _.filter(dados_filtrados, (course) => {
+        return course.categories.indexOf(parseInt(categoria_id, 10)) >= 0
       })
     }
-    this.setState({categoria_id: event.target.value, dados_filtrados: dados_filtrados})
+    if (palavra != '') {
+      dados_filtrados = _.filter(dados_filtrados, (course) => {
+        return course.keywords.indexOf(palavra) >= 0
+      })
+    }
+    this.setState({palavra: palavra, categoria_id: categoria_id, dados_filtrados: dados_filtrados})
   }
 
   render() {
@@ -59,6 +73,10 @@ class Index extends React.Component {
                   <option key={key} value={categoria.id}>{categoria.name}</option>
                 )}
               </FormControl>
+            </FormGroup>
+            <FormGroup className="filtrar-group">
+              <ControlLabel className="filtrar-categoria-label" >Filtrar por palavra-chave: </ControlLabel>
+              <InputText className="filtrar-categoria-select" value={this.state.palavra} onChange={this.onChangePalavra} />
             </FormGroup>
           </Form>
           <Row >
