@@ -13,9 +13,9 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: root
-  password: 123456
-  host: db
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD']%>
+  host: <%= ENV['DATABASE_HOST']%>
 
 development:
   <<: *default
@@ -49,6 +49,7 @@ test:
 #
 production:
   <<: *default
-  database: training_production
-  username: training
-  password: <%= ENV['TRAINING_DATABASE_PASSWORD'] %>
+  database: training
+  username: dev
+  password: 12345678
+  host: <%= ENV['DATABASE_HOST_PRODUCTION']%>
