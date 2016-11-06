@@ -21,8 +21,8 @@ import StudentGrades from './containers/students/Grades'
 import StudentsEdit from './containers/students/Edit'
 import InstructorsIndex from './containers/instructors/Index'
 import InstructorsEdit from './containers/instructors/Edit'
-import CategoriesIndex from './containers/Categories/Index'
-import CategoriesEdit from './containers/Categories/Edit'
+import CategoriesIndex from './containers/categories/Index'
+import CategoriesEdit from './containers/categories/Edit'
 
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
