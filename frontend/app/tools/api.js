@@ -146,7 +146,7 @@ export function getStudentCourses(idStudent, callback) {
 
 export function authentication(data, success, errors) {
   var response = null
-  fetch('http://192.168.99.100:3000/auth_user', {
+  fetch('http://localhost:3000/auth_user', {
     method: ('POST'),
     headers: {'content-type': 'application/json'},
     body: JSON.stringify(data)
@@ -164,7 +164,7 @@ export function authentication(data, success, errors) {
 }
 
 export function fetchUrl(url, callback) {
-  fetch('http://192.168.99.100:3000/api/v1/' + url + '.json',{
+  fetch('http://localhost:3000/api/v1/' + url + '.json',{
       headers : {'Authorization': 'Bearer ' + localStorage.getItem('auth_token')}
     })
     .then(res => {
@@ -177,7 +177,7 @@ export function fetchUrl(url, callback) {
 
 export function submitUrl(url, id, data, success, errors) {
   var response = null
-  fetch('http://192.168.99.100:3000/api/v1/' + url + (id ? '/' + id : ''), {
+  fetch('http://localhost:3000/api/v1/' + url + (id ? '/' + id : ''), {
       method: (id ? 'PATCH' : 'POST'),
       headers: {'content-type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('auth_token')},
@@ -199,7 +199,7 @@ export function submitUrl(url, id, data, success, errors) {
 
 function deleteUrl(url, id, successCallback, errorCallback) {
   let response = null
-  fetch('http://192.168.99.100:3000/api/v1/' + url + id, {
+  fetch('http://localhost:3000/api/v1/' + url + id, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
@@ -228,7 +228,7 @@ export function saveDocument(courseId, moduleId, files, successCallback, errorCa
 
   let response = null
   data.append('_method', 'POST')
-  fetch('http://192.168.99.100:3000/api/v1/' + url, {
+  fetch('http://localhost:3000/api/v1/' + url, {
       method: 'POST',
       headers: {'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
       body: data
@@ -247,7 +247,7 @@ export function saveDocument(courseId, moduleId, files, successCallback, errorCa
 }
 
 export function download(url, fileName) {
-  fetch('http://192.168.99.100:3000/api/v1/' + url, {
+  fetch('http://localhost:3000/api/v1/' + url, {
       headers: {'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
     })
     .then(res => res.blob())
