@@ -1,1 +1,5 @@
 Rails.application.config.assets.precompile += %w( certified.css )
+Rails.application.config.assets.precompile += %w( bootstrap/css/bootstrap.min.css )
+Rails.application.config.assets.precompile += %w( fonts/fonts.css )
+Rails.application.config.assets.precompile += %w( vendors.js )
+Rails.application.config.assets.precompile += %w( app.1c634b93d5cfa8a3368d.js )

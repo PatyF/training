@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # root '/index.html'
+  get '/' => 'static_pages#index'
   post 'auth_user' => 'authentication#authenticate_user'
   devise_for :users
   namespace :api do
