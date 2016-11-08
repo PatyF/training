@@ -4,6 +4,7 @@ var path = require('path');
 var config = {
   context: path.join(__dirname, 'app'),
   entry: [
+    'whatwg-fetch',
     'webpack/hot/dev-server',
     'webpack-dev-server/client?http://localhost:8080',
     './main.js'
