@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   # root '/index.html'
   get '/' => 'static_pages#index'
-  get '*path' => redirect('/')
   post 'auth_user' => 'authentication#authenticate_user'
   devise_for :users
   namespace :api do
@@ -36,6 +35,7 @@ Rails.application.routes.draw do
 
     end
   end
+  get '*path' => redirect('/')
   # get 'certifieds' => 'certifieds#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
