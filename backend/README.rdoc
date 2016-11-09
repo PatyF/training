@@ -11,6 +11,11 @@ docker-compose build
 
 curl --header "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.oD20qrjKsGz787TJy6vRkX4IgTWmzGKWuO9ribJfU-4" http://192.168.99.100:3000/api/v1/courses.json
 
-git subtree push --prefix=backend heroku master
 
+
+```Gerar assets
 npm run-script deploy
+```Configurar o banco de dados
+
+```Subir para heroku
+git subtree push --prefix=backend heroku master
