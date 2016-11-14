@@ -111,6 +111,6 @@ class Api::V1::CoursesController < ApplicationController
     end
 
     def course_params
-      params.permit(:name, :keywords, :available, :instructor_id, :workload, category_ids: [])
+      params.permit(:name, :keywords, :description, :available, :instructor_id, :workload, category_ids: [])
     end
 end

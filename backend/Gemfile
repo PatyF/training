@@ -21,6 +21,7 @@ gem 'wkhtmltopdf-binary'
 gem 'wicked_pdf'
 
 gem 'uglifier', '>= 1.3.0'
+gem 'sendgrid-ruby'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

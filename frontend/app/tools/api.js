@@ -1,4 +1,5 @@
 import { browserHistory } from 'react-router'
+var api_path = 'https://knappp.herokuapp.com/'
 
 export function getStudents(callback) {
   fetchUrl('students', (json) => callback(json))
@@ -146,7 +147,7 @@ export function getStudentCourses(idStudent, callback) {
 
 export function authentication(data, success, errors) {
   var response = null
-  fetch('/auth_user', {
+  fetch(api_path + '/auth_user', {
     method: ('POST'),
     headers: {'content-type': 'application/json'},
     body: JSON.stringify(data)
@@ -164,7 +165,7 @@ export function authentication(data, success, errors) {
 }
 
 export function fetchUrl(url, callback) {
-  fetch('/api/v1/' + url + '.json',{
+  fetch(api_path + '/api/v1/' + url + '.json',{
       headers : {'Authorization': 'Bearer ' + localStorage.getItem('auth_token')}
     })
     .then(res => {
@@ -177,7 +178,7 @@ export function fetchUrl(url, callback) {
 
 export function submitUrl(url, id, data, success, errors) {
   var response = null
-  fetch('/api/v1/' + url + (id ? '/' + id : ''), {
+  fetch(api_path + '/api/v1/' + url + (id ? '/' + id : ''), {
       method: (id ? 'PATCH' : 'POST'),
       headers: {'content-type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('auth_token')},
@@ -199,7 +200,7 @@ export function submitUrl(url, id, data, success, errors) {
 
 function deleteUrl(url, id, successCallback, errorCallback) {
   let response = null
-  fetch('/api/v1/' + url + id, {
+  fetch(api_path + '/api/v1/' + url + id, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
@@ -228,7 +229,7 @@ export function saveDocument(courseId, moduleId, files, successCallback, errorCa
 
   let response = null
   data.append('_method', 'POST')
-  fetch('/api/v1/' + url, {
+  fetch(api_path + '/api/v1/' + url, {
       method: 'POST',
       headers: {'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
       body: data
@@ -247,7 +248,7 @@ export function saveDocument(courseId, moduleId, files, successCallback, errorCa
 }
 
 export function download(url, fileName) {
-  fetch('/api/v1/' + url, {
+  fetch(api_path + '/api/v1/' + url, {
       headers: {'authorization': 'Bearer ' + localStorage.getItem('auth_token')},
     })
     .then(res => res.blob())

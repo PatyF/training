@@ -9,6 +9,7 @@ import { getCourse, saveCourse, getCategories, getInstructors } from '../../tool
 var dadosVazios = {
   name: '',
   keywords: '',
+  description: '',
   workload: '',
   instructor_id: '',
   available: false
@@ -130,6 +131,8 @@ class Edit extends React.Component {
               <Col md={9}>
                 <InputText erros={this.state.erros.name} label={"Nome"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
                 <InputText erros={this.state.erros.keywords} label={"Palavras Chave"} value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
+                <InputText componentClass="textarea" erros={this.state.erros.description} label={"Descrição"} value={this.state.dados.description} onChange={(event) => this.setState({dados: {...this.state.dados, description: event.target.value}})} />
+
                 <Row>
                   <Col md={8}>
                     <FormGroup validationState={this.state.erros.instructor_id ? 'error' : null}>

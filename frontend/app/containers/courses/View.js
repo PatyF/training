@@ -279,53 +279,65 @@ class Index extends React.Component {
                   <Authorize viewFor={PROFILE_ADMIN}><Link title="Editar Curso" to={`/courses/register/${this.props.params.courseId}`}><span className="icons glyphicon glyphicon-pencil" aria-hidden="true"></span></Link></Authorize>
                 </PageHeader>
               </Row>
-              <Row className='header-modulo'>
-                <Col md={7}>
-                  <span className="icon-modulo glyphicon glyphicon-blackboard" aria-hidden="true"></span>
-                  Módulo
-                </Col>
-                <Col md={2}>
-                  <Authorize viewFor={PROFILE_STUDENT}><div>Vídeos</div></Authorize>
-                </Col>
-                <Col md={2}>
-                  <Authorize viewFor={PROFILE_STUDENT}><div>Questões</div></Authorize>
-                </Col>
-                <Col md={1}>
-                </Col>
-              </Row>
-              { _.map(this.state.dados, (dado, idx) =>
-                <div  key={idx}>
-                  <Row className={`body-modulo color-modulo${idx%2+1}`}>
+              { this.props.profile == PROFILE_STUDENT && !this.state.registry
+                ?
+                  <div>
+                      <Col mdOffset={3} md={6}>
+                        <Row className='descrition-course'>
+                          {this.state.course.description}
+                        </Row>
+                      </Col>
+                  </div>
+                : <div>
+                  <Row className='header-modulo'>
                     <Col md={7}>
-                      <Button bsStyle="link" className={`title-modulo`} onClick={() => this.visualizarDetalhes(idx)}>{dado.title}</Button>
+                      <span className="icon-modulo glyphicon glyphicon-blackboard" aria-hidden="true"></span>
+                      Módulo
                     </Col>
                     <Col md={2}>
-                      <Authorize viewFor={PROFILE_STUDENT}><span className={dado.watched_videos == dado.number_videos ? 'label label-success' : 'label label-warning'}>{dado.watched_videos}/{dado.number_videos}</span></Authorize>
+                      <Authorize viewFor={PROFILE_STUDENT}><div>Vídeos</div></Authorize>
                     </Col>
                     <Col md={2}>
-                      <Authorize viewFor={PROFILE_STUDENT}><span className={dado.answered_activities == dado.number_activities ? 'label label-success' : 'label label-warning'}>{dado.answered_activities}/{dado.number_activities}</span></Authorize>
+                      <Authorize viewFor={PROFILE_STUDENT}><div>Questões</div></Authorize>
                     </Col>
                     <Col md={1}>
-                      <Authorize viewFor={PROFILE_INSTRUCTOR}><Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link></Authorize>
                     </Col>
                   </Row>
-                  {dado.aberto ? this.exibeDetalhes(dado, idx) : null}
+                  { _.map(this.state.dados, (dado, idx) =>
+                    <div  key={idx}>
+                      <Row className={`body-modulo color-modulo${idx%2+1}`}>
+                        <Col md={7}>
+                          <Button bsStyle="link" className={`title-modulo`} onClick={() => this.visualizarDetalhes(idx)}>{dado.title}</Button>
+                        </Col>
+                        <Col md={2}>
+                          <Authorize viewFor={PROFILE_STUDENT}><span className={dado.watched_videos == dado.number_videos ? 'label label-success' : 'label label-warning'}>{dado.watched_videos}/{dado.number_videos}</span></Authorize>
+                        </Col>
+                        <Col md={2}>
+                          <Authorize viewFor={PROFILE_STUDENT}><span className={dado.answered_activities == dado.number_activities ? 'label label-success' : 'label label-warning'}>{dado.answered_activities}/{dado.number_activities}</span></Authorize>
+                        </Col>
+                        <Col md={1}>
+                          <Authorize viewFor={PROFILE_INSTRUCTOR}><Link title="Editar Módulo" to={`/courses/${this.props.params.courseId}/modules/register/${dado.id}`}><span className="icons sub-icon glyphicon glyphicon-pencil"></span></Link></Authorize>
+                        </Col>
+                      </Row>
+                      {dado.aberto ? this.exibeDetalhes(dado, idx) : null}
+                    </div>
+                  )}
+                  <Authorize viewFor={PROFILE_INSTRUCTOR}>
+                    <Link title="Novo Módulo" to={`/courses/${this.props.params.courseId}/modules/register/`}>
+                      <Row className={`body-modulo color-modulo0`}>
+                        <Col md={8}>
+                          <Button bsStyle="link" className={`title-modulo`}>Adicionar Módulo</Button>
+                        </Col>
+                        <Col md={3}>
+                        </Col>
+                        <Col md={1}>
+                          <span className="icons sub-icon glyphicon glyphicon-plus"></span>
+                        </Col>
+                      </Row>
+                    </Link>
+                  </Authorize>
                 </div>
-              )}
-              <Authorize viewFor={PROFILE_INSTRUCTOR}>
-                <Link title="Novo Módulo" to={`/courses/${this.props.params.courseId}/modules/register/`}>
-                  <Row className={`body-modulo color-modulo0`}>
-                    <Col md={8}>
-                      <Button bsStyle="link" className={`title-modulo`}>Adicionar Módulo</Button>
-                    </Col>
-                    <Col md={3}>
-                    </Col>
-                    <Col md={1}>
-                      <span className="icons sub-icon glyphicon glyphicon-plus"></span>
-                    </Col>
-                  </Row>
-                </Link>
-              </Authorize>
+              }
             </Loading>
           </Col>
         </Row>
