@@ -15,7 +15,11 @@ curl --header "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2
 
 ```Gerar assets
 npm run-script deploy
-```Configurar o banco de dados
+
+copiar os 2 arquivos da pasta frontend/dist para backend/app/assets/javascript
+ajustar o nome do arquivo gerado em backend/config/initializers/assets.rb
+ajustar o nome do arquivo gerado em backend/app/views/static_pages/index.html
+
 
 ```Subir para heroku
 git subtree push --prefix=backend heroku master
