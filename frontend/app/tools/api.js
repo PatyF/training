@@ -1,5 +1,6 @@
 import { browserHistory } from 'react-router'
-var api_path = 'https://knappp.herokuapp.com/'
+// var api_path = 'https://knappp.herokuapp.com/'
+var api_path = 'http://192.168.99.100:3000'
 
 export function getStudents(callback) {
   fetchUrl('students', (json) => callback(json))

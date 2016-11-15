@@ -4,8 +4,8 @@ require './app/controllers/api/v1/modulos_controller'
 RSpec.describe Api::V1::ModulosController, type: :api do
 
   before do
-    @user = User.create({:email => "paty@knap.com", :name => "Patricia", :birthday => "1989-09-22", :profile => User::PROFILE_STUDENT, :password => "password", :password_confirmation => "password"})
-    post "auth_user", {:email => "paty@knap.com", :password => "password"}
+    @user = User.create({:email => "paty@knap.com.br", :name => "Patricia", :birthday => "1989-09-22", :profile => User::PROFILE_STUDENT, :password => "password", :password_confirmation => "password"})
+    post "auth_user", {:email => "paty@knap.com.br", :password => "password"}
     post_json = JSON.parse last_response.body
     header "Authorization", "Bearer #{post_json["auth_token"]}"
   end
