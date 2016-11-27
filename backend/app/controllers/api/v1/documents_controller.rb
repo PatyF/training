@@ -16,14 +16,7 @@ class Api::V1::DocumentsController < ApplicationController
     document = @modulo.documents.create(name: params['fileName'])
 
     if document.valid?
-      save_path = File.join Rails.root.join('storage')
-      FileUtils.mkdir_p(save_path) unless File.exist?(save_path)
-      save_path  = File.join Rails.root.join('storage/documents')
-      FileUtils.mkdir_p(save_path) unless File.exist?(save_path)
-
-      File.open(File.join(save_path, "#{document.id}"), 'wb') do |file|
-        file.write(params['file'].read)
-      end
+      S3_CLIENT.put_object(bucket:ENV['S3_BUCKET'], key:document.id.to_s, body:params['file'].read)
       respond_with(document, :location => api_v1_course_modulo_document_path(@course, @modulo, document))
     else
       respond_with(document)
