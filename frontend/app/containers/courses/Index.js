@@ -87,6 +87,12 @@ class Index extends React.Component {
                       <div className={'box-average'}>{course.average_grades == 0 ? <div className={'height-nota'}/> : <div className={'height-nota'}>{Array(course.average_grades).fill().map((e,i)=><span key={i} className={'nota nota-index glyphicon glyphicon-star'}/>)}</div>}</div>
                       <div className={'box-text'}>{course.name}</div>
                       <div className={'box-keywords'}>{course.keywords}</div>
+                      <Authorize viewFor={PROFILE_ADMIN}>
+                        <span className={course.available ? 'available glyphicon glyphicon-eye-open' : 'unavailable glyphicon glyphicon-eye-close'}/>
+                      </Authorize>
+                      <Authorize viewFor={PROFILE_INSTRUCTOR}>
+                        <span className={course.available ? 'available glyphicon glyphicon-eye-open' : 'unavailable glyphicon glyphicon-eye-close'}/>
+                      </Authorize>
                     </Panel>
                   </Link>
                 </Col>
