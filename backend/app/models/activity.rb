@@ -19,7 +19,7 @@ class Activity < ActiveRecord::Base
       activity_match_student.answer_d get_question_match(@activity_student.answer_d)
       activity_match_student.answer_e get_question_match(@activity_student.answer_e)
       activity_match_student.answer_student get_answer_match(@activity_student, @activity_student.answer_student)
-      activity_match_student.answer_correct @activity_student.answer_student ? get_answer_match(@activity_student, 0) : nil
+      activity_match_student.answer_correct @activity_student.answer_student ? (@activity_student.answer_student == 0 ? true : false) : nil
     end
   end
 

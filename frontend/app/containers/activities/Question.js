@@ -71,12 +71,10 @@ class Question extends React.Component {
   isCorrect(view_answer) {
     if (this.state.dados.answer_correct == null) {
       return null
-    } else if (this.state.dados.answer_correct == view_answer && this.state.dados.answer_correct == this.state.dados.answer_student) {
+    } else if (view_answer == this.state.dados.answer_student && this.state.dados.answer_correct == true) {
       return <span className={'label label-success'}>Você acertou</span>
-    } else if (this.state.dados.answer_correct != view_answer && view_answer == this.state.dados.answer_student) {
+    } else if (view_answer == this.state.dados.answer_student && this.state.dados.answer_correct == false) {
       return <span className={'label label-danger'} aria-hidden="true">Você errou</span>
-    } else if (this.state.dados.answer_correct == view_answer) {
-      return <span className={'label label-warning'}>Resposta Correta</span>
     }
   }
 

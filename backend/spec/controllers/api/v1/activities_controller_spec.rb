@@ -17,18 +17,18 @@ RSpec.describe Api::V1::ActivitiesController, type: :api do
 		expect(post_json["answer_correct"]).to be nil
 	end
 
-  it "should return the correct answer if the student answered" do
+  it "should return the correct answer if the student answered correctly" do
     activity = FactoryGirl.create(:activity)
     user = FactoryGirl.create(:user)
     post "auth_user", {:email => "patricia@knap.com.br", :password => "password"}
     post_json = JSON.parse last_response.body
     header "Authorization", "Bearer #{post_json["auth_token"]}"
-    answer = FactoryGirl.create(:answer, user_id: user.id, activity_id: activity.id, answer_student: 1)
+    answer = FactoryGirl.create(:answer, user_id: user.id, activity_id: activity.id, answer_student: 0)
 
     get "api/v1/courses/#{activity.modulo.course_id}/modulos/#{activity.modulo.id}/activities/#{activity.id}/question_student.json"
 
     post_json = JSON.parse last_response.body
-    expect(post_json["answer_correct"]).equal? "answer_a"
+    expect(post_json["answer_correct"]).to be true
   end
 
   it "should return the result of the answer in the course details if the student has answered wrong" do

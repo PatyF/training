@@ -48,6 +48,10 @@ class Api::V1::ActivitiesController < ApplicationController
         answer_c: shuffle_answers[2],
         answer_d: shuffle_answers[3],
         answer_e: shuffle_answers[4])
+    else
+      if @question.answer_student != 0
+        @question.update(answer_student: nil)
+      end
     end
     respond_with(@activity.builder_question(@current_user).target!)
   end

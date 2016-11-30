@@ -166,6 +166,13 @@ class Index extends React.Component {
       return <span className="video-icon icons" aria-hidden="true">Responder</span>
   }
 
+  labelResposta(activity) {
+    if ("correct_answer" in activity) {
+      if (!activity.correct_answer)
+        return "Responder Novamente"
+    }
+  }
+
   exibeDetalhes(modulo, indexModulo) {
     return <Row className='box-video'>
       <Col md={12} className='modulo-description'>
@@ -192,8 +199,8 @@ class Index extends React.Component {
                           </Link>
                         </Authorize>
                         <Authorize viewFor={PROFILE_STUDENT}>
-                          <Link title={!("correct_answer" in activity) ? "Responder Atividade": "Conferir resposta"} to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/${activity.id}/question`}>
-                            {this.linkDescricao(activity)}
+                          <Link title={!("correct_answer" in activity) ? "Responder Atividade": "Responder Novamente"} to={`/courses/${this.props.params.courseId}/modules/${modulo.id}/activities/${activity.id}/question`}>
+                            {this.linkDescricao(activity)} {this.labelResposta(activity)}
                           </Link>
                         </Authorize>
                       </div>
