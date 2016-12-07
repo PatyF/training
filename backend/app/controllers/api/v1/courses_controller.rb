@@ -1,3 +1,5 @@
+require 'dropbox_sdk'
+
 class Api::V1::CoursesController < ApplicationController
   before_filter :authenticate_request!
   before_action :set_course, only: [:show, :edit, :update, :destroy, :have_registry, :registry, :certified, :have_comment, :comment, :comments, :students]
