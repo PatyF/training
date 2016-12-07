@@ -13,7 +13,8 @@ curl --header "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2
 
 
 
-```Gerar assets
+```Gerar assets dentro de frontend
+ajustar o caminho em tools/api.js para /
 npm run-script deploy
 
 copiar os 2 arquivos da pasta frontend/dist para backend/app/assets/javascript
