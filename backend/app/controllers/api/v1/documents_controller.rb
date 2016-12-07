@@ -36,17 +36,12 @@ class Api::V1::DocumentsController < ApplicationController
 
   def download
     name_file = @document.name
-    # save_path = File.join Rails.root.join('storage/documents')
-    # File.open(File.join(save_path, "#{@document.id}"), 'r') do |f|
-    #   send_data f.read.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
-    # end
     web_auth = DropboxOAuth2FlowNoRedirect.new(ENV['USER_STORAGE'], ENV['PASSWORD_STORAGE'])
     authorize_url = web_auth.start()
     @client = DropboxClient.new(ENV['AUTH_STORAGE'])
 
     out,metadata = @client.get_file_and_metadata("/#{@document.id}")
     send_data out.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
-
   end
 
   private

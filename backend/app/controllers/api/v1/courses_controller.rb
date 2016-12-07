@@ -67,18 +67,19 @@ class Api::V1::CoursesController < ApplicationController
     @registry = @course.registries.where(user_id: @current_user.id).first
     if (@registry)
       name_file = "certified_#{@course.id}_#{@current_user.id}.pdf"
-      save_path = File.join Rails.root.join('storage')
-      FileUtils.mkdir_p(save_path) unless File.exist?(save_path)
+
+      web_auth = DropboxOAuth2FlowNoRedirect.new(ENV['USER_STORAGE'], ENV['PASSWORD_STORAGE'])
+      authorize_url = web_auth.start()
+      client = DropboxClient.new(ENV['AUTH_STORAGE'])
+
       if (!@registry.final_date)
         @registry.update(final_date: Date.today.to_time)
         pdf = WickedPdf.new.pdf_from_string(render_to_string("certifieds/show.html.erb", layout: false))
-        File.open(File.join(save_path, name_file), 'wb') do |file|
-          file.write(pdf)
-        end
+        entry = client.put_file(name_file, pdf)
       end
-      File.open(File.join(save_path, name_file), 'r') do |f|
-        send_data f.read.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
-      end
+
+      out,metadata = client.get_file_and_metadata("/#{name_file}")
+      send_data out.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
     end
   end
 
