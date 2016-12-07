@@ -250,7 +250,7 @@ class Index extends React.Component {
   }
 
   onGenerateCertified = () => {
-    download(`courses/${this.props.params.courseId}/certified`,`certificado_${this.props.params.courseId}_${this.props.profileId}.pdf`)
+    download(`courses/${this.props.params.courseId}/certified`,`certified_${this.props.params.courseId}_${this.props.profileId}.pdf`)
     this.setState({
         registry: {...this.state.registry,
                     final_date: moment().format('YYYY-MM-DD')
