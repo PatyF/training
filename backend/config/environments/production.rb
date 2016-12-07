@@ -34,15 +34,28 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
-  ActionMailer::Base.smtp_settings = {
-  :user_name => ENV['USER_SMTP'],
-  :password => ENV['PASSWORD_SMTP'],
-  :domain => 'knap.com',
-  :address => ENV['ADDRESS_SMTP'],
-  :port => 587,
-  :authentication => :plain,
-  :enable_starttls_auto => true
+  # ActionMailer::Base.smtp_settings = {
+  # :user_name => ENV['USER_SMTP'],
+  # :password => ENV['PASSWORD_SMTP'],
+  # :domain => 'knap.com',
+  # :address => ENV['ADDRESS_SMTP'],
+  # :port => 587,
+  # :authentication => :plain,
+  # :enable_starttls_auto => true
+  # }
+
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => ENV["USER_SMTP"],
+    :password => ENV["PASSWORD_SMTP"],
+    :address => ENV["ADDRESS_SMTP"],
+    :domain => ENV["ADDRESS_SMTP"],
+    :port => '2525',
+    :authentication => :cram_md5
   }
+
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
