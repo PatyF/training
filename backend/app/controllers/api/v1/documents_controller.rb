@@ -1,3 +1,5 @@
+require 'dropbox_sdk'
+
 class Api::V1::DocumentsController < ApplicationController
   before_filter :authenticate_request!
   before_action :set_course
@@ -14,9 +16,13 @@ class Api::V1::DocumentsController < ApplicationController
 
   def create
     document = @modulo.documents.create(name: params['fileName'])
-
     if document.valid?
-      S3_CLIENT.put_object(bucket:ENV['S3_BUCKET'], key:document.id.to_s, body:params['file'].read)
+
+      web_auth = DropboxOAuth2FlowNoRedirect.new(ENV['USER_STORAGE'], ENV['PASSWORD_STORAGE'])
+      authorize_url = web_auth.start()
+      client = DropboxClient.new(ENV['AUTH_STORAGE'])
+
+      entry = client.put_file(document.id.to_s, params['file'].read)
       respond_with(document, :location => api_v1_course_modulo_document_path(@course, @modulo, document))
     else
       respond_with(document)
@@ -30,10 +36,17 @@ class Api::V1::DocumentsController < ApplicationController
 
   def download
     name_file = @document.name
-    save_path = File.join Rails.root.join('storage/documents')
-    File.open(File.join(save_path, "#{@document.id}"), 'r') do |f|
-      send_data f.read.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
-    end
+    # save_path = File.join Rails.root.join('storage/documents')
+    # File.open(File.join(save_path, "#{@document.id}"), 'r') do |f|
+    #   send_data f.read.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
+    # end
+    web_auth = DropboxOAuth2FlowNoRedirect.new(ENV['USER_STORAGE'], ENV['PASSWORD_STORAGE'])
+    authorize_url = web_auth.start()
+    @client = DropboxClient.new(ENV['AUTH_STORAGE'])
+
+    out,metadata = @client.get_file_and_metadata("/#{@document.id}")
+    send_data out.force_encoding('BINARY'), :filename => name_file, :type => "application/pdf", :disposition => "attachment"
+
   end
 
   private

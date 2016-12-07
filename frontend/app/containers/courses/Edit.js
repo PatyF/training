@@ -129,7 +129,7 @@ class Edit extends React.Component {
             <PageHeader>{this.state.editando ? 'Editar' : 'Adicionar'} Curso</PageHeader>
             <Row>
               <Col md={9}>
-                <InputText erros={this.state.erros.name} label={"Nome"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
+                <InputText erros={this.state.erros.name} label={"Nome do curso"} value={this.state.dados.name} onChange={(event) => this.setState({dados: {...this.state.dados, name: event.target.value}})} />
                 <InputText erros={this.state.erros.keywords} label={"Palavras Chave"} value={this.state.dados.keywords} onChange={(event) => this.setState({dados: {...this.state.dados, keywords: event.target.value}})} />
                 <InputText componentClass="textarea" erros={this.state.erros.description} label={"Descrição"} value={this.state.dados.description} onChange={(event) => this.setState({dados: {...this.state.dados, description: event.target.value}})} />
 
@@ -152,7 +152,7 @@ class Edit extends React.Component {
                 </Row>
                 <FormGroup validationState={this.state.erros.available ? 'error' : null}>
                   <Checkbox inline checked={this.state.dados.available} onClick={(event) => this.setState({dados: {...this.state.dados, available: event.target.checked}})}>
-                    Disponível
+                    Disponibilizar para os alunos
                   </Checkbox>
                   <HelpBlock>{this.state.erros.available}</HelpBlock>
                 </FormGroup>

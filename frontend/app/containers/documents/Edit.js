@@ -23,7 +23,8 @@ class Edit extends React.Component {
       mensagem: {
         tipo: false
       },
-      editando: false
+      editando: false,
+      name: ''
     }
   }
 
@@ -71,7 +72,7 @@ class Edit extends React.Component {
       ...this.state.dados,
       name: e.target.files[0].name,
       file: e.target.files
-    }})
+    }, name: e.target.files[0].name})
   }
 
   render() {
