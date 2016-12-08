@@ -68,6 +68,19 @@ class Question extends React.Component {
     }
   }
 
+  responderNovamente = () => {
+    getStudentActivity(this.props.params.courseId, this.props.params.moduleId, this.props.params.activityId, dados => {
+      var dados = {
+        ...dados,
+        responded: dados.answer_student === null ? false : true
+      }
+      this.setState({
+        dados
+      })
+    })
+
+  }
+
   isCorrect(view_answer) {
     if (this.state.dados.answer_correct == null) {
       return null
@@ -126,7 +139,7 @@ class Question extends React.Component {
               {this.state.dados.answer_e} {this.isCorrect('answer_e')}
           </Radio>
           <Row>
-            {this.state.dados.responded
+            { this.state.dados.responded
               ? null
               : <Col md={1}>
                 <Button bsStyle="primary" onClick={this.salvar}>Salvar</Button>
@@ -135,6 +148,13 @@ class Question extends React.Component {
             <Col md={1}>
               <Link to={'/courses/view/' + this.props.params.courseId}><Button bsStyle="default">Voltar</Button></Link>
             </Col>
+
+            { (this.state.dados.responded && this.state.dados.answer_correct == false)
+              ? <Col md={1}>
+                <Button bsStyle="primary" onClick={this.responderNovamente}>Responder Novamente</Button>
+              </Col>
+              : null
+            }
           </Row>
           </Col>
         </Row>
